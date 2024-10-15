@@ -23,12 +23,14 @@
     <ClCompile Include="gameObject.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="scene.cpp" />
+    <ClCompile Include="sceneManager.cpp" />
     <ClCompile Include="spriteObject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FPSCounter.hpp" />
     <ClInclude Include="gameObject.hpp" />
     <ClInclude Include="scene.hpp" />
+    <ClInclude Include="sceneManager.hpp" />
     <ClInclude Include="spriteObject.hpp" />
   </ItemGroup>
   <ItemGroup>
