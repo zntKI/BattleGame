@@ -26,7 +26,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="FPSCounter.h">
+    <ClInclude Include="FPSCounter.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="gameObject.hpp">

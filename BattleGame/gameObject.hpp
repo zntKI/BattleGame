@@ -5,13 +5,16 @@
 class GameObject
 {
 private:
-	sf::Font font;
-
-protected:
-	sf::Text text;
+	const std::string identifier;
 
 public:
-	GameObject();
-	~GameObject();
-	void render( sf::RenderWindow& window, sf::Vector2f pos );
+	GameObject( const std::string identifier );
+	GameObject( const GameObject& other );
+	
+	virtual ~GameObject();
+
+public:
+	virtual void update() = 0;
+	virtual void render( sf::RenderWindow& window ) = 0;
+	std::string getIdentifier() const;
 };

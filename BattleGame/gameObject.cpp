@@ -1,20 +1,20 @@
 #include "gameObject.hpp"
 
-GameObject::GameObject()
+GameObject::GameObject( const std::string identifier )
+	: identifier(identifier)
 {
-	font.loadFromFile( "Assets/Roboto-Regular.ttf" );
-	text.setFont( font );
-	text.setString( "FPS: " );
-	text.setCharacterSize( 24 );
-	text.setFillColor( sf::Color::Green );
+}
+
+GameObject::GameObject( const GameObject& other )
+	: identifier(other.getIdentifier())
+{
 }
 
 GameObject::~GameObject()
 {
 }
 
-void GameObject::render( sf::RenderWindow& window, sf::Vector2f pos )
+std::string GameObject::getIdentifier() const
 {
-	text.setPosition( pos );
-	window.draw( text );
+	return this->identifier;
 }

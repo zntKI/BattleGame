@@ -1,10 +1,12 @@
 #include <SFML/Graphics.hpp>
 
-#include "FPSCounter.h"
+#include "FPSCounter.hpp"
 
 int main()
 {
-	sf::RenderWindow window( sf::VideoMode( 200, 200 ), "SFML works!" );
+	sf::RenderWindow window( sf::VideoMode( 800, 800 ), "SFML works!" );
+	window.setFramerateLimit( 60 );
+
 	FPSCounter fpsCounter;
 
 	sf::Clock clock;
@@ -19,7 +21,7 @@ int main()
 		window.clear();
 
 		fpsCounter.update( elapsed );
-		fpsCounter.render( window, sf::Vector2f(10, 50) );
+		fpsCounter.render( window );
 
 		window.display();
 
