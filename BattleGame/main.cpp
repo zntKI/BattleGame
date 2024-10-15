@@ -1,22 +1,31 @@
 #include <SFML/Graphics.hpp>
 
-int main( )
+#include "FPSCounter.h"
+
+int main()
 {
-    sf::RenderWindow window( sf::VideoMode( 200, 200 ), "SFML works!" );
-    sf::CircleShape shape( 100.f );
-    shape.setFillColor( sf::Color::Green );
+	sf::RenderWindow window( sf::VideoMode( 200, 200 ), "SFML works!" );
+	FPSCounter fpsCounter;
 
-    while ( window.isOpen( ) ) {
-        sf::Event event;
-        while ( window.pollEvent( event ) ) {
-            if ( event.type == sf::Event::Closed )
-                window.close( );
-        }
+	sf::Clock clock;
+	sf::Time elapsed = clock.getElapsedTime();
+	while ( window.isOpen() ) {
+		sf::Event event;
+		while ( window.pollEvent( event ) ) {
+			if ( event.type == sf::Event::Closed )
+				window.close();
+		}
 
-        window.clear( );
-        window.draw( shape );
-        window.display( );
-    }
+		window.clear();
 
-    return 0;
+		fpsCounter.update( elapsed );
+		fpsCounter.render( window, sf::Vector2f(10, 50) );
+
+		window.display();
+
+		elapsed = clock.getElapsedTime();
+		clock.restart();
+	}
+
+	return 0;
 }
