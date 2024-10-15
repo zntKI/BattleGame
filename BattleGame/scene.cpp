@@ -21,7 +21,7 @@ void Scene::update()
 	}
 }
 
-void Scene::render( const sf::RenderWindow& window )
+void Scene::render( sf::RenderWindow& window )
 {
 	for ( unsigned int i = 0; i < gameObjects.size(); i++ ) {
 		gameObjects[ i ]->render( window );

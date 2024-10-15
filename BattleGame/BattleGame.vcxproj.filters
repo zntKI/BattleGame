@@ -25,6 +25,9 @@
     <ClCompile Include="scene.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
+    <ClCompile Include="spriteObject.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FPSCounter.hpp">
@@ -35,6 +38,9 @@
     </ClInclude>
     <ClInclude Include="scene.hpp">
       <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="spriteObject.hpp">
+      <Filter>Objects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

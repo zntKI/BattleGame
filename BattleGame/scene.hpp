@@ -18,6 +18,6 @@ public:
 public:
 	void addGameObject( GameObject& gameObject );
 	void update();
-	void render( const sf::RenderWindow& window );
+	void render( sf::RenderWindow& window );
 	std::string getIdentifier() const;
 };
