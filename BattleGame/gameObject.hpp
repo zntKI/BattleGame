@@ -27,6 +27,8 @@ public:
 	sf::Vector2f getLocalPosition() const;
 	sf::Vector2f getGlobalPosition() const;
 	sf::Vector2f getScale() const;
+	GameObject* getParent() const;
+	void setParent( GameObject* parent );
 
 	void addChild( GameObject& child );
 	void removeChild( const std::string childIdentifier );

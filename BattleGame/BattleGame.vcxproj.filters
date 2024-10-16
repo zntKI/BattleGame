@@ -30,6 +30,12 @@
     <ClCompile Include="sceneManager.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
+    <ClCompile Include="textObject.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="utils.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FPSCounter.hpp">
@@ -46,6 +52,12 @@
     </ClInclude>
     <ClInclude Include="sceneManager.hpp">
       <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="textObject.hpp">
+      <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="utils.hpp">
+      <Filter>Main</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

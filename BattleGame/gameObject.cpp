@@ -10,8 +10,11 @@ GameObject::GameObject( const std::string identifier,
 }
 
 GameObject::GameObject( const GameObject& other )
-	: identifier( other.getIdentifier() )
+	: identifier( other.getIdentifier() ),
+	globalPostion( other.getGlobalPosition() ), localPosition( other.getLocalPosition() ), scale( other.getScale() ),
+	parent( other.getParent() )
 {
+	// TODO: figure out what to do with children list
 }
 
 GameObject::~GameObject()
@@ -24,21 +27,6 @@ void GameObject::update()
 
 void GameObject::render( sf::RenderWindow& window )
 {
-}
-
-void GameObject::resetPosition( sf::Vector2f position )
-{
-	this->localPosition = position;
-	this->globalPostion = this->parent != nullptr ? this->parent->getGlobalPosition() + this->localPosition : this->localPosition;
-}
-
-void GameObject::setPostion( sf::Vector2f position )
-{
-	this->resetPosition( position );
-
-	for ( auto element = this->children.begin(); element != this->children.end(); element++ ) {
-		element->second->setPostion( position );
-	}
 }
 
 void GameObject::setScale( sf::Vector2f scale )
@@ -66,19 +54,44 @@ sf::Vector2f GameObject::getScale() const
 	return this->scale;
 }
 
+GameObject* GameObject::getParent() const
+{
+	return this->parent;
+}
+
+void GameObject::setParent( GameObject* parent )
+{
+	this->parent = parent;
+}
+
+void GameObject::resetPosition( sf::Vector2f position )
+{
+	this->localPosition = position;
+	this->globalPostion = this->parent != nullptr ? this->parent->getGlobalPosition() + this->localPosition : this->localPosition;
+}
+
+void GameObject::setPostion( sf::Vector2f position )
+{
+	this->resetPosition( position );
+
+	for ( auto element = this->children.begin(); element != this->children.end(); element++ ) {
+		element->second->setPostion( position );
+	}
+}
+
 void GameObject::addChild( GameObject& child )
 {
 	// Check if child already has an active parent
-	if ( child.parent != nullptr ) {
+	if ( child.getParent() != nullptr ) {
 		child.detachFromParent();
 	}
 
 	if ( this->children.find( child.getIdentifier() ) == this->children.end() ) {
 		this->children.emplace( child.getIdentifier(), &child );
-		child.parent = this;
+		child.setParent( this );
 
 		// Resets global and local position of object after including it in the hierarchy
-		child.resetPosition( child.getGlobalPosition() - child.parent->getGlobalPosition() );
+		child.resetPosition( child.getGlobalPosition() - child.getParent()->getGlobalPosition() );
 	}
 	else {
 		std::cout << "Trying to make a game object child of another when it already is!" << std::endl;
@@ -94,7 +107,7 @@ void GameObject::removeChild( const std::string childIdentifier )
 	}
 
 	GameObject* child = search->second;
-	child->parent = nullptr;
+	child->setParent( nullptr );
 
 	// Resets global and local position of object after taking it out of the hierarchy
 	child->resetPosition( child->getGlobalPosition() );
