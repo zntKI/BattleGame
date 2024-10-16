@@ -22,7 +22,5 @@ public:
 	void update() override;
 	void render( sf::RenderWindow& window ) override;
 
-	void setPostion( sf::Vector2f position );
-	void setScale( sf::Vector2f scale );
 	std::string getSpriteFile() const;
 };
