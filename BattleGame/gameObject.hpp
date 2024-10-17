@@ -15,9 +15,9 @@ protected:
 	std::map<std::string, GameObject*> children;
 
 public:
-	GameObject( const std::string identifier,
-		const sf::Vector2f position = sf::Vector2f( 0.f, 0.f ), const sf::Vector2f scale = sf::Vector2f( 1.f, 1.f ),
-		GameObject* parent = nullptr );
+	GameObject( std::string identifier,
+		const sf::Vector2f& position = sf::Vector2f( 0.f, 0.f ), const sf::Vector2f& scale = sf::Vector2f( 1.f, 1.f ),
+		GameObject* const parent = nullptr );
 	GameObject( const GameObject& other );
 
 	virtual ~GameObject();
@@ -38,7 +38,17 @@ public:
 	virtual void update();
 	virtual void render( sf::RenderWindow& window );
 
+	/// <summary>
+	/// sets the local and global postion of the game object
+	/// </summary>
+	/// <param name="position"> -> the desired local position</param>
 	virtual void resetPosition( sf::Vector2f position );
+
+	/// <summary>
+	/// sets the local and global postion of the game object <para/>
+	/// also does the same down the line in its children hierarchy
+	/// </summary>
+	/// <param name="position"> -> the desired local position</param>
 	virtual void setPostion( sf::Vector2f position );
 	virtual void setScale( sf::Vector2f scale );
 };

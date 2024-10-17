@@ -20,7 +20,7 @@ sf::Font& Utils::getDefaultFont()
 
 	if ( !isFontLoaded ) {
 		if ( !defaultFont.loadFromFile( "Assets/Roboto-Regular.ttf" ) ) {
-			// Utils.LogError(...)
+			Utils::logError( "Unable to load font from file!" );
 		}
 		isFontLoaded = true;
 	}

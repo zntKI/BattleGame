@@ -1,10 +1,11 @@
 #include <iostream>
 
 #include "gameObject.hpp"
+#include "utils.hpp"
 
-GameObject::GameObject( const std::string identifier,
-	const sf::Vector2f position, const sf::Vector2f scale,
-	GameObject* parent )
+GameObject::GameObject( std::string identifier,
+	const sf::Vector2f& position, const sf::Vector2f& scale,
+	GameObject* const parent )
 	: identifier( identifier ), globalPostion( position ), scale( scale ), parent( parent )
 {
 }
@@ -94,7 +95,7 @@ void GameObject::addChild( GameObject& child )
 		child.resetPosition( child.getGlobalPosition() - child.getParent()->getGlobalPosition() );
 	}
 	else {
-		std::cout << "Trying to make a game object child of another when it already is!" << std::endl;
+		Utils::logError( "Trying to make a game object child of another when it already is!" );
 	}
 }
 
@@ -102,7 +103,7 @@ void GameObject::removeChild( const std::string childIdentifier )
 {
 	auto search = this->children.find( childIdentifier );
 	if ( search == this->children.end() ) {
-		std::cout << "Invalid game object identifier: Trying to remove a child that is not present in the parent's children!" << std::endl;
+		Utils::logError( "Invalid game object identifier: Trying to remove a child that is not present in the parent's children!" );
 		return;
 	}
 
@@ -114,7 +115,7 @@ void GameObject::removeChild( const std::string childIdentifier )
 
 	size_t result = this->children.erase( childIdentifier );
 	if ( result == 0 ) {
-		std::cout << "Unable to 'erase' (remove) child from collection!" << std::endl;
+		Utils::logError( "Unable to 'erase' (remove) child from collection!" );
 	}
 }
 
@@ -126,7 +127,7 @@ void GameObject::attachToParent( GameObject& parent )
 void GameObject::detachFromParent()
 {
 	if ( this->parent == nullptr ) {
-		std::cout << "Invalid operation: You try to detach a game object from its parent even though it doesn't have one!" << std::endl;
+		Utils::logError( "Invalid operation: You try to detach a game object from its parent even though it doesn't have one!" );
 	}
 	else {
 		this->parent->removeChild( this->getIdentifier() );

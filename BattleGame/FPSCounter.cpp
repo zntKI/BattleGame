@@ -2,18 +2,24 @@
 
 #include "FPSCounter.hpp"
 
-FPSCounter::FPSCounter()
+FPSCounter::FPSCounter( std::string identifier, std::string textStr,
+	const sf::Vector2f& position, const sf::Vector2f& scale, GameObject* const parent,
+	sf::Font& font, sf::Color color, unsigned int characterSize )
+	: TextObject( identifier, textStr, position, scale, parent, font, color, characterSize )
 {
-	font.loadFromFile( "Assets/Roboto-Regular.ttf" );
-	text.setFont( font );
-	text.setString( "FPS: " );
-	text.setCharacterSize( 24 );
-	text.setFillColor( sf::Color::Green );
-	text.setPosition( sf::Vector2f( 10, 0 ) );
+	this->elapsed = clock.getElapsedTime();
 }
 
 FPSCounter::~FPSCounter()
 {
+}
+
+void FPSCounter::update()
+{
+	update( elapsed );
+
+	elapsed = clock.getElapsedTime();
+	clock.restart();
 }
 
 void FPSCounter::update( sf::Time elapsed )
@@ -21,9 +27,4 @@ void FPSCounter::update( sf::Time elapsed )
 	float milliseconds = elapsed.asSeconds();
 	float fps = 1.0f / ( milliseconds != 0 ? milliseconds : 0.1666f );
 	text.setString( "FPS: " + std::to_string( fps ) );
-}
-
-void FPSCounter::render( sf::RenderWindow& window )
-{
-	window.draw( text );
 }
