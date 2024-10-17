@@ -11,6 +11,9 @@ Scene::~Scene()
 
 void Scene::addGameObject( GameObject& gameObject )
 {
+	// Finish initialization
+	gameObject.finishInit( gameObjects );
+
 	gameObjects.push_back( &gameObject );
 }
 

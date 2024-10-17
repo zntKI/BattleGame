@@ -14,6 +14,17 @@ int main()
 
 	FPSCounter fpsCounter( "fpsCounter", "FPS: ", sf::Vector2f( 0.f, 10.0f ), sf::Vector2f( 1.f, 1.0f ), nullptr, Utils::getDefaultFont(), sf::Color::Green, 24 );
 	scene1.addGameObject( fpsCounter );
+	TextObject textRed( "textRed", "First", sf::Vector2f( 0.f, 0.f ), sf::Vector2f( 1.f, 1.0f ), nullptr, Utils::getDefaultFont(), sf::Color::Red, 24 );
+	TextObject textGreen( "textGreen", "Second", sf::Vector2f( 50.f, 50.f ), sf::Vector2f( 1.f, 1.0f ), &textRed, Utils::getDefaultFont(), sf::Color::Green, 24 );
+	TextObject textBlue( "textBlue", "Third", sf::Vector2f( 100.f, 100.f ), sf::Vector2f( 1.f, 1.0f ), &textGreen, Utils::getDefaultFont(), sf::Color::Blue, 24 );
+	scene1.addGameObject( textRed );
+	scene1.addGameObject( textGreen );
+	scene1.addGameObject( textBlue );
+
+	// Setup to test parent-child relation
+	textRed.move( sf::Vector2f( 50.f, 50.f ) );
+	textGreen.move( sf::Vector2f( 200.f, 0.f ) );
+	textBlue.move( sf::Vector2f( 0.f, 100.f ) );
 
 	sceneManager.addScene( scene1 );
 

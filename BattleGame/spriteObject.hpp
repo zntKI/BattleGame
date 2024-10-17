@@ -21,6 +21,7 @@ public:
 	~SpriteObject();
 
 public:
+	void update() override;
 	void render( sf::RenderWindow& window ) override;
 
 	std::string getSpriteFile() const;

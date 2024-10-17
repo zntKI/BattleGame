@@ -25,6 +25,12 @@ SpriteObject::~SpriteObject()
 {
 }
 
+void SpriteObject::update()
+{
+	this->sprite.setPosition( this->globalPostion );
+	this->sprite.setScale( this->scale );
+}
+
 void SpriteObject::render( sf::RenderWindow& window )
 {
 	window.draw( this->sprite );

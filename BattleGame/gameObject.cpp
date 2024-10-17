@@ -65,18 +65,36 @@ void GameObject::setParent( GameObject* parent )
 	this->parent = parent;
 }
 
-void GameObject::resetPosition( sf::Vector2f position )
+void GameObject::finishInit( const std::vector<GameObject*>& gameObjects )
 {
-	this->localPosition = position;
+	if ( gameObjects.size() == 0 || this->parent == nullptr ) {
+		return;
+	}
+
+	if ( std::find( gameObjects.begin(), gameObjects.end(), this->parent ) == gameObjects.end() ) {
+		Utils::logError( "Invalid parent memory address - no such GameObject exists in the Scene in this point of time!" );
+	}
+	else {
+		// A way around the parent-child relation functionality so that it does not cause problems due to the child not being present in the parent's collection
+		GameObject* parent = this->parent;
+		this->parent = nullptr;
+
+		this->attachToParent( *parent );
+	}
+}
+
+void GameObject::setPosition( sf::Vector2f position )
+{
+	this->localPosition += position;
 	this->globalPostion = this->parent != nullptr ? this->parent->getGlobalPosition() + this->localPosition : this->localPosition;
 }
 
-void GameObject::setPostion( sf::Vector2f position )
+void GameObject::move( sf::Vector2f position )
 {
-	this->resetPosition( position );
+	this->setPosition( position );
 
 	for ( auto element = this->children.begin(); element != this->children.end(); element++ ) {
-		element->second->setPostion( position );
+		element->second->move( sf::Vector2f( 0.f, 0.f ) /*0-vector because children should only change its global location according to their parent without accumulating their local position*/);
 	}
 }
 
@@ -92,7 +110,7 @@ void GameObject::addChild( GameObject& child )
 		child.setParent( this );
 
 		// Resets global and local position of object after including it in the hierarchy
-		child.resetPosition( child.getGlobalPosition() - child.getParent()->getGlobalPosition() );
+		child.setPosition( child.getGlobalPosition() - child.getParent()->getGlobalPosition() );
 	}
 	else {
 		Utils::logError( "Trying to make a game object child of another when it already is!" );
@@ -111,7 +129,7 @@ void GameObject::removeChild( const std::string childIdentifier )
 	child->setParent( nullptr );
 
 	// Resets global and local position of object after taking it out of the hierarchy
-	child->resetPosition( child->getGlobalPosition() );
+	child->setPosition( child->getGlobalPosition() );
 
 	size_t result = this->children.erase( childIdentifier );
 	if ( result == 0 ) {

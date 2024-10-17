@@ -49,6 +49,12 @@ unsigned int TextObject::getCharacterSize() const
 	return this->characterSize;
 }
 
+void TextObject::update()
+{
+	this->text.setPosition( this->globalPostion );
+	this->text.setScale( this->scale );
+}
+
 void TextObject::render( sf::RenderWindow& window )
 {
 	window.draw( this->text );

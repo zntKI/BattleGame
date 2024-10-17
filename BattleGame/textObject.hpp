@@ -29,5 +29,6 @@ public:
 	std::string getTextStr() const;
 	unsigned int getCharacterSize() const;
 
+	void update() override;
 	void render( sf::RenderWindow& window ) override;
 };
