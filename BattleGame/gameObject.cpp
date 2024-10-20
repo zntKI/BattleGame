@@ -4,15 +4,14 @@
 #include "utils.hpp"
 
 GameObject::GameObject( std::string identifier,
-	const sf::Vector2f& position, const sf::Vector2f& scale,
-	GameObject* const parent )
-	: identifier( identifier ), globalPostion( position ), scale( scale ), parent( parent )
+	const sf::Vector2f& position, const sf::Vector2f& scale )
+	: identifier( identifier ), globalPosition( position ), localPosition( position ), scale( scale ), parent( nullptr )
 {
 }
 
 GameObject::GameObject( const GameObject& other )
 	: identifier( other.getIdentifier() ),
-	globalPostion( other.getGlobalPosition() ), localPosition( other.getLocalPosition() ), scale( other.getScale() ),
+	globalPosition( other.getGlobalPosition() ), localPosition( other.getLocalPosition() ), scale( other.getScale() ),
 	parent( other.getParent() )
 {
 	// TODO: figure out what to do with children list
@@ -47,7 +46,7 @@ sf::Vector2f GameObject::getLocalPosition() const
 
 sf::Vector2f GameObject::getGlobalPosition() const
 {
-	return this->globalPostion;
+	return this->globalPosition;
 }
 
 sf::Vector2f GameObject::getScale() const
@@ -65,36 +64,13 @@ void GameObject::setParent( GameObject* parent )
 	this->parent = parent;
 }
 
-void GameObject::finishInit( const std::vector<GameObject*>& gameObjects )
-{
-	if ( gameObjects.size() == 0 || this->parent == nullptr ) {
-		return;
-	}
-
-	if ( std::find( gameObjects.begin(), gameObjects.end(), this->parent ) == gameObjects.end() ) {
-		Utils::logError( "Invalid parent memory address - no such GameObject exists in the Scene in this point of time!" );
-	}
-	else {
-		// A way around the parent-child relation functionality so that it does not cause problems due to the child not being present in the parent's collection
-		GameObject* parent = this->parent;
-		this->parent = nullptr;
-
-		this->attachToParent( *parent );
-	}
-}
-
-void GameObject::setPosition( sf::Vector2f position )
-{
-	this->localPosition += position;
-	this->globalPostion = this->parent != nullptr ? this->parent->getGlobalPosition() + this->localPosition : this->localPosition;
-}
-
 void GameObject::move( sf::Vector2f position )
 {
-	this->setPosition( position );
+	this->localPosition += position;
+	this->globalPosition = this->parent != nullptr ? this->parent->getGlobalPosition() + this->localPosition : this->localPosition;
 
 	for ( auto element = this->children.begin(); element != this->children.end(); element++ ) {
-		element->second->move( sf::Vector2f( 0.f, 0.f ) /*0-vector because children should only change its global location according to their parent without accumulating their local position*/);
+		element->second->move( sf::Vector2f( 0.f, 0.f ) /*0-vector because children should only change its global location according to their parent without accumulating their local position*/ );
 	}
 }
 
@@ -109,7 +85,7 @@ void GameObject::addChild( GameObject& child )
 		this->children.emplace( child.getIdentifier(), &child );
 		child.setParent( this );
 
-		// Resets global and local position of object after including it in the hierarchy
+		// Sets local position of object after including it in the hierarchy
 		child.setPosition( child.getGlobalPosition() - child.getParent()->getGlobalPosition() );
 	}
 	else {
@@ -128,7 +104,7 @@ void GameObject::removeChild( const std::string childIdentifier )
 	GameObject* child = search->second;
 	child->setParent( nullptr );
 
-	// Resets global and local position of object after taking it out of the hierarchy
+	// Sets local position of object after taking it out of the hierarchy
 	child->setPosition( child->getGlobalPosition() );
 
 	size_t result = this->children.erase( childIdentifier );
@@ -150,4 +126,9 @@ void GameObject::detachFromParent()
 	else {
 		this->parent->removeChild( this->getIdentifier() );
 	}
+}
+
+void GameObject::setPosition( sf::Vector2f position )
+{
+	this->localPosition = position;
 }

@@ -14,8 +14,7 @@ private:
 
 public:
 	SpriteObject( const std::string& identifier, const std::string& spriteFile,
-		const sf::Vector2f& position = sf::Vector2f( 0.f, 0.f ), const sf::Vector2f& scale = sf::Vector2f( 1.f, 1.f ),
-		GameObject* const parent = nullptr );
+		const sf::Vector2f& position = sf::Vector2f( 0.f, 0.f ), const sf::Vector2f& scale = sf::Vector2f( 1.f, 1.f ) );
 	SpriteObject( const SpriteObject& other );
 
 	~SpriteObject();

@@ -1,16 +1,16 @@
 #include "textObject.hpp"
 
 TextObject::TextObject( std::string identifier, std::string textStr,
-	const sf::Vector2f& position, const sf::Vector2f& scale, GameObject* const parent,
+	const sf::Vector2f& position, const sf::Vector2f& scale,
 	sf::Font& font, sf::Color color, unsigned int characterSize )
-	: GameObject( identifier, position, scale, parent ), font( font ), textColor( color ), textStr( textStr ), characterSize( characterSize )
+	: GameObject( identifier, position, scale ), font( font ), textColor( color ), textStr( textStr ), characterSize( characterSize )
 {
 	text.setFont( this->font );
 	text.setFillColor( this->textColor );
 	text.setString( this->textStr );
 	text.setCharacterSize( this->characterSize );
 
-	text.setPosition( this->globalPostion );
+	text.setPosition( this->globalPosition );
 	text.setScale( this->scale );
 }
 
@@ -51,7 +51,7 @@ unsigned int TextObject::getCharacterSize() const
 
 void TextObject::update()
 {
-	this->text.setPosition( this->globalPostion );
+	this->text.setPosition( this->globalPosition );
 	this->text.setScale( this->scale );
 }
 

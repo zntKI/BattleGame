@@ -36,6 +36,9 @@
     <ClCompile Include="utils.cpp">
       <Filter>Main</Filter>
     </ClCompile>
+    <ClCompile Include="button.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FPSCounter.hpp">
@@ -58,6 +61,9 @@
     </ClInclude>
     <ClInclude Include="utils.hpp">
       <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="button.hpp">
+      <Filter>Objects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

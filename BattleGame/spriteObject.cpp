@@ -2,9 +2,8 @@
 #include "utils.hpp"
 
 SpriteObject::SpriteObject( const std::string& identifier, const std::string& spriteFile,
-	const sf::Vector2f& position, const sf::Vector2f& scale,
-	GameObject* const parent )
-	: GameObject( identifier, position, scale, parent ), spriteFile( spriteFile )
+	const sf::Vector2f& position, const sf::Vector2f& scale )
+	: GameObject( identifier, position, scale ), spriteFile( spriteFile )
 {
 	if ( !this->texture.loadFromFile( this->spriteFile ) ) {
 		Utils::logError( "Unable to load texture from file!" );
@@ -27,7 +26,7 @@ SpriteObject::~SpriteObject()
 
 void SpriteObject::update()
 {
-	this->sprite.setPosition( this->globalPostion );
+	this->sprite.setPosition( this->globalPosition );
 	this->sprite.setScale( this->scale );
 }
 
