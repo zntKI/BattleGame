@@ -6,7 +6,7 @@
 
 int main()
 {
-	sf::RenderWindow window( sf::VideoMode( 800, 800 ), "SFML works!" );
+	sf::RenderWindow window( sf::VideoMode( 1280, 720 ), "SFML works!" );
 	window.setFramerateLimit( 60 );
 
 	SceneManager sceneManager;
@@ -15,7 +15,7 @@ int main()
 
 	FPSCounter fpsCounter( "fpsCounter", "FPS: ", sf::Vector2f( 0.f, 10.0f ), sf::Vector2f( 1.f, 1.0f ), Utils::getDefaultFont(), sf::Color::Green, 24 );
 	scene1.addGameObject( fpsCounter );
-	
+
 	// Setup to test parent-child relation
 	//TextObject textRed( "textRed", "First", sf::Vector2f( 0.f, 0.f ), sf::Vector2f( 1.f, 1.0f ), Utils::getDefaultFont(), sf::Color::Red, 24 );
 	//TextObject textGreen( "textGreen", "Second", textRed.getGlobalPosition() + sf::Vector2f( 50.f, 50.f ), sf::Vector2f( 1.f, 1.0f ), Utils::getDefaultFont(), sf::Color::Green, 24 );
@@ -30,14 +30,18 @@ int main()
 	//textGreen.move( sf::Vector2f( 200.f, 0.f ) );
 	//textBlue.move( sf::Vector2f( 0.f, 100.f ) );
 
-	// Setup to test button with text
-	//Button button( "btn", sf::Vector2f( 50.f, 20.f ), sf::Color::Red, sf::Vector2f( 300.f, 300.f ), sf::Vector2f( 1.f, 1.f ) );
-	//scene1.addGameObject( button );
-	//TextObject btnText( "btnText", "btnText", button.getGlobalPosition() );
-	//btnText.attachToParent( button );
-	//scene1.addGameObject( btnText );
-	//
-	//button.move( sf::Vector2f( 200.f, 0.f ) );
+	Button button( "btn", sf::Vector2f( 200.f, 100.f ), sf::Color::Red, sf::Vector2f( 300.f, 300.f ), sf::Vector2f( 1.f, 1.f ) );
+	scene1.addGameObject( button );
+	TextObject btnText( "btnText", "Quit", button.getGlobalPosition() );
+	btnText.attachToParent( button );
+
+	button.setButtonAction( [ &window ]() {
+		window.close();
+		} );
+
+	scene1.addGameObject( btnText );
+
+	button.move( sf::Vector2f( 200.f, 0.f ) );
 
 	sceneManager.addScene( scene1 );
 
@@ -46,6 +50,8 @@ int main()
 		while ( window.pollEvent( event ) ) {
 			if ( event.type == sf::Event::Closed )
 				window.close();
+			else
+				sceneManager.handleEvent( event, window );
 		}
 
 		window.clear();

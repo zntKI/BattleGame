@@ -16,8 +16,9 @@ public:
 	~SceneManager();
 
 public:
-	void render( sf::RenderWindow& window ) const;
+	void handleEvent( const sf::Event& event, sf::RenderWindow& window );
 	void update();
+	void render( sf::RenderWindow& window ) const;
 
 	void addScene( Scene& scene );
 	void stackScene( std::string sceneName );

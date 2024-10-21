@@ -15,7 +15,7 @@ protected:
 	std::map<std::string, GameObject*> children;
 
 public:
-	GameObject( std::string identifier,
+	GameObject( const std::string& identifier,
 		const sf::Vector2f& position = sf::Vector2f( 0.f, 0.f ), const sf::Vector2f& scale = sf::Vector2f( 1.f, 1.f ) );
 	GameObject( const GameObject& other );
 
@@ -41,6 +41,7 @@ public:
 	void attachToParent( GameObject& parent );
 	void detachFromParent();
 
+	virtual void handleEvent( const sf::Event& event, sf::RenderWindow& window );
 	virtual void update();
 	virtual void render( sf::RenderWindow& window );
 

@@ -3,7 +3,7 @@
 #include "gameObject.hpp"
 #include "utils.hpp"
 
-GameObject::GameObject( std::string identifier,
+GameObject::GameObject( const std::string& identifier,
 	const sf::Vector2f& position, const sf::Vector2f& scale )
 	: identifier( identifier ), globalPosition( position ), localPosition( position ), scale( scale ), parent( nullptr )
 {
@@ -18,6 +18,10 @@ GameObject::GameObject( const GameObject& other )
 }
 
 GameObject::~GameObject()
+{
+}
+
+void GameObject::handleEvent( const sf::Event& event, sf::RenderWindow& window )
 {
 }
 

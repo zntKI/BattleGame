@@ -8,10 +8,10 @@ SceneManager::~SceneManager()
 {
 }
 
-void SceneManager::render( sf::RenderWindow& window ) const
+void SceneManager::handleEvent( const sf::Event& event, sf::RenderWindow& window )
 {
 	if ( this->scenesStack.size() != 0 ) {
-		this->scenesStack.top()->render( window );
+		this->scenesStack.top()->handleEvent( event, window );
 	}
 }
 
@@ -19,6 +19,13 @@ void SceneManager::update()
 {
 	if ( this->scenesStack.size() != 0 ) {
 		this->scenesStack.top()->update();
+	}
+}
+
+void SceneManager::render( sf::RenderWindow& window ) const
+{
+	if ( this->scenesStack.size() != 0 ) {
+		this->scenesStack.top()->render( window );
 	}
 }
 

@@ -17,7 +17,10 @@ public:
 
 public:
 	void addGameObject( GameObject& gameObject );
+
+	void handleEvent( const sf::Event& event, sf::RenderWindow& window );
 	void update();
 	void render( sf::RenderWindow& window );
+
 	std::string getIdentifier() const;
 };

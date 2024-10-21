@@ -1,6 +1,6 @@
 #include "button.hpp"
 
-Button::Button( std::string identifier, const sf::Vector2f& buttonSize, sf::Color buttonColor, const sf::Vector2f& position, const sf::Vector2f& scale )
+Button::Button( const std::string& identifier, const sf::Vector2f& buttonSize, sf::Color buttonColor, const sf::Vector2f& position, const sf::Vector2f& scale )
 	: GameObject( identifier, position, scale )
 {
 	this->buttonShape.setPosition( position );
@@ -22,6 +22,27 @@ sf::RectangleShape Button::getButtonShape() const
 	return this->buttonShape;
 }
 
+void Button::handleEvent( const sf::Event& event, sf::RenderWindow& window )
+{
+	if ( event.type == sf::Event::MouseButtonPressed &&
+		event.mouseButton.button == sf::Mouse::Button::Left ) {
+
+		sf::Vector2i mousePos = sf::Mouse::getPosition( window );
+		sf::Vector2f size = this->buttonShape.getSize();
+		sf::Vector2f position = this->buttonShape.getPosition();
+
+		if ( mousePos.x >= position.x && mousePos.x <= position.x + size.x &&
+			mousePos.y >= position.y && mousePos.y <= position.y + size.y ) {
+			this->onClick();
+		}
+	}
+}
+
+void Button::onClick()
+{
+	this->action();
+}
+
 void Button::update()
 {
 	this->buttonShape.setPosition( this->globalPosition );
@@ -31,4 +52,9 @@ void Button::update()
 void Button::render( sf::RenderWindow& window )
 {
 	window.draw( this->buttonShape );
+}
+
+void Button::setButtonAction( const std::function<void()>& action )
+{
+	this->action = action;
 }
