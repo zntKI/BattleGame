@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="animationSpriteObject.cpp" />
     <ClCompile Include="button.cpp" />
     <ClCompile Include="FPSCounter.cpp" />
     <ClCompile Include="gameObject.cpp" />
@@ -30,6 +31,7 @@
     <ClCompile Include="utils.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="animationSpriteObject.hpp" />
     <ClInclude Include="button.hpp" />
     <ClInclude Include="FPSCounter.hpp" />
     <ClInclude Include="gameObject.hpp" />

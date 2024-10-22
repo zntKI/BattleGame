@@ -39,6 +39,9 @@
     <ClCompile Include="button.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
+    <ClCompile Include="animationSpriteObject.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FPSCounter.hpp">
@@ -63,6 +66,9 @@
       <Filter>Main</Filter>
     </ClInclude>
     <ClInclude Include="button.hpp">
+      <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="animationSpriteObject.hpp">
       <Filter>Objects</Filter>
     </ClInclude>
   </ItemGroup>

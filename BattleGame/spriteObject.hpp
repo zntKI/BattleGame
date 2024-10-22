@@ -7,7 +7,7 @@
 
 class SpriteObject : public GameObject
 {
-private:
+protected:
 	std::string spriteFile;
 	sf::Texture texture;
 	sf::Sprite sprite;
