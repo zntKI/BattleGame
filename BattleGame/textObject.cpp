@@ -1,17 +1,25 @@
 #include "textObject.hpp"
 
 TextObject::TextObject( std::string identifier, std::string textStr,
-	const sf::Vector2f& position, const sf::Vector2f& scale,
+	const sf::Vector2f& position, const sf::Vector2f& originFactor, const sf::Vector2f& scale,
 	sf::Font& font, sf::Color color, unsigned int characterSize )
 	: GameObject( identifier, position, scale ), font( font ), textColor( color ), textStr( textStr ), characterSize( characterSize )
 {
-	text.setFont( this->font );
-	text.setFillColor( this->textColor );
-	text.setString( this->textStr );
-	text.setCharacterSize( this->characterSize );
+	this->text.setFont( this->font );
+	this->text.setFillColor( this->textColor );
+	this->text.setString( this->textStr );
+	this->text.setCharacterSize( this->characterSize );
 
-	text.setPosition( this->globalPosition );
-	text.setScale( this->scale );
+	this->text.setPosition( this->globalPosition );
+
+	if ( originFactor.x >= 0.f && originFactor.x <= 1.f
+		&& originFactor.y >= 0.f && originFactor.y <= 1.f ) {
+		auto bounds = this->text.getGlobalBounds();
+		this->text.setOrigin( originFactor.x * bounds.width, originFactor.y * bounds.height );
+	}
+	else {
+		Utils::logError( "Invalid text originFactor values - should be between 0 and 1 (inclusive)!" );
+	}
 }
 
 TextObject::TextObject( const TextObject& other )

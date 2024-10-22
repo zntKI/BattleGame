@@ -3,9 +3,9 @@
 #include "FPSCounter.hpp"
 
 FPSCounter::FPSCounter( std::string identifier, std::string textStr,
-	const sf::Vector2f& position, const sf::Vector2f& scale,
+	const sf::Vector2f& position, const sf::Vector2f& originFactor, const sf::Vector2f& scale,
 	sf::Font& font, sf::Color color, unsigned int characterSize )
-	: TextObject( identifier, textStr, position, scale, font, color, characterSize )
+	: TextObject( identifier, textStr, position, originFactor, scale, font, color, characterSize )
 {
 	this->elapsed = clock.getElapsedTime();
 }

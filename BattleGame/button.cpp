@@ -3,8 +3,9 @@
 Button::Button( const std::string& identifier, const sf::Vector2f& buttonSize, sf::Color buttonColor, const sf::Vector2f& position, const sf::Vector2f& scale )
 	: GameObject( identifier, position, scale )
 {
-	this->buttonShape.setPosition( position );
 	this->buttonShape.setSize( buttonSize );
+	this->buttonShape.setOrigin( this->buttonShape.getSize() / 2.f );
+	this->buttonShape.setPosition( position );
 	this->buttonShape.setFillColor( buttonColor );
 }
 
@@ -28,11 +29,13 @@ void Button::handleEvent( const sf::Event& event, sf::RenderWindow& window )
 		event.mouseButton.button == sf::Mouse::Button::Left ) {
 
 		sf::Vector2i mousePos = sf::Mouse::getPosition( window );
+
 		sf::Vector2f size = this->buttonShape.getSize();
 		sf::Vector2f position = this->buttonShape.getPosition();
+		sf::Vector2f origin = this->buttonShape.getOrigin();
 
-		if ( mousePos.x >= position.x && mousePos.x <= position.x + size.x &&
-			mousePos.y >= position.y && mousePos.y <= position.y + size.y ) {
+		if ( mousePos.x >= position.x - origin.x && mousePos.x <= ( position.x + size.x ) - origin.x &&
+			mousePos.y >= position.y - origin.y && mousePos.y <= ( position.y + size.y ) - origin.y ) {
 			this->onClick();
 		}
 	}

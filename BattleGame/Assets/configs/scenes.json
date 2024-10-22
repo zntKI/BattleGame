@@ -1,0 +1,73 @@
+[
+    {
+        "identifier": "sceneMenu",
+        "gameObjects": [
+            {
+                "type": "Button",
+                "identifier": "btnPlay",
+                "buttonSize": {
+                    "x": 100,
+                    "y": 50
+                },
+                "buttonColor": {
+                    "r": 0,
+                    "g": 255,
+                    "b": 0,
+                    "a": 255
+                },
+                "position": {
+                    "x": 300,
+                    "y": 400
+                },
+                "scale": {
+                    "x": 1,
+                    "y": 1
+                }
+            },
+            {
+                "type": "Button",
+                "identifier": "btnErase",
+                "buttonSize": {
+                    "x": 100,
+                    "y": 50
+                },
+                "buttonColor": {
+                    "r": 0,
+                    "g": 255,
+                    "b": 0,
+                    "a": 255
+                },
+                "position": {
+                    "x": 300,
+                    "y": 400
+                },
+                "scale": {
+                    "x": 1,
+                    "y": 1
+                }
+            },
+            {
+                "type": "Button",
+                "identifier": "btnPlay",
+                "buttonSize": {
+                    "x": 100,
+                    "y": 50
+                },
+                "buttonColor": {
+                    "r": 0,
+                    "g": 255,
+                    "b": 0,
+                    "a": 255
+                },
+                "position": {
+                    "x": 300,
+                    "y": 400
+                },
+                "scale": {
+                    "x": 1,
+                    "y": 1
+                }
+            }
+        ]
+    }
+]
