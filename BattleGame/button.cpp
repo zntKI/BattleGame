@@ -40,7 +40,12 @@ void Button::handleEvent( const sf::Event& event, sf::RenderWindow& window )
 
 void Button::onClick()
 {
-	this->action();
+	if ( this->action ) {
+		this->action();
+	}
+	else {
+		Utils::logError( "Trying to use an unimplemented button!" );
+	}
 }
 
 void Button::update()

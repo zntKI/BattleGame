@@ -1,8 +1,10 @@
 #include <SFML/Graphics.hpp>
+#include <nlohmann/json.hpp>
 
 #include "sceneManager.hpp"
 #include "FPSCounter.hpp"
 #include "button.hpp"
+#include "spriteObject.hpp"
 
 int main()
 {
@@ -13,8 +15,8 @@ int main()
 
 	Scene scene1( "scene01" );
 
-	FPSCounter fpsCounter( "fpsCounter", "FPS: ", sf::Vector2f( 0.f, 10.0f ), sf::Vector2f( 1.f, 1.0f ), Utils::getDefaultFont(), sf::Color::Green, 24 );
-	scene1.addGameObject( fpsCounter );
+	//FPSCounter fpsCounter( "fpsCounter", "FPS: ", sf::Vector2f( 0.f, 10.0f ), sf::Vector2f( 1.f, 1.0f ), Utils::getDefaultFont(), sf::Color::Green, 24 );
+	//scene1.addGameObject( fpsCounter );
 
 	// Setup to test parent-child relation
 	//TextObject textRed( "textRed", "First", sf::Vector2f( 0.f, 0.f ), sf::Vector2f( 1.f, 1.0f ), Utils::getDefaultFont(), sf::Color::Red, 24 );
@@ -30,20 +32,25 @@ int main()
 	//textGreen.move( sf::Vector2f( 200.f, 0.f ) );
 	//textBlue.move( sf::Vector2f( 0.f, 100.f ) );
 
+	Scene scene2( "scene02" );
+
+	SpriteObject bg( "bg", "Assets/Sprites/Bgs/bg_castle.png", sf::Vector2f(0.f, 0.f), sf::Vector2f( 1/3.f, 1/3.f ) );
+	scene2.addGameObject( bg );
+
+	// Setup to test button functionality
 	Button button( "btn", sf::Vector2f( 200.f, 100.f ), sf::Color::Red, sf::Vector2f( 300.f, 300.f ), sf::Vector2f( 1.f, 1.f ) );
 	scene1.addGameObject( button );
-	TextObject btnText( "btnText", "Quit", button.getGlobalPosition() );
+	TextObject btnText( "btnText", "Play", button.getGlobalPosition() );
 	btnText.attachToParent( button );
 
-	button.setButtonAction( [ &window ]() {
-		window.close();
+	button.setButtonAction( [ &sceneManager, &scene2 ]() {
+		sceneManager.stackScene( scene2.getIdentifier() );
 		} );
 
 	scene1.addGameObject( btnText );
 
-	button.move( sf::Vector2f( 200.f, 0.f ) );
-
 	sceneManager.addScene( scene1 );
+	sceneManager.addScene( scene2 );
 
 	while ( window.isOpen() ) {
 		sf::Event event;
@@ -63,4 +70,8 @@ int main()
 	}
 
 	return 0;
+}
+
+inline void setupMainMenuScene() {
+
 }
