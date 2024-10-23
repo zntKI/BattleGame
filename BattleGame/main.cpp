@@ -89,11 +89,11 @@ int main()
 
 #pragma region SETUP_SCENE_GAMEPLAY
 
-	SpriteObject bg( "bg", "Assets/Sprites/Bgs/bg_castle.png", sf::Vector2f( 0.f, 0.f ), sf::Vector2f( 1 / 3.f, 1 / 3.f ) );
+	SpriteObject bg( "bg", "Assets/Sprites/Bgs/bg_castle.png", sf::Vector2f( 0.f, 0.f ), sf::Vector2f( 1 / 3.f, 1 / 3.f ), sf::Vector2f( 0.f, 0.f ) );
 	scene2.addGameObject( bg );
 
 	// TODO: implement scale changing down the children line in game objects as it is with position!
-	AnimationSpriteObject character( "char", "Assets/Sprites/Characters/FireWizard/idle.png", 1, 7, .1f, sf::Vector2f( 0.f, 0.f ), sf::Vector2f( 2.f, 2.f ) );
+	AnimationSpriteObject character( "char", "Assets/Sprites/Characters/FireWizard/idle.png", 1, 7, 1.f, sf::Vector2f( 128.f, 0.f ), sf::Vector2f( 2.f, 2.f ), sf::Vector2f( 0.5f, 0.5f ) );
 	scene2.addGameObject( character );
 
 #pragma endregion

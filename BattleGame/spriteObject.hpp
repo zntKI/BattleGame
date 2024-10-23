@@ -13,11 +13,31 @@ protected:
 	sf::Sprite sprite;
 
 public:
+	/// <summary>
+	/// ctor for init of sprite objs - WITH the functionality of setting the origin of the obj
+	/// </summary>
+	/// <param name="originFactor"> -> from 0 to 1 factor which will be then multiplied to the bounds of the sprite, if you want default value, pass (0.f, 0.f)</param>
+	/// <param name="scale"> -> if you want default value, pass (1.f, 1.f)</param>
 	SpriteObject( const std::string& identifier, const std::string& spriteFile,
-		const sf::Vector2f& position = sf::Vector2f( 0.f, 0.f ), const sf::Vector2f& scale = sf::Vector2f( 1.f, 1.f ) );
+		const sf::Vector2f& position, const sf::Vector2f& scale, const sf::Vector2f& originFactor );
+	
+protected:
+	/// <summary>
+	/// ctor for init of animation sprite objs - WITHOUT the functionality of setting the origin of the obj.<para/>
+	/// instead, does it in the animation sprite obj ctor in order to do it correctly
+	/// </summary>
+	/// <param name="scale"> -> if you want default value, pass (1.f, 1.f)</param>
+	SpriteObject( const std::string& identifier, const std::string& spriteFile,
+		const sf::Vector2f& position, const sf::Vector2f& scale );
+
+public:
 	SpriteObject( const SpriteObject& other );
 
 	~SpriteObject();
+
+protected:
+	/// <param name="originFactor"> -> from 0 to 1 factor which will be then multiplied to the bounds of the sprite</param>
+	virtual void setupOrigin( const sf::Vector2f& originFactor );
 
 public:
 	void update() override;

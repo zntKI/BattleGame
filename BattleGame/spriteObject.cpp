@@ -2,6 +2,13 @@
 #include "utils.hpp"
 
 SpriteObject::SpriteObject( const std::string& identifier, const std::string& spriteFile,
+	const sf::Vector2f& position, const sf::Vector2f& scale, const sf::Vector2f& originFactor )
+	: SpriteObject( identifier, spriteFile, position, scale )
+{
+	setupOrigin( originFactor );
+}
+
+SpriteObject::SpriteObject( const std::string& identifier, const std::string& spriteFile,
 	const sf::Vector2f& position, const sf::Vector2f& scale )
 	: GameObject( identifier, position, scale ), spriteFile( spriteFile )
 {
@@ -22,6 +29,18 @@ SpriteObject::SpriteObject( const SpriteObject& other )
 
 SpriteObject::~SpriteObject()
 {
+}
+
+void SpriteObject::setupOrigin( const sf::Vector2f& originFactor )
+{
+	if ( originFactor.x >= 0.f && originFactor.x <= 1.f
+		&& originFactor.y >= 0.f && originFactor.y <= 1.f ) {
+		auto bounds = this->sprite.getGlobalBounds();
+		this->sprite.setOrigin( originFactor.x * bounds.width, originFactor.y * bounds.height );
+	}
+	else {
+		Utils::logError( "Invalid sprite originFactor values - should be between 0 and 1 (inclusive)!" );
+	}
 }
 
 void SpriteObject::update()

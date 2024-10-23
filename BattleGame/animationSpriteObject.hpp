@@ -11,10 +11,9 @@ class AnimationSpriteObject : public SpriteObject
 	sf::Time elapsed;
 
 public:
-	// TODO: Make so the user passes total animation frames and then calculating the frame width and height instead of passing rows and cols separetely!
-	// TODO: Add origin factor as it is with text objects!
+	/// <param name="originFactor"> -> from 0 to 1 factor which will be then multiplied to the bounds of the sprite, if you want default value, pass (0.f, 0.f)</param>
 	AnimationSpriteObject( const std::string& identifier, const std::string& spriteFile, int spriteSheetRows, int spriteSheetCols, float frameSwitchTimeSec,
-		const sf::Vector2f& position = sf::Vector2f( 0.f, 0.f ), const sf::Vector2f& scale = sf::Vector2f( 1.f, 1.f ) );
+		const sf::Vector2f& position, const sf::Vector2f& scale, const sf::Vector2f& originFactor );
 	AnimationSpriteObject( const AnimationSpriteObject& other );
 	
 	~AnimationSpriteObject();
