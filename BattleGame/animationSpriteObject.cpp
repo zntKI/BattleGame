@@ -20,6 +20,8 @@ AnimationSpriteObject::AnimationSpriteObject( const std::string& identifier,
 		this->sprite.setTextureRect( this->textureRect );
 
 		setupOrigin( originFactor );
+
+		this->sprite.setScale( scale );
 	}
 }
 

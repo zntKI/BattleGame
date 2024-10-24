@@ -93,8 +93,14 @@ int main()
 	scene2.addGameObject( bg );
 
 	// TODO: implement scale changing down the children line in game objects as it is with position!
-	AnimationSpriteObject character( "char", "Assets/Sprites/Characters/FireWizard/idle.png", 1, 7, 1.f, sf::Vector2f( 128.f, 0.f ), sf::Vector2f( 2.f, 2.f ), sf::Vector2f( 0.5f, 0.5f ) );
+	AnimationSpriteObject character( "char", "Assets/Sprites/Characters/FireWizard/idle.png", 1, 7, 1.f, sf::Vector2f( window.getSize().x / 2.f, window.getSize().y / 2.f ), sf::Vector2f( 3.f, 3.f ), sf::Vector2f( 0.5f, 0.5f ) );
 	scene2.addGameObject( character );
+	auto sda = character.getSpriteSize();
+	AnimationSpriteObject fireBall( "fireBall", "Assets/Sprites/Characters/FireWizard/charge.png", 1, 12, .1f,
+		character.getGlobalPosition() + sf::Vector2f( character.getSpriteSize().x / 2.f, 0.f ), sf::Vector2f(3.f, 3.f), sf::Vector2f(1.f, 0.5f));
+	scene2.addGameObject( fireBall );
+
+	fireBall.attachToParent( character );
 
 #pragma endregion
 

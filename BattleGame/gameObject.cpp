@@ -33,11 +33,6 @@ void GameObject::render( sf::RenderWindow& window )
 {
 }
 
-void GameObject::setScale( sf::Vector2f scale )
-{
-	this->scale = scale;
-}
-
 std::string GameObject::getIdentifier() const
 {
 	return this->identifier;
@@ -68,13 +63,22 @@ void GameObject::setParent( GameObject* parent )
 	this->parent = parent;
 }
 
-void GameObject::move( sf::Vector2f position )
+void GameObject::move( const sf::Vector2f& position )
 {
 	this->localPosition += position;
 	this->globalPosition = this->parent != nullptr ? this->parent->getGlobalPosition() + this->localPosition : this->localPosition;
 
 	for ( auto element = this->children.begin(); element != this->children.end(); element++ ) {
 		element->second->move( sf::Vector2f( 0.f, 0.f ) /*0-vector because children should only change its global location according to their parent without accumulating their local position*/ );
+	}
+}
+
+void GameObject::setScale( const sf::Vector2f& scale )
+{
+	this->scale = sf::Vector2f( this->scale.x * scale.x, this->scale.y * scale.y );
+
+	for ( auto element = this->children.begin(); element != this->children.end(); element++ ) {
+		element->second->setScale( scale );
 	}
 }
 

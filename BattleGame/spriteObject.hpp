@@ -44,4 +44,5 @@ public:
 	void render( sf::RenderWindow& window ) override;
 
 	std::string getSpriteFile() const;
+	sf::Vector2f getSpriteSize() const;
 };

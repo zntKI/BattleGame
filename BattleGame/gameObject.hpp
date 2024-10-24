@@ -50,6 +50,6 @@ public:
 	/// also does the same down the line in its children hierarchy
 	/// </summary>
 	/// <param name="position"> -> the desired displacement</param>
-	virtual void move( sf::Vector2f position );
-	virtual void setScale( sf::Vector2f scale );
+	virtual void move( const sf::Vector2f& position );
+	virtual void setScale( const sf::Vector2f& scale );
 };

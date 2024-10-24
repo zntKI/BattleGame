@@ -6,6 +6,8 @@ SpriteObject::SpriteObject( const std::string& identifier, const std::string& sp
 	: SpriteObject( identifier, spriteFile, position, scale )
 {
 	setupOrigin( originFactor );
+
+	this->sprite.setScale( scale );
 }
 
 SpriteObject::SpriteObject( const std::string& identifier, const std::string& spriteFile,
@@ -57,4 +59,11 @@ void SpriteObject::render( sf::RenderWindow& window )
 std::string SpriteObject::getSpriteFile() const
 {
 	return this->spriteFile;
+}
+
+sf::Vector2f SpriteObject::getSpriteSize() const
+{
+	auto bounds = this->sprite.getGlobalBounds();
+	sf::Vector2f size( bounds.width, bounds.height );
+	return size;
 }
