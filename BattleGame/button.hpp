@@ -1,29 +1,25 @@
 #pragma once
 
-#include "textObject.hpp"
-
 #include <functional>
 
-class Button : public GameObject
+#include "animationSpriteObject.hpp"
+
+class Button : public AnimationSpriteObject
 {
 private:
-	sf::RectangleShape buttonShape;
-
 	std::function<void()> action;
 
 public:
-	Button( const std::string& identifier, const sf::Vector2f& buttonSize = sf::Vector2f( 10.f, 10.f ), sf::Color buttonColor = sf::Color::White,
-		const sf::Vector2f& position = sf::Vector2f( 0.f, 0.f ), const sf::Vector2f& scale = sf::Vector2f( 1.f, 1.f ) );
+	Button( const std::string& identifier, const std::string& spriteFile, const int spriteSheetRows, const int spriteSheetCols, const float frameSwitchTimeSec,
+		const sf::Vector2f position, const sf::Vector2f scale, const sf::Vector2f originFactor );
 	Button( const Button& other );
 
 	~Button();
 
-	sf::RectangleShape getButtonShape() const;
+	std::function<void()> getButtonAction() const;
 
 	void handleEvent( const sf::Event& event, sf::RenderWindow& window ) override;
 	void onClick();
-	void update() override;
-	void render( sf::RenderWindow& window ) override;
 
 	void setButtonAction( const std::function<void()>& action );
 };

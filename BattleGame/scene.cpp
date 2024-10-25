@@ -1,6 +1,6 @@
 #include "scene.hpp"
 
-Scene::Scene( const std::string identifier )
+Scene::Scene( const std::string& identifier )
 	: identifier( identifier )
 {
 }

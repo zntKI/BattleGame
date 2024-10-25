@@ -3,8 +3,8 @@
 #include "utils.hpp"
 
 AnimationSpriteObject::AnimationSpriteObject( const std::string& identifier,
-	const std::string& spriteFile, int spriteSheetRows, int spriteSheetCols, float frameSwitchTimeSec,
-	const sf::Vector2f& position, const sf::Vector2f& scale, const sf::Vector2f& originFactor )
+	const std::string& spriteFile, const int spriteSheetRows, const int spriteSheetCols, const float frameSwitchTimeSec,
+	const sf::Vector2f position, const sf::Vector2f scale, const sf::Vector2f originFactor )
 	: SpriteObject( identifier, spriteFile, position, scale ), frameSwitchTimeSec( frameSwitchTimeSec )
 {
 	sf::Vector2u textureSize = this->texture.getSize();
@@ -19,9 +19,10 @@ AnimationSpriteObject::AnimationSpriteObject( const std::string& identifier,
 
 		this->sprite.setTextureRect( this->textureRect );
 
-		setupOrigin( originFactor );
+		setupOrigin( originFactor ); // Should be before setting scale
 
-		this->sprite.setScale( scale );
+		this->setScale( scale ); // Called first to correctly set the 'currentOriginCoor'
+		this->sprite.setScale( this->scale ); // Called second to finalize sprite scaling
 	}
 }
 

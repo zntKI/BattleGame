@@ -1,16 +1,14 @@
 #include "button.hpp"
+#include "utils.hpp"
 
-Button::Button( const std::string& identifier, const sf::Vector2f& buttonSize, sf::Color buttonColor, const sf::Vector2f& position, const sf::Vector2f& scale )
-	: GameObject( identifier, position, scale )
+Button::Button( const std::string& identifier, const std::string& spriteFile, const int spriteSheetRows, const int spriteSheetCols, const float frameSwitchTimeSec,
+	const sf::Vector2f position, const sf::Vector2f scale, const sf::Vector2f originFactor )
+	: AnimationSpriteObject( identifier, spriteFile, spriteSheetRows, spriteSheetCols, frameSwitchTimeSec, position, scale, originFactor )
 {
-	this->buttonShape.setSize( buttonSize );
-	this->buttonShape.setOrigin( this->buttonShape.getSize() / 2.f );
-	this->buttonShape.setPosition( position );
-	this->buttonShape.setFillColor( buttonColor );
 }
 
 Button::Button( const Button& other )
-	: GameObject( other ), buttonShape( other.getButtonShape() )
+	: AnimationSpriteObject( other ), action( other.getButtonAction() )
 {
 }
 
@@ -18,9 +16,9 @@ Button::~Button()
 {
 }
 
-sf::RectangleShape Button::getButtonShape() const
+std::function<void()> Button::getButtonAction() const
 {
-	return this->buttonShape;
+	return this->action;
 }
 
 void Button::handleEvent( const sf::Event& event, sf::RenderWindow& window )
@@ -30,12 +28,12 @@ void Button::handleEvent( const sf::Event& event, sf::RenderWindow& window )
 
 		sf::Vector2i mousePos = sf::Mouse::getPosition( window );
 
-		sf::Vector2f size = this->buttonShape.getSize();
-		sf::Vector2f position = this->buttonShape.getPosition();
-		sf::Vector2f origin = this->buttonShape.getOrigin();
+		auto spriteBounds = this->sprite.getGlobalBounds();
+		sf::Vector2f size( spriteBounds.width, spriteBounds.height );
+		sf::Vector2f position = this->sprite.getPosition();
 
-		if ( mousePos.x >= position.x - origin.x && mousePos.x <= ( position.x + size.x ) - origin.x &&
-			mousePos.y >= position.y - origin.y && mousePos.y <= ( position.y + size.y ) - origin.y ) {
+		if ( mousePos.x >= position.x - currentOriginCoor.x && mousePos.x <= ( position.x + size.x ) - currentOriginCoor.x &&
+			mousePos.y >= position.y - currentOriginCoor.y && mousePos.y <= ( position.y + size.y ) - currentOriginCoor.y ) {
 			this->onClick();
 		}
 	}
@@ -49,17 +47,6 @@ void Button::onClick()
 	else {
 		Utils::logError( "Trying to use an unimplemented button!" );
 	}
-}
-
-void Button::update()
-{
-	this->buttonShape.setPosition( this->globalPosition );
-	this->buttonShape.setScale( this->scale );
-}
-
-void Button::render( sf::RenderWindow& window )
-{
-	window.draw( this->buttonShape );
 }
 
 void Button::setButtonAction( const std::function<void()>& action )

@@ -38,13 +38,12 @@ int main()
 
 	// General btn vars
 
-	sf::Vector2f btnSize( 200.f, 100.f );
-	sf::Vector2f btnOffset( 0.f, btnSize.y + 50.f );
+	sf::Vector2f btnOffset( 0.f, 150.f );
 
 
 	// Play button
 
-	Button buttonPlay( "btnPlay", btnSize, sf::Color::Red, btnContainer.getGlobalPosition() - btnOffset );
+	Button buttonPlay( "btnPlay", "Assets/Sprites/UI/btn.png", 1, 3, 1.f, btnContainer.getGlobalPosition() - btnOffset, sf::Vector2f( 3.f, 3.f ), sf::Vector2f( 0.5f, 0.5f ) );
 	scene1.addGameObject( buttonPlay );
 	TextObject btnPlayText( "btnPlayText", "Play", buttonPlay.getGlobalPosition(), sf::Vector2f( 0.5f, 0.5f ) );
 	btnPlayText.attachToParent( buttonPlay );
@@ -60,7 +59,7 @@ int main()
 
 	// Erase button
 
-	Button buttonErase( "btnErase", btnSize, sf::Color::Red, btnContainer.getGlobalPosition() );
+	Button buttonErase( "btnErase", "Assets/Sprites/UI/btn.png", 1, 3, 1.f, btnContainer.getGlobalPosition(), sf::Vector2f( 3.f, 3.f ), sf::Vector2f( 0.5f, 0.5f ) );
 	scene1.addGameObject( buttonErase );
 	TextObject btnEraseText( "btnEraseText", "Erase", buttonErase.getGlobalPosition(), sf::Vector2f( 0.5f, 0.5f ) );
 	btnEraseText.attachToParent( buttonErase );
@@ -72,7 +71,7 @@ int main()
 
 	// Quit button
 
-	Button buttonQuit( "btnQuit", btnSize, sf::Color::Red, btnContainer.getGlobalPosition() + btnOffset );
+	Button buttonQuit( "btnQuit", "Assets/Sprites/UI/btn.png", 1, 3, 1.f, btnContainer.getGlobalPosition() + btnOffset, sf::Vector2f( 3.f, 3.f ), sf::Vector2f( 0.5f, 0.5f ) );
 	scene1.addGameObject( buttonQuit );
 	TextObject btnQuitText( "btnQuitText", "Quit", buttonQuit.getGlobalPosition(), sf::Vector2f( 0.5f, 0.5f ) );
 	btnQuitText.attachToParent( buttonQuit );
@@ -85,28 +84,67 @@ int main()
 
 	scene1.addGameObject( btnQuitText );
 
+	/*sf::RectangleShape verticalLine( sf::Vector2f( 3.f, window.getSize().y ) );
+	verticalLine.setOrigin( verticalLine.getSize() / 2.f );
+	verticalLine.setPosition( sf::Vector2f( window.getSize().x / 2.f, window.getSize().y / 2.f ) );
+
+	sf::RectangleShape horizontalLine( sf::Vector2f( window.getSize().x, 3.f ) );
+	horizontalLine.setOrigin( horizontalLine.getSize() / 2.f );
+	horizontalLine.setPosition( sf::Vector2f( window.getSize().x / 2.f, window.getSize().y / 2.f ) );*/
+
 #pragma endregion
 
 #pragma region SETUP_SCENE_GAMEPLAY
 
-	SpriteObject bg( "bg", "Assets/Sprites/Bgs/bg_castle.png", sf::Vector2f( 0.f, 0.f ), sf::Vector2f( 1 / 3.f, 1 / 3.f ), sf::Vector2f( 0.f, 0.f ) );
+	// BG setup
+	SpriteObject bg( "bg", "Assets/Sprites/Bgs/bg_dry.png", sf::Vector2f( 0.f, 0.f ), sf::Vector2f( 1 / 3.f, 1 / 3.f ), sf::Vector2f( 0.f, 0.f ) );
 	scene2.addGameObject( bg );
 
-	// TODO: implement scale changing down the children line in game objects as it is with position!
-	AnimationSpriteObject character( "char", "Assets/Sprites/Characters/FireWizard/idle.png", 1, 7, 1.f, sf::Vector2f( window.getSize().x / 2.f, window.getSize().y / 2.f ), sf::Vector2f( 3.f, 3.f ), sf::Vector2f( 0.5f, 0.5f ) );
+
+
+	// Player setup
+	AnimationSpriteObject character( "char", "Assets/Sprites/Characters/FireWizard/idle.png", 1, 7, 1.f, sf::Vector2f( window.getSize().x / 4.f, window.getSize().y / 2.f ), sf::Vector2f( 3.f, 3.f ), sf::Vector2f( 0.4f, 0.75f ) );
 	scene2.addGameObject( character );
-	auto sda = character.getSpriteSize();
-	AnimationSpriteObject fireBall( "fireBall", "Assets/Sprites/Characters/FireWizard/charge.png", 1, 12, .1f,
+	/*AnimationSpriteObject fireBall( "fireBall", "Assets/Sprites/Characters/FireWizard/charge.png", 1, 12, .1f,
 		character.getGlobalPosition() + sf::Vector2f( character.getSpriteSize().x / 2.f, 0.f ), sf::Vector2f(3.f, 3.f), sf::Vector2f(1.f, 0.5f));
 	scene2.addGameObject( fireBall );
+	fireBall.attachToParent( character );*/
+	SpriteObject healthBarChar( "healthBarChar", "Assets/Sprites/UI/health_bar.png",
+		character.getGlobalPosition() - sf::Vector2f( 0.f, character.getSpriteSize().y / 3.f ), sf::Vector2f( 1.f, 1.f ), sf::Vector2f( .5f, .5f ) );
+	scene2.addGameObject( healthBarChar );
+	healthBarChar.attachToParent( character );
+	// TODO: Make it an animation sprite with all three colors - green, orange and red (sprite sheet with three different sprites); make them change accordingly depending on the health percentage
+	SpriteObject healthBarFillChar( "healthBarFillChar", "Assets/Sprites/UI/health_bar_fill.png",
+		healthBarChar.getGlobalPosition() - sf::Vector2f( healthBarChar.getSpriteSize().x / 2.f, 0.f ), sf::Vector2f( 1.f, 1.f ), sf::Vector2f( 0.f, .5f ) );
+	scene2.addGameObject( healthBarFillChar );
+	healthBarFillChar.attachToParent( healthBarChar );
 
-	fireBall.attachToParent( character );
+	// Enemy setup
+	AnimationSpriteObject enemy( "enemy", "Assets/Sprites/Characters/WandererMagican/idle_flipped.png", 1, 8, .9f, sf::Vector2f( window.getSize().x * 3 / 4.f, window.getSize().y / 2.f ), sf::Vector2f( 3.f, 3.f ), sf::Vector2f( 0.5f, 0.75f ) );
+	scene2.addGameObject( enemy );
+	SpriteObject healthBarEnemy( "healthBarEnemy", "Assets/Sprites/UI/health_bar.png",
+		enemy.getGlobalPosition() - sf::Vector2f( 0.f, enemy.getSpriteSize().y / 3.f ), sf::Vector2f( 1.f, 1.f ), sf::Vector2f( .5f, .5f ) );
+	scene2.addGameObject( healthBarEnemy );
+	healthBarEnemy.attachToParent( enemy );
+	// TODO: Make it an animation sprite with all three colors - green, orange and red (sprite sheet with three different sprites); make them change accordingly depending on the health percentage
+	SpriteObject healthBarFillEnemy( "healthBarFillEnemy", "Assets/Sprites/UI/health_bar_fill.png",
+		healthBarEnemy.getGlobalPosition() + sf::Vector2f( healthBarEnemy.getSpriteSize().x / 2.f, 0.f ), sf::Vector2f( 1.f, 1.f ), sf::Vector2f( 1.f, .5f ) );
+	scene2.addGameObject( healthBarFillEnemy );
+	healthBarFillEnemy.attachToParent( healthBarEnemy );
+
+
+	// UI setup
+	SpriteObject optionsPanel( "optionsPanel", "Assets/Sprites/UI/text_area_flipped.png", sf::Vector2f( 0.f, window.getSize().y * 1.f ), sf::Vector2f( 4.f, 5.f ), sf::Vector2f( 0.f, 1.f ) );
+	scene2.addGameObject( optionsPanel );
+
+	SpriteObject textArea( "textArea", "Assets/Sprites/UI/text_area.png", sf::Vector2f( window.getSize().x * 1.f, window.getSize().y * 1.f ), sf::Vector2f( 5.f, 5.f ), sf::Vector2f( 1.f, 1.f ) );
+	scene2.addGameObject( textArea );
 
 #pragma endregion
 
 #pragma region SETUP_FPS_COUNTER
 
-	FPSCounter fpsCounter( "fpsCounter", "FPS: ", sf::Vector2f( 0.f, 10.0f ), sf::Vector2f( 0.f, 0.f ), sf::Vector2f( 1.f, 1.f ), Utils::getDefaultFont(), sf::Color::Red, 24 );
+	FPSCounter fpsCounter( "fpsCounter", "FPS: ", sf::Vector2f( 0.f, 10.0f ), sf::Vector2f( 0.f, 0.f ), Utils::getDefaultFont(), sf::Color::Red, 24 );
 	scene1.addGameObject( fpsCounter );
 	scene2.addGameObject( fpsCounter );
 
@@ -125,6 +163,8 @@ int main()
 
 		sceneManager.update();
 		sceneManager.render( window );
+		/*window.draw( verticalLine );
+		window.draw( horizontalLine );*/
 
 		window.display();
 	}

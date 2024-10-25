@@ -12,7 +12,7 @@ private:
 	std::vector<GameObject*> gameObjects;
 
 public:
-	Scene( const std::string identifier );
+	Scene( const std::string& identifier );
 	~Scene();
 
 public:

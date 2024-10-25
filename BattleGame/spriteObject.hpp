@@ -8,6 +8,9 @@
 class SpriteObject : public GameObject
 {
 protected:
+	sf::Vector2f scale;
+	sf::Vector2f currentOriginCoor; // Used for accurate origin detection, since the origin you get from the sprite is the initial one that does not change with future scaling
+
 	std::string spriteFile;
 	sf::Texture texture;
 	sf::Sprite sprite;
@@ -19,7 +22,7 @@ public:
 	/// <param name="originFactor"> -> from 0 to 1 factor which will be then multiplied to the bounds of the sprite, if you want default value, pass (0.f, 0.f)</param>
 	/// <param name="scale"> -> if you want default value, pass (1.f, 1.f)</param>
 	SpriteObject( const std::string& identifier, const std::string& spriteFile,
-		const sf::Vector2f& position, const sf::Vector2f& scale, const sf::Vector2f& originFactor );
+		const sf::Vector2f position, const sf::Vector2f scale, const sf::Vector2f originFactor );
 	
 protected:
 	/// <summary>
@@ -28,7 +31,7 @@ protected:
 	/// </summary>
 	/// <param name="scale"> -> if you want default value, pass (1.f, 1.f)</param>
 	SpriteObject( const std::string& identifier, const std::string& spriteFile,
-		const sf::Vector2f& position, const sf::Vector2f& scale );
+		const sf::Vector2f position, const sf::Vector2f scale );
 
 public:
 	SpriteObject( const SpriteObject& other );
@@ -40,9 +43,12 @@ protected:
 	virtual void setupOrigin( const sf::Vector2f& originFactor );
 
 public:
+	sf::Vector2f getScale() const;
+	std::string getSpriteFile() const;
+	sf::Vector2f getSpriteSize() const;
+
 	void update() override;
 	void render( sf::RenderWindow& window ) override;
 
-	std::string getSpriteFile() const;
-	sf::Vector2f getSpriteSize() const;
+	virtual void setScale( const sf::Vector2f& scale );
 };

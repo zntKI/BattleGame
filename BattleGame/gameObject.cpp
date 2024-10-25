@@ -4,14 +4,14 @@
 #include "utils.hpp"
 
 GameObject::GameObject( const std::string& identifier,
-	const sf::Vector2f& position, const sf::Vector2f& scale )
-	: identifier( identifier ), globalPosition( position ), localPosition( position ), scale( scale ), parent( nullptr )
+	const sf::Vector2f position )
+	: identifier( identifier ), globalPosition( position ), localPosition( position ), parent( nullptr )
 {
 }
 
 GameObject::GameObject( const GameObject& other )
 	: identifier( other.getIdentifier() ),
-	globalPosition( other.getGlobalPosition() ), localPosition( other.getLocalPosition() ), scale( other.getScale() ),
+	globalPosition( other.getGlobalPosition() ), localPosition( other.getLocalPosition() ),
 	parent( other.getParent() )
 {
 	// TODO: figure out what to do with children list
@@ -48,11 +48,6 @@ sf::Vector2f GameObject::getGlobalPosition() const
 	return this->globalPosition;
 }
 
-sf::Vector2f GameObject::getScale() const
-{
-	return this->scale;
-}
-
 GameObject* GameObject::getParent() const
 {
 	return this->parent;
@@ -70,15 +65,6 @@ void GameObject::move( const sf::Vector2f& position )
 
 	for ( auto element = this->children.begin(); element != this->children.end(); element++ ) {
 		element->second->move( sf::Vector2f( 0.f, 0.f ) /*0-vector because children should only change its global location according to their parent without accumulating their local position*/ );
-	}
-}
-
-void GameObject::setScale( const sf::Vector2f& scale )
-{
-	this->scale = sf::Vector2f( this->scale.x * scale.x, this->scale.y * scale.y );
-
-	for ( auto element = this->children.begin(); element != this->children.end(); element++ ) {
-		element->second->setScale( scale );
 	}
 }
 
