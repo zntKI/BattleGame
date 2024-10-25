@@ -35,7 +35,7 @@ int main()
 
 	SpriteObject titlePanel( "titlePanel", "Assets/Sprites/UI/title_panel.png", sf::Vector2f( window.getSize().x / 2.f, window.getSize().y / 5.f ), sf::Vector2f( 3.f, 3.f ), sf::Vector2f( 0.5f, 0.5f ) );
 	scene1.addGameObject( titlePanel );
-	TextObject gameTitleText( "gameTitleText", "Game_Title", titlePanel.getGlobalPosition() - sf::Vector2f(0.f, 20.f), sf::Vector2f(0.5f, 0.5f), Utils::getDefaultFont(), sf::Color::Yellow, 50);
+	TextObject gameTitleText( "gameTitleText", "Game_Title", titlePanel.getGlobalPosition() - sf::Vector2f( 0.f, 20.f ), sf::Vector2f( 0.5f, 0.5f ), Utils::getDefaultFont(), sf::Color::Yellow, 50 );
 	gameTitleText.attachToParent( titlePanel );
 	scene1.addGameObject( gameTitleText );
 
@@ -126,7 +126,7 @@ int main()
 	SpriteObject healthBarFillChar( "healthBarFillChar", "Assets/Sprites/UI/health_bar_fill.png",
 		healthBarChar.getGlobalPosition() - sf::Vector2f( healthBarChar.getSpriteSize().x / 2.f, 0.f ), sf::Vector2f( 1.f, 1.f ), sf::Vector2f( 0.f, .5f ) );
 	scene2.addGameObject( healthBarFillChar );
-	healthBarFillChar.attachToParent( healthBarChar );
+	//healthBarFillChar.attachToParent( healthBarChar );
 
 	// Enemy setup
 	AnimationSpriteObject enemy( "enemy", "Assets/Sprites/Characters/WandererMagican/idle_flipped.png", 1, 8, .9f, sf::Vector2f( window.getSize().x * 3 / 4.f, window.getSize().y / 2.f ), sf::Vector2f( 3.f, 3.f ), sf::Vector2f( 0.5f, 0.75f ) );
@@ -142,12 +142,50 @@ int main()
 	healthBarFillEnemy.attachToParent( healthBarEnemy );
 
 
+
 	// UI setup
 	SpriteObject optionsPanel( "optionsPanel", "Assets/Sprites/UI/text_area_flipped.png", sf::Vector2f( 0.f, window.getSize().y * 1.f ), sf::Vector2f( 4.f, 5.f ), sf::Vector2f( 0.f, 1.f ) );
 	scene2.addGameObject( optionsPanel );
 
+	GameObject optionContainer( "optionContainer", optionsPanel.getGlobalPosition() + sf::Vector2f( optionsPanel.getSpriteSize().x / 2.f, -( optionsPanel.getSpriteSize().y / 2.f ) ) );
+	scene2.addGameObject( optionContainer );
+	optionContainer.attachToParent( optionsPanel );
+
+	sf::Vector2f actionButtonsOffset( 100.f, 0.f );
+
+	Button buttonAttack( "btnAttack", "Assets/Sprites/UI/btn2.png", 1, 3, optionContainer.getGlobalPosition() - actionButtonsOffset, sf::Vector2f( 2.5f, 2.5f ), sf::Vector2f( 0.5f, 0.5f ) );
+	scene2.addGameObject( buttonAttack );
+	TextObject buttonAttackText( "buttonAttackText", "Attack", buttonAttack.getGlobalPosition(), sf::Vector2f( 0.5f, 0.5f ) );
+	scene2.addGameObject( buttonAttackText );
+	buttonAttackText.attachToParent( buttonAttack );
+
+	buttonAttack.attachToParent( optionContainer );
+
+	Button btnRecover( "btnRecover", "Assets/Sprites/UI/btn2.png", 1, 3, optionContainer.getGlobalPosition() + actionButtonsOffset, sf::Vector2f( 2.5f, 2.5f ), sf::Vector2f( 0.5f, 0.5f ) );
+	scene2.addGameObject( btnRecover );
+	TextObject buttonRecoverText( "buttonRecoverText", "Recover", btnRecover.getGlobalPosition(), sf::Vector2f( 0.5f, 0.5f ) );
+	scene2.addGameObject( buttonRecoverText );
+	buttonRecoverText.attachToParent( btnRecover );
+
+	btnRecover.attachToParent( optionContainer );
+
+
 	SpriteObject textArea( "textArea", "Assets/Sprites/UI/text_area.png", sf::Vector2f( window.getSize().x * 1.f, window.getSize().y * 1.f ), sf::Vector2f( 5.f, 5.f ), sf::Vector2f( 1.f, 1.f ) );
 	scene2.addGameObject( textArea );
+
+
+	// Quit button
+
+	Button buttonQuitGame( "buttonQuitGame", "Assets/Sprites/UI/btn.png", 1, 3, sf::Vector2f(window.getSize().x * 1.f, 0.f), sf::Vector2f(2.f, 2.f), sf::Vector2f(1.f, 0.f));
+	scene2.addGameObject( buttonQuitGame );
+	TextObject btnQuitGameText( "btnQuitGameText", "Quit", buttonQuitGame.getGlobalPosition() + sf::Vector2f( -(buttonQuitGame.getSpriteSize().x / 2.f), buttonQuitGame.getSpriteSize().y / 2.f ), sf::Vector2f(0.5f, 0.5f));
+	btnQuitGameText.attachToParent( buttonQuitGame );
+
+	buttonQuitGame.setButtonAction( [ &sceneManager ]() {
+		sceneManager.popScene();
+		} );
+
+	scene2.addGameObject( btnQuitGameText );
 
 #pragma endregion
 
