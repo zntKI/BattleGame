@@ -26,6 +26,13 @@ AnimationSpriteObject::AnimationSpriteObject( const std::string& identifier,
 	}
 }
 
+AnimationSpriteObject::AnimationSpriteObject( const std::string& identifier, const std::string& spriteFile,
+	const int spriteSheetRows, const int spriteSheetCols,
+	const sf::Vector2f position, const sf::Vector2f scale, const sf::Vector2f originFactor )
+	: AnimationSpriteObject( identifier, spriteFile, spriteSheetRows, spriteSheetCols, -1.f, position, scale, originFactor )
+{
+}
+
 AnimationSpriteObject::AnimationSpriteObject( const AnimationSpriteObject& other )
 	: SpriteObject( other ), frameSwitchTimeSec( other.getFrameSwitchTimeSec() )
 {

@@ -10,7 +10,8 @@ private:
 	std::function<void()> action;
 
 public:
-	Button( const std::string& identifier, const std::string& spriteFile, const int spriteSheetRows, const int spriteSheetCols, const float frameSwitchTimeSec,
+	Button( const std::string& identifier, const std::string& spriteFile,
+		const int spriteSheetRows, const int spriteSheetCols,
 		const sf::Vector2f position, const sf::Vector2f scale, const sf::Vector2f originFactor );
 	Button( const Button& other );
 
@@ -18,8 +19,11 @@ public:
 
 	std::function<void()> getButtonAction() const;
 
+	void update() override;
 	void handleEvent( const sf::Event& event, sf::RenderWindow& window ) override;
 	void onClick();
+
+	bool isMouseWithin( sf::RenderWindow& window ) const;
 
 	void setButtonAction( const std::function<void()>& action );
 };

@@ -31,9 +31,18 @@ int main()
 
 #pragma region SETUP_SCENE_MENU
 
+	// Game title
+
+	SpriteObject titlePanel( "titlePanel", "Assets/Sprites/UI/title_panel.png", sf::Vector2f( window.getSize().x / 2.f, window.getSize().y / 5.f ), sf::Vector2f( 3.f, 3.f ), sf::Vector2f( 0.5f, 0.5f ) );
+	scene1.addGameObject( titlePanel );
+	TextObject gameTitleText( "gameTitleText", "Game_Title", titlePanel.getGlobalPosition() - sf::Vector2f(0.f, 20.f), sf::Vector2f(0.5f, 0.5f), Utils::getDefaultFont(), sf::Color::Yellow, 50);
+	gameTitleText.attachToParent( titlePanel );
+	scene1.addGameObject( gameTitleText );
+
+
 	// Container for buttons
 
-	GameObject btnContainer( "btnContainer", sf::Vector2f( window.getSize().x / 2.f, window.getSize().y / 2.f ) );
+	GameObject btnContainer( "btnContainer", sf::Vector2f( window.getSize().x / 2.f, window.getSize().y * 2 / 3.f ) );
 	scene1.addGameObject( btnContainer );
 
 	// General btn vars
@@ -43,7 +52,7 @@ int main()
 
 	// Play button
 
-	Button buttonPlay( "btnPlay", "Assets/Sprites/UI/btn.png", 1, 3, 1.f, btnContainer.getGlobalPosition() - btnOffset, sf::Vector2f( 3.f, 3.f ), sf::Vector2f( 0.5f, 0.5f ) );
+	Button buttonPlay( "btnPlay", "Assets/Sprites/UI/btn.png", 1, 3, btnContainer.getGlobalPosition() - btnOffset, sf::Vector2f( 3.f, 3.f ), sf::Vector2f( 0.5f, 0.5f ) );
 	scene1.addGameObject( buttonPlay );
 	TextObject btnPlayText( "btnPlayText", "Play", buttonPlay.getGlobalPosition(), sf::Vector2f( 0.5f, 0.5f ) );
 	btnPlayText.attachToParent( buttonPlay );
@@ -59,7 +68,7 @@ int main()
 
 	// Erase button
 
-	Button buttonErase( "btnErase", "Assets/Sprites/UI/btn.png", 1, 3, 1.f, btnContainer.getGlobalPosition(), sf::Vector2f( 3.f, 3.f ), sf::Vector2f( 0.5f, 0.5f ) );
+	Button buttonErase( "btnErase", "Assets/Sprites/UI/btn.png", 1, 3, btnContainer.getGlobalPosition(), sf::Vector2f( 3.f, 3.f ), sf::Vector2f( 0.5f, 0.5f ) );
 	scene1.addGameObject( buttonErase );
 	TextObject btnEraseText( "btnEraseText", "Erase", buttonErase.getGlobalPosition(), sf::Vector2f( 0.5f, 0.5f ) );
 	btnEraseText.attachToParent( buttonErase );
@@ -71,7 +80,7 @@ int main()
 
 	// Quit button
 
-	Button buttonQuit( "btnQuit", "Assets/Sprites/UI/btn.png", 1, 3, 1.f, btnContainer.getGlobalPosition() + btnOffset, sf::Vector2f( 3.f, 3.f ), sf::Vector2f( 0.5f, 0.5f ) );
+	Button buttonQuit( "btnQuit", "Assets/Sprites/UI/btn.png", 1, 3, btnContainer.getGlobalPosition() + btnOffset, sf::Vector2f( 3.f, 3.f ), sf::Vector2f( 0.5f, 0.5f ) );
 	scene1.addGameObject( buttonQuit );
 	TextObject btnQuitText( "btnQuitText", "Quit", buttonQuit.getGlobalPosition(), sf::Vector2f( 0.5f, 0.5f ) );
 	btnQuitText.attachToParent( buttonQuit );
@@ -171,3 +180,109 @@ int main()
 
 	return 0;
 }
+
+//#include <SFML/Graphics.hpp>
+//#include <vector>
+//#include <string>
+//
+//int main() {
+//    sf::RenderWindow window( sf::VideoMode( 800, 600 ), "Scrollable Fight Screen" );
+//
+//    // Load a font
+//    sf::Font font;
+//    if ( !font.loadFromFile( "Assets/Roboto-Regular.ttf" ) ) {
+//        return -1;
+//    }
+//
+//    // Create the background rectangle for the text area
+//    sf::RectangleShape textAreaBackground( sf::Vector2f( 600.f, 100.f ) );
+//    textAreaBackground.setFillColor( sf::Color( 200, 200, 200 ) );  // Light grey background
+//    textAreaBackground.setPosition( 100.f, 400.f );  // Position the background
+//
+//    // Create the text for the fight messages
+//    sf::Text fightText;
+//    fightText.setFont( font );
+//    fightText.setCharacterSize( 18 );
+//    fightText.setFillColor( sf::Color::Black );
+//    fightText.setPosition( textAreaBackground.getPosition().x + 10.f, textAreaBackground.getPosition().y + 10.f );
+//
+//    // A list of fight messages (for demonstration)
+//    std::vector<std::string> fightMessages = {
+//        "Player attacks with a sword!",
+//        "Enemy blocks the attack.",
+//        "Player prepares for a special move.",
+//        "Enemy strikes back!",
+//        "Player dodges the attack.",
+//        "Player uses a healing potion.",
+//        "Enemy stumbles.",
+//        "Player lands a critical hit!",
+//        "Enemy is defeated.",
+//        "Player wins the battle!"
+//    };
+//
+//    const int maxVisibleLines = 4;  // Number of visible lines in the text area
+//    int scrollOffset = 0;  // Keeps track of the current scrolling position
+//
+//    // Function to update visible text based on the scroll offset
+//    auto updateVisibleText = [ & ]() {
+//        std::string visibleText;
+//        int start = scrollOffset;
+//        int end = std::min( static_cast< int >( fightMessages.size() ), scrollOffset + maxVisibleLines );
+//
+//        for ( int i = start; i < end; ++i ) {
+//            visibleText += fightMessages[ i ] + "\n";
+//        }
+//
+//        fightText.setString( visibleText );
+//    };
+//
+//    updateVisibleText();
+//
+//    while ( window.isOpen() ) {
+//        sf::Event event;
+//        while ( window.pollEvent( event ) ) {
+//            if ( event.type == sf::Event::Closed )
+//                window.close();
+//
+//            // Scroll up (e.g., mouse wheel or up arrow)
+//            if ( event.type == sf::Event::MouseWheelScrolled && event.mouseWheelScroll.delta > 0 ) {
+//                if ( scrollOffset > 0 ) {
+//                    scrollOffset--;
+//                    updateVisibleText();
+//                }
+//            }
+//
+//            // Scroll down (e.g., mouse wheel or down arrow)
+//            if ( event.type == sf::Event::MouseWheelScrolled && event.mouseWheelScroll.delta < 0 ) {
+//                if ( scrollOffset < fightMessages.size() - maxVisibleLines ) {
+//                    scrollOffset++;
+//                    updateVisibleText();
+//                }
+//            }
+//
+//            // Scroll with keyboard (optional)
+//            if ( event.type == sf::Event::KeyPressed ) {
+//                if ( event.key.code == sf::Keyboard::Up ) {
+//                    if ( scrollOffset > 0 ) {
+//                        scrollOffset--;
+//                        updateVisibleText();
+//                    }
+//                }
+//                else if ( event.key.code == sf::Keyboard::Down ) {
+//                    if ( scrollOffset < fightMessages.size() - maxVisibleLines ) {
+//                        scrollOffset++;
+//                        updateVisibleText();
+//                    }
+//                }
+//            }
+//        }
+//
+//        // Draw the scene
+//        window.clear( sf::Color::White );
+//        window.draw( textAreaBackground );  // Draw the background of the text area
+//        window.draw( fightText );           // Draw the fight messages text
+//        window.display();
+//    }
+//
+//    return 0;
+//}
