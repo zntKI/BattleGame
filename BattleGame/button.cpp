@@ -1,10 +1,12 @@
 #include "button.hpp"
 #include "utils.hpp"
 
-Button::Button( const std::string& identifier, const std::string& spriteFile,
+Button::Button( const std::string& identifier, const GameObject* parent,
+	const std::string& spriteFile,
 	const int spriteSheetRows, const int spriteSheetCols,
 	const sf::Vector2f position, const sf::Vector2f scale, const sf::Vector2f originFactor )
-	: AnimationSpriteObject( identifier, spriteFile, spriteSheetRows, spriteSheetCols, position, scale, originFactor )
+	: AnimationSpriteObject( identifier, parent, spriteFile, spriteSheetRows, spriteSheetCols, position, scale, originFactor ),
+	text( nullptr )
 {
 }
 
@@ -92,4 +94,9 @@ void Button::onClick()
 void Button::setButtonAction( const std::function<void()>& action )
 {
 	this->action = action;
+}
+
+void Button::setText( TextObject* text )
+{
+	this->text = text;
 }

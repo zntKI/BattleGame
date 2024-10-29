@@ -3,10 +3,33 @@
 #include "gameObject.hpp"
 #include "utils.hpp"
 
-GameObject::GameObject( const std::string& identifier,
+GameObject::GameObject( const std::string& identifier, const GameObject* parent,
 	const sf::Vector2f position )
-	: identifier( identifier ), globalPosition( position ), localPosition( position ), parent( nullptr )
+	: identifier( identifier ), parent( const_cast< GameObject* >( parent ) )
 {
+	if ( parent == nullptr ) {
+		this->globalPosition = position;
+		this->localPosition = position;
+	}
+	else {
+		this->localPosition = position;
+	}
+}
+
+void GameObject::finishInit()
+{
+	if ( this->parent != nullptr ) {
+
+		if ( this->parent->children.find( this->identifier ) == this->parent->children.end() ) {
+			this->parent->children.emplace( this->identifier, this );
+
+			this->globalPosition = this->parent->getGlobalPosition() + this->localPosition;
+		}
+		else {
+			Utils::logError( "Trying to make a game object child of another when it already is!" );
+		}
+
+	}
 }
 
 GameObject::GameObject( const GameObject& other )

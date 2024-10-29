@@ -2,10 +2,10 @@
 
 #include "utils.hpp"
 
-AnimationSpriteObject::AnimationSpriteObject( const std::string& identifier,
+AnimationSpriteObject::AnimationSpriteObject( const std::string& identifier, const GameObject* parent,
 	const std::string& spriteFile, const int spriteSheetRows, const int spriteSheetCols,
 	const sf::Vector2f position, const sf::Vector2f scale, const sf::Vector2f originFactor )
-	: SpriteObject( identifier, spriteFile, position, scale )
+	: SpriteObject( identifier, parent, spriteFile, position, scale )
 {
 	sf::Vector2u textureSize = this->texture.getSize();
 

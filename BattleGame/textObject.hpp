@@ -16,7 +16,8 @@ protected:
 
 public:
 	/// <param name="originFactor"> -> From 0 to 1 factor which will be then multiplied to the bounds of the text</param>
-	TextObject( const std::string& identifier, const std::string& textStr,
+	TextObject( const std::string& identifier, const GameObject* parent,
+		const std::string& textStr,
 		const sf::Vector2f position = sf::Vector2f( 0.f, 0.f ), const sf::Vector2f originFactor = sf::Vector2f( 0.f, 0.f ),
 		sf::Font& font = Utils::getDefaultFont(), sf::Color color = sf::Color::Yellow, unsigned int characterSize = 30 );
 	TextObject( const TextObject& other );

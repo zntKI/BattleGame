@@ -2,70 +2,158 @@
     "menuScene": {
         "gameObjects": [
             {
-                "type": "Button",
-                "identifier": "btnPlay",
-                "buttonSize": {
-                    "x": 100,
-                    "y": 50
-                },
-                "buttonColor": {
-                    "r": 0,
-                    "g": 255,
-                    "b": 0,
-                    "a": 255
-                },
+                "type": "GameObject",
+                "identifier": "titleContainer",
                 "position": {
-                    "x": 300,
-                    "y": 400
+                    "x": 640,
+                    "y": 180
                 },
-                "scale": {
-                    "x": 1,
-                    "y": 1
-                }
+                "children": [
+                    {
+                        "type": "SpriteObject",
+                        "identifier": "titlePanel",
+                        "filePath": "Assets/Sprites/UI/title_panel.png",
+                        "position": {
+                            "x": 0,
+                            "y": 0
+                        },
+                        "scale": {
+                            "x": 3,
+                            "y": 3
+                        },
+                        "originFactor": {
+                            "x": 0.5,
+                            "y": 0.5
+                        },
+                        "children": []
+                    },
+                    {
+                        "type": "TextObject",
+                        "identifier": "gameTitleText",
+                        "text": "Game_Title",
+                        "position": {
+                            "x": 0,
+                            "y": 0
+                        },
+                        "originFactor": {
+                            "x": 0.5,
+                            "y": 0.5
+                        },
+                        "children": []
+                    }
+                ]
             },
             {
-                "type": "Button",
-                "identifier": "btnErase",
-                "buttonSize": {
-                    "x": 100,
-                    "y": 50
-                },
-                "buttonColor": {
-                    "r": 0,
-                    "g": 255,
-                    "b": 0,
-                    "a": 255
-                },
+                "type": "GameObject",
+                "identifier": "btnContainer",
                 "position": {
-                    "x": 300,
-                    "y": 400
+                    "x": 640,
+                    "y": 480
                 },
-                "scale": {
-                    "x": 1,
-                    "y": 1
-                }
-            },
-            {
-                "type": "Button",
-                "identifier": "btnPlay",
-                "buttonSize": {
-                    "x": 100,
-                    "y": 50
-                },
-                "buttonColor": {
-                    "r": 0,
-                    "g": 255,
-                    "b": 0,
-                    "a": 255
-                },
-                "position": {
-                    "x": 300,
-                    "y": 400
-                },
-                "scale": {
-                    "x": 1,
-                    "y": 1
-                }
+                "children": [
+                    {
+                        "type": "Button",
+                        "identifier": "btnPlay",
+                        "spriteSheetConfig": {
+                            "filePath": "Assets/Sprites/UI/btn.png",
+                            "spriteSheetRows": 1,
+                            "spriteSheetCols": 3
+                        },
+                        "position": {
+                            "x": 0,
+                            "y": -150
+                        },
+                        "scale": {
+                            "x": 3,
+                            "y": 3
+                        },
+                        "originFactor": {
+                            "x": 0.5,
+                            "y": 0.5
+                        },
+                        "text": {
+                            "identifier": "btnPlayText",
+                            "text": "Play",
+                            "position": {
+                                "x": 0,
+                                "y": 0
+                            },
+                            "originFactor": {
+                                "x": 0.5,
+                                "y": 0.5
+                            }
+                        },
+                        "children": []
+                    },
+                    {
+                        "type": "Button",
+                        "identifier": "btnErase",
+                        "spriteSheetConfig": {
+                            "filePath": "Assets/Sprites/UI/btn.png",
+                            "spriteSheetRows": 1,
+                            "spriteSheetCols": 3
+                        },
+                        "position": {
+                            "x": 0,
+                            "y": 0
+                        },
+                        "scale": {
+                            "x": 3,
+                            "y": 3
+                        },
+                        "originFactor": {
+                            "x": 0.5,
+                            "y": 0.5
+                        },
+                        "text": {
+                            "identifier": "btnEraseText",
+                            "text": "Erase",
+                            "position": {
+                                "x": 0,
+                                "y": 0
+                            },
+                            "originFactor": {
+                                "x": 0.5,
+                                "y": 0.5
+                            }
+                        },
+                        "children": []
+                    },
+                    {
+                        "type": "Button",
+                        "identifier": "btnQuit",
+                        "spriteSheetConfig": {
+                            "filePath": "Assets/Sprites/UI/btn.png",
+                            "spriteSheetRows": 1,
+                            "spriteSheetCols": 3
+                        },
+                        "position": {
+                            "x": 0,
+                            "y": 150
+                        },
+                        "scale": {
+                            "x": 3,
+                            "y": 3
+                        },
+                        "originFactor": {
+                            "x": 0.5,
+                            "y": 0.5
+                        },
+                        "text": {
+                            "identifier": "btnQuitText",
+                            "text": "Quit",
+                            "position": {
+                                "x": 0,
+                                "y": 0
+                            },
+                            "originFactor": {
+                                "x": 0.5,
+                                "y": 0.5
+                            }
+                        },
+                        "children": []
+                    }
+                ]
             }
         ]
     },
@@ -74,12 +162,7 @@
             {
                 "type": "SpriteObject",
                 "identifier": "bg",
-                "filePath": [
-                    "Assets/Sprites/Bgs/bg_dry.png",
-                    "Assets/Sprites/Bgs/bg_castle.png",
-                    "Assets/Sprites/Bgs/bg_sky.png",
-                    "Assets/Sprites/Bgs/bg_terrace.png"
-                ],
+                "filePath": "Assets/Sprites/Bgs/bg_dry.png",
                 "position": {
                     "x": 0,
                     "y": 0
@@ -91,7 +174,8 @@
                 "originFactor": {
                     "x": 0,
                     "y": 0
-                }
+                },
+                "children": []
             },
             {
                 "type": "Character",
@@ -118,70 +202,74 @@
                     "min": 1,
                     "max": 2
                 },
-                "characterSprite": {
-                    "spriteSheetConfig": [
-                        {
-                            "filePath": "Assets/Sprites/Characters/FireWizard/fireWizard.png",
-                            "spriteSheetRows": 4,
-                            "spriteSheetCols": 7
-                        },
-                        {
-                            "filePath": "Assets/Sprites/Characters/LightningMage/lightningMage.png",
-                            "spriteSheetRows": 4,
-                            "spriteSheetCols": 7
-                        },
-                        {
-                            "filePath": "Assets/Sprites/Characters/WandererMagican/wandererMagician.png",
-                            "spriteSheetRows": 4,
-                            "spriteSheetCols": 7
-                        }
-                    ],
-                    "position": {
-                        "x": 320,
-                        "y": 360
+                "spriteSheetConfig": [
+                    {
+                        "filePath": "Assets/Sprites/Characters/FireWizard/fireWizard.png",
+                        "spriteSheetRows": 4,
+                        "spriteSheetCols": 7
                     },
-                    "scale": {
-                        "x": 3,
-                        "y": 3
+                    {
+                        "filePath": "Assets/Sprites/Characters/LightningMage/lightningMage.png",
+                        "spriteSheetRows": 4,
+                        "spriteSheetCols": 7
                     },
-                    "originFactor": {
-                        "x": 0.45,
-                        "y": 0.75
+                    {
+                        "filePath": "Assets/Sprites/Characters/WandererMagican/wandererMagician.png",
+                        "spriteSheetRows": 4,
+                        "spriteSheetCols": 7
                     }
+                ],
+                "position": {
+                    "x": 320,
+                    "y": 360
                 },
-                "healthBar": {
-                    "identifier": "healthBarPlayer",
-                    "filePath": "Assets/Sprites/UI/health_bar.png",
-                    "position": {
-                        "x": 0,
-                        "y": 0
-                    },
-                    "scale": {
-                        "x": 1,
-                        "y": 1
-                    },
-                    "originFactor": {
-                        "x": 0.5,
-                        "y": 0.5
-                    }
+                "scale": {
+                    "x": 3,
+                    "y": 3
                 },
-                "healthBarFill": {
-                    "identifier": "healthBarFillPlayer",
-                    "filePath": "Assets/Sprites/UI/health_bar_fill.png",
-                    "position": {
-                        "x": 0,
-                        "y": 0,
-                        "faceMultiplier": 1
-                    },
-                    "scale": {
-                        "x": 1,
-                        "y": 1
-                    },
-                    "originFactor": {
-                        "x": 0,
-                        "y": 0.5
+                "originFactor": {
+                    "x": 0.45,
+                    "y": 0.75
+                },
+                "children": [
+                    {
+                        "type": "SpriteObject",
+                        "identifier": "healthBarPlayer",
+                        "filePath": "Assets/Sprites/UI/health_bar.png",
+                        "position": {
+                            "x": 0,
+                            "y": -128
+                        },
+                        "scale": {
+                            "x": 1,
+                            "y": 1
+                        },
+                        "originFactor": {
+                            "x": 0.5,
+                            "y": 0.5
+                        },
+                        "children": [
+                            {
+                                "type": "SpriteObject",
+                                "identifier": "healthBarFillPlayer",
+                                "filePath": "Assets/Sprites/UI/health_bar_fill.png",
+                                "position": {
+                                    "x": -72,
+                                    "y": 0
+                                },
+                                "scale": {
+                                    "x": 1,
+                                    "y": 1
+                                },
+                                "originFactor": {
+                                    "x": 0,
+                                    "y": 0.5
+                                },
+                                "children": []
+                            }
+                        ]
                     }
-                }
+                ]
             },
             {
                 "type": "Character",
@@ -208,70 +296,74 @@
                     "min": 1,
                     "max": 2
                 },
-                "characterSprite": {
-                    "spriteSheetConfig": [
-                        {
-                            "filePath": "Assets/Sprites/Characters/FireWizard/fireWizard_flipped.png",
-                            "spriteSheetRows": 4,
-                            "spriteSheetCols": 7
-                        },
-                        {
-                            "filePath": "Assets/Sprites/Characters/LightningMage/lightningMage_flipped.png",
-                            "spriteSheetRows": 4,
-                            "spriteSheetCols": 7
-                        },
-                        {
-                            "filePath": "Assets/Sprites/Characters/WandererMagican/wandererMagician_flipped.png",
-                            "spriteSheetRows": 4,
-                            "spriteSheetCols": 7
-                        }
-                    ],
-                    "position": {
-                        "x": 960,
-                        "y": 360
+                "spriteSheetConfig": [
+                    {
+                        "filePath": "Assets/Sprites/Characters/FireWizard/fireWizard_flipped.png",
+                        "spriteSheetRows": 4,
+                        "spriteSheetCols": 7
                     },
-                    "scale": {
-                        "x": 3,
-                        "y": 3
+                    {
+                        "filePath": "Assets/Sprites/Characters/LightningMage/lightningMage_flipped.png",
+                        "spriteSheetRows": 4,
+                        "spriteSheetCols": 7
                     },
-                    "originFactor": {
-                        "x": 0.55,
-                        "y": 0.75
+                    {
+                        "filePath": "Assets/Sprites/Characters/WandererMagican/wandererMagician_flipped.png",
+                        "spriteSheetRows": 4,
+                        "spriteSheetCols": 7
                     }
+                ],
+                "position": {
+                    "x": 960,
+                    "y": 360
                 },
-                "healthBar": {
-                    "identifier": "healthBarPlayer",
-                    "filePath": "Assets/Sprites/UI/health_bar.png",
-                    "position": {
-                        "x": 0,
-                        "y": 0
-                    },
-                    "scale": {
-                        "x": 1,
-                        "y": 1
-                    },
-                    "originFactor": {
-                        "x": 0.5,
-                        "y": 0.5
-                    }
+                "scale": {
+                    "x": 3,
+                    "y": 3
                 },
-                "healthBarFill": {
-                    "identifier": "healthBarFillPlayer",
-                    "filePath": "Assets/Sprites/UI/health_bar_fill.png",
-                    "position": {
-                        "x": 0,
-                        "y": 0,
-                        "faceMultiplier": -1
-                    },
-                    "scale": {
-                        "x": 1,
-                        "y": 1
-                    },
-                    "originFactor": {
-                        "x": 1,
-                        "y": 0.5
+                "originFactor": {
+                    "x": 0.55,
+                    "y": 0.75
+                },
+                "children": [
+                    {
+                        "type": "SpriteObject",
+                        "identifier": "healthBarOpponent",
+                        "filePath": "Assets/Sprites/UI/health_bar.png",
+                        "position": {
+                            "x": 0,
+                            "y": -128
+                        },
+                        "scale": {
+                            "x": 1,
+                            "y": 1
+                        },
+                        "originFactor": {
+                            "x": 0.5,
+                            "y": 0.5
+                        },
+                        "children": [
+                            {
+                                "type": "SpriteObject",
+                                "identifier": "healthBarFillOpponent",
+                                "filePath": "Assets/Sprites/UI/health_bar_fill.png",
+                                "position": {
+                                    "x": 72,
+                                    "y": 0
+                                },
+                                "scale": {
+                                    "x": 1,
+                                    "y": 1
+                                },
+                                "originFactor": {
+                                    "x": 1,
+                                    "y": 0.5
+                                },
+                                "children": []
+                            }
+                        ]
                     }
-                }
+                ]
             }
         ]
     }

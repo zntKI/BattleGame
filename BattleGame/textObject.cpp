@@ -1,9 +1,10 @@
 #include "textObject.hpp"
 
-TextObject::TextObject( const std::string& identifier, const std::string& textStr,
+TextObject::TextObject( const std::string& identifier, const GameObject* parent,
+	const std::string& textStr,
 	const sf::Vector2f position, const sf::Vector2f originFactor,
 	sf::Font& font, sf::Color color, unsigned int characterSize )
-	: GameObject( identifier, position ), font( font ), textColor( color ), textStr( textStr ), characterSize( characterSize )
+	: GameObject( identifier, parent, position ), font( font ), textColor( color ), textStr( textStr ), characterSize( characterSize )
 {
 	this->text.setFont( this->font );
 	this->text.setFillColor( this->textColor );

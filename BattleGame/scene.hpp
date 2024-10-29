@@ -2,8 +2,10 @@
 
 #include <string>
 #include <SFML/Graphics.hpp>
+#include <nlohmann/json.hpp>
 
 #include "gameObject.hpp"
+#include "button.hpp"
 
 class Scene
 {
@@ -25,4 +27,12 @@ public:
 	void render( sf::RenderWindow& window );
 
 	std::string getIdentifier() const;
+
+protected:
+	virtual void setupObject( const GameObject* parent, const nlohmann::json& objectData ) = 0;
+
+	virtual GameObject* setupGameObject( const GameObject* parent, const nlohmann::json& gameObjectData );
+	virtual SpriteObject* setupSpriteObject( const GameObject* parent, const nlohmann::json& spriteObjectData );
+	virtual Button* setupButton( const GameObject* parent, const nlohmann::json& buttonData );
+	virtual TextObject* setupTextObject( const GameObject* parent, const nlohmann::json& textObjectData );
 };

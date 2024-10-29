@@ -2,10 +2,11 @@
 
 #include "FPSCounter.hpp"
 
-FPSCounter::FPSCounter( const std::string& identifier, const std::string& textStr,
+FPSCounter::FPSCounter( const std::string& identifier, const GameObject* parent,
+	const std::string& textStr,
 	const sf::Vector2f position, const sf::Vector2f originFactor,
 	sf::Font& font, sf::Color color, unsigned int characterSize )
-	: TextObject( identifier, textStr, position, originFactor, font, color, characterSize )
+	: TextObject( identifier, parent, textStr, position, originFactor, font, color, characterSize )
 {
 	this->elapsed = clock.getElapsedTime();
 }

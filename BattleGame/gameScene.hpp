@@ -17,13 +17,10 @@ public:
 
 	~GameScene();
 
-	void setupScene( const std::string& sceneConfigFilePath ) override;
-
 private:
-	void setupGameObject( const nlohmann::json& gameObjectData );
+	void setupObject( const GameObject* parent, const nlohmann::json& objectData ) override;
 
-	void setupSpriteObject( const nlohmann::json& charactersData );
-	void setupCharacter( const nlohmann::json& charactersData );
+	Character* setupCharacter( const GameObject* parent, const nlohmann::json& charactersData );
 	/// <summary>
 	/// get a random value from the values presented with the given property
 	/// </summary>

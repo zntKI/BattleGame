@@ -15,9 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="FPSCounter.cpp">
-      <Filter>Objects</Filter>
-    </ClCompile>
     <ClCompile Include="gameObject.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
@@ -39,9 +36,6 @@
     <ClCompile Include="utils.cpp">
       <Filter>Main</Filter>
     </ClCompile>
-    <ClCompile Include="button.cpp">
-      <Filter>Objects</Filter>
-    </ClCompile>
     <ClCompile Include="animationSpriteObject.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
@@ -51,11 +45,17 @@
     <ClCompile Include="character.cpp">
       <Filter>Entities</Filter>
     </ClCompile>
+    <ClCompile Include="button.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="FPSCounter.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="menuScene.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="FPSCounter.hpp">
-      <Filter>Objects</Filter>
-    </ClInclude>
     <ClInclude Include="gameObject.hpp">
       <Filter>Objects</Filter>
     </ClInclude>
@@ -74,9 +74,6 @@
     <ClInclude Include="utils.hpp">
       <Filter>Main</Filter>
     </ClInclude>
-    <ClInclude Include="button.hpp">
-      <Filter>Objects</Filter>
-    </ClInclude>
     <ClInclude Include="animationSpriteObject.hpp">
       <Filter>Objects</Filter>
     </ClInclude>
@@ -85,6 +82,15 @@
     </ClInclude>
     <ClInclude Include="character.hpp">
       <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="button.hpp">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="FPSCounter.hpp">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="menuScene.hpp">
+      <Filter>Scenes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -14,7 +14,7 @@ protected:
 	std::map<std::string, GameObject*> children;
 
 public:
-	GameObject( const std::string& identifier,
+	GameObject( const std::string& identifier, const GameObject* parent,
 		const sf::Vector2f position = sf::Vector2f( 0.f, 0.f ) );
 	GameObject( const GameObject& other );
 
@@ -28,6 +28,8 @@ protected:
 	virtual void setPosition( sf::Vector2f position );
 
 public:
+	void finishInit();
+
 	std::string getIdentifier() const;
 	sf::Vector2f getLocalPosition() const;
 	sf::Vector2f getGlobalPosition() const;

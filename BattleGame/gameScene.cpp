@@ -13,64 +13,45 @@ GameScene::GameScene( const std::string& identifier )
 
 GameScene::~GameScene()
 {
-	for ( auto obj : gameObjects ) {
-		delete obj;
-		Utils::logMessage( "Deleted!" );
-	}
 }
 
-void GameScene::setupScene( const std::string& sceneConfigFilePath )
+void GameScene::setupObject( const GameObject* parent, const nlohmann::json& objectData )
 {
-	// Read that from file and cast it to json
-	std::ifstream file( sceneConfigFilePath );
-	if ( !file.fail() ) {
+	std::string gameObjectType = objectData[ "type" ];
 
-		nlohmann::json gameObjectsData = nlohmann::json::parse( file )[ "gameScene" ][ "gameObjects" ];
-
-		for ( auto& gameObjectData : gameObjectsData ) {
-			this->setupGameObject( gameObjectData );
-		}
-
-		file.close();
-
-	}
-}
-
-void GameScene::setupGameObject( const nlohmann::json& gameObjectData )
-{
-	std::string gameObjectType = gameObjectData[ "type" ];
+	GameObject* objToCreate = nullptr;
 
 	if ( gameObjectType == "SpriteObject" ) {
-		this->setupSpriteObject( gameObjectData );
+		objToCreate = this->setupSpriteObject( parent, objectData );
 	}
 	else if ( gameObjectType == "Character" ) {
-		this->setupCharacter( gameObjectData );
+		
+		objToCreate = this->setupCharacter( parent, objectData );
+
+		if ( objToCreate->getIdentifier() == "player" ) {
+			player = dynamic_cast< Character* >(objToCreate);
+		}
+		else {
+			opponent = dynamic_cast< Character* >( objToCreate );
+		}
+
+	}
+	else {
+		Utils::logError( "Invalid type of object from file - check in json file!" );
+		return;
+	}
+
+	for ( auto& childObjectData : objectData[ "children" ] ) {
+		this->setupObject( objToCreate, childObjectData );
 	}
 }
 
-void GameScene::setupSpriteObject( const nlohmann::json& bgData )
+Character* GameScene::setupCharacter( const GameObject* parent, const nlohmann::json& charactersData )
 {
-	this->gameObjects.emplace_back( new SpriteObject(
+	nlohmann::json spriteSheetConfigData = charactersData[ "spriteSheetConfig" ]; // All possible sprites
 
-		bgData[ "identifier" ],
-		bgData[ "filePath" ][ rand() % bgData[ "filePath" ].size() ],
-		sf::Vector2f( bgData[ "position" ][ "x" ],
-			bgData[ "position" ][ "y" ] ),
-		sf::Vector2f( bgData[ "scale" ][ "x" ],
-			bgData[ "scale" ][ "y" ] ),
-		sf::Vector2f( bgData[ "originFactor" ][ "x" ],
-			bgData[ "originFactor" ][ "y" ] )
-
-	) );
-}
-
-void GameScene::setupCharacter( const nlohmann::json& charactersData )
-{
-	nlohmann::json characterSpriteData = charactersData[ "characterSprite" ];
-	nlohmann::json spriteSheetConfigData = characterSpriteData[ "spriteSheetConfig" ]; // All possible sprites
-
-	int randSpriteIndex = rand() % spriteSheetConfigData.size();
-	nlohmann::json chosenSpriteSheetData = spriteSheetConfigData[ randSpriteIndex ]; // The chosen one
+	int randSpriteIndex = rand() % charactersData[ "spriteSheetConfig" ].size();
+	nlohmann::json chosenSpriteSheetData = charactersData[ "spriteSheetConfig" ][ randSpriteIndex ]; // The chosen one
 
 	// Emplace back with heap allocation
 	this->gameObjects.emplace_back( new Character(
@@ -83,57 +64,23 @@ void GameScene::setupCharacter( const nlohmann::json& charactersData )
 		this->getRndValueForCharSetup( "agility", charactersData ),
 		// Animation sprite specific:
 		charactersData[ "identifier" ],
+		parent,
 		chosenSpriteSheetData[ "filePath" ],
 		chosenSpriteSheetData[ "spriteSheetRows" ],
 		chosenSpriteSheetData[ "spriteSheetCols" ],
-		sf::Vector2f( characterSpriteData[ "position" ][ "x" ],
-			characterSpriteData[ "position" ][ "y" ] ),
-		sf::Vector2f( characterSpriteData[ "scale" ][ "x" ],
-			characterSpriteData[ "scale" ][ "y" ] ),
-		sf::Vector2f( characterSpriteData[ "originFactor" ][ "x" ],
-			characterSpriteData[ "originFactor" ][ "y" ] )
+		sf::Vector2f( charactersData[ "position" ][ "x" ],
+			charactersData[ "position" ][ "y" ] ),
+		sf::Vector2f( charactersData[ "scale" ][ "x" ],
+			charactersData[ "scale" ][ "y" ] ),
+		sf::Vector2f( charactersData[ "originFactor" ][ "x" ],
+			charactersData[ "originFactor" ][ "y" ] )
 
 	) );
-
-	nlohmann::json characterHealthBarData = charactersData[ "healthBar" ];
-	nlohmann::json characterHealthBarFillData = charactersData[ "healthBarFill" ];
 
 	Character* character = dynamic_cast< Character* >( this->gameObjects.back() ); // Get the character that has just been emplaced back
+	character->finishInit();
 
-	this->gameObjects.emplace_back( new SpriteObject(
-
-		characterHealthBarData[ "identifier" ],
-		characterHealthBarData[ "filePath" ],
-		character->getGlobalPosition() - sf::Vector2f( 0.f, character->getSpriteSize().y / 3.f ),
-		sf::Vector2f( characterHealthBarData[ "scale" ][ "x" ],
-			characterHealthBarData[ "scale" ][ "y" ] ),
-		sf::Vector2f( characterHealthBarData[ "originFactor" ][ "x" ],
-			characterHealthBarData[ "originFactor" ][ "y" ] )
-
-	) );
-	SpriteObject* healthBar = dynamic_cast< SpriteObject* >( this->gameObjects.back() );
-	character->setHealthBar( healthBar );
-
-	this->gameObjects.emplace_back( new SpriteObject(
-
-		characterHealthBarFillData[ "identifier" ],
-		characterHealthBarFillData[ "filePath" ],
-		healthBar->getGlobalPosition()
-			- sf::Vector2f( ( healthBar->getSpriteSize().x / 2.f ) * characterHealthBarFillData[ "position" ][ "faceMultiplier" ], 0.f),
-		sf::Vector2f( characterHealthBarFillData[ "scale" ][ "x" ],
-			characterHealthBarFillData[ "scale" ][ "y" ] ),
-		sf::Vector2f( characterHealthBarFillData[ "originFactor" ][ "x" ],
-			characterHealthBarFillData[ "originFactor" ][ "y" ] )
-
-	) );
-	character->setHealthBarFill( dynamic_cast< SpriteObject* >( this->gameObjects.back() ) );
-
-	if ( charactersData[ "identifier" ] == "player" ) {
-		player = character;
-	}
-	else {
-		opponent = character;
-	}
+	return character;
 }
 
 int GameScene::getRndValueForCharSetup( const std::string& propertyName, const nlohmann::json& charactersData )

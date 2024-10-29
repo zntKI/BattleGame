@@ -26,6 +26,7 @@
     <ClCompile Include="gameObject.cpp" />
     <ClCompile Include="gameScene.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="menuScene.cpp" />
     <ClCompile Include="scene.cpp" />
     <ClCompile Include="sceneManager.cpp" />
     <ClCompile Include="spriteObject.cpp" />
@@ -39,6 +40,7 @@
     <ClInclude Include="FPSCounter.hpp" />
     <ClInclude Include="gameObject.hpp" />
     <ClInclude Include="gameScene.hpp" />
+    <ClInclude Include="menuScene.hpp" />
     <ClInclude Include="scene.hpp" />
     <ClInclude Include="sceneManager.hpp" />
     <ClInclude Include="spriteObject.hpp" />

@@ -21,7 +21,8 @@ public:
 	/// </summary>
 	/// <param name="originFactor"> -> from 0 to 1 factor which will be then multiplied to the bounds of the sprite, if you want default value, pass (0.f, 0.f)</param>
 	/// <param name="scale"> -> if you want default value, pass (1.f, 1.f)</param>
-	SpriteObject( const std::string& identifier, const std::string& spriteFile,
+	SpriteObject( const std::string& identifier, const GameObject* parent,
+		const std::string& spriteFile,
 		const sf::Vector2f position, const sf::Vector2f scale, const sf::Vector2f originFactor );
 
 protected:
@@ -30,7 +31,8 @@ protected:
 	/// instead, does it in the animation sprite obj ctor in order to do it correctly
 	/// </summary>
 	/// <param name="scale"> -> if you want default value, pass (1.f, 1.f)</param>
-	SpriteObject( const std::string& identifier, const std::string& spriteFile,
+	SpriteObject( const std::string& identifier, const GameObject* parent,
+		const std::string& spriteFile,
 		const sf::Vector2f position, const sf::Vector2f scale );
 
 public:

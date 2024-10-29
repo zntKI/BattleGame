@@ -1,9 +1,10 @@
 #include "spriteObject.hpp"
 #include "utils.hpp"
 
-SpriteObject::SpriteObject( const std::string& identifier, const std::string& spriteFile,
+SpriteObject::SpriteObject( const std::string& identifier, const GameObject* parent,
+	const std::string& spriteFile,
 	const sf::Vector2f position, const sf::Vector2f scale, const sf::Vector2f originFactor )
-	: SpriteObject( identifier, spriteFile, position, scale )
+	: SpriteObject( identifier, parent, spriteFile, position, scale )
 {
 	setupOrigin( originFactor ); // Should be before setting scale
 
@@ -11,9 +12,10 @@ SpriteObject::SpriteObject( const std::string& identifier, const std::string& sp
 	this->sprite.setScale( this->scale ); // Called second to finalize sprite scaling
 }
 
-SpriteObject::SpriteObject( const std::string& identifier, const std::string& spriteFile,
+SpriteObject::SpriteObject( const std::string& identifier, const GameObject* parent,
+	const std::string& spriteFile,
 	const sf::Vector2f position, const sf::Vector2f scale )
-	: GameObject( identifier, position ), spriteFile( spriteFile ), scale( sf::Vector2f( 1.f, 1.f ) )
+	: GameObject( identifier, parent, position ), spriteFile( spriteFile ), scale( sf::Vector2f( 1.f, 1.f ) )
 {
 	if ( !this->texture.loadFromFile( this->spriteFile ) ) {
 		Utils::logError( "Unable to load texture from file!" );
