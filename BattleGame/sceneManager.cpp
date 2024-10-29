@@ -1,7 +1,7 @@
 #include "sceneManager.hpp"
 
-SceneManager::SceneManager( const std::string& sceneConfigFilePath )
-	: sceneConfigFilePath( sceneConfigFilePath )
+SceneManager::SceneManager( const std::string& sceneConfigFilePath, sf::RenderWindow& window )
+	: window( window ), sceneConfigFilePath( sceneConfigFilePath )
 {
 }
 
@@ -33,16 +33,13 @@ void SceneManager::render( sf::RenderWindow& window ) const
 void SceneManager::addScene( Scene& scene )
 {
 	this->scenes.emplace( scene.getIdentifier(), &scene );
-	if ( this->scenes.size() == 1 ) {
-		this->stackScene( scene.getIdentifier() );
-	}
 }
 
 void SceneManager::stackScene( std::string sceneName )
 {
 	Scene* scene = scenes[ sceneName ];
 	this->scenesStack.push( scene );
-	scene->setupScene( sceneConfigFilePath );
+	scene->setupScene( sceneConfigFilePath, this, this->window );
 }
 
 void SceneManager::popScene()

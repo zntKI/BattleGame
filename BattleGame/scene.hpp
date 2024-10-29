@@ -7,6 +7,8 @@
 #include "gameObject.hpp"
 #include "button.hpp"
 
+class SceneManager;
+
 class Scene
 {
 protected:
@@ -18,7 +20,8 @@ public:
 	virtual ~Scene();
 
 public:
-	virtual void setupScene( const std::string& sceneConfigFilePath );
+	virtual void setupScene( const std::string& sceneConfigFilePath,
+		SceneManager* sceneManager, sf::RenderWindow& window );
 
 	void addGameObject( GameObject& gameObject );
 

@@ -19,7 +19,8 @@ Scene::~Scene()
 	}
 }
 
-void Scene::setupScene( const std::string& sceneConfigFilePath )
+void Scene::setupScene( const std::string& sceneConfigFilePath,
+	SceneManager* sceneManager, sf::RenderWindow& window )
 {
 	// Read that from file and cast it to json
 	std::ifstream file( sceneConfigFilePath );

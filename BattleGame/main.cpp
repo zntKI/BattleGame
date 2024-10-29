@@ -22,12 +22,14 @@ int main()
 
 #pragma region SETUP_SCENE_GENERAL
 
-	SceneManager sceneManager( "Assets/configs/scenes.json" );
+	SceneManager sceneManager( "Assets/configs/scenes.json", window );
 
 	MenuScene menuScene( "menuScene" );
 	sceneManager.addScene( menuScene );
 	GameScene gameScene( "gameScene" );
 	sceneManager.addScene( gameScene );
+
+	sceneManager.stackScene( menuScene.getIdentifier() );
 
 	/*Scene scene1( "sceneMenu" );
 	Scene scene2( "sceneGameplay" );

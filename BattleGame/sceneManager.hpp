@@ -11,10 +11,12 @@ private:
 	std::map<std::string, Scene*> scenes;
 	std::stack<Scene*> scenesStack;
 
+	sf::RenderWindow& window;
+
 	const std::string sceneConfigFilePath;
 
 public:
-	SceneManager( const std::string& sceneConfigFilePath );
+	SceneManager( const std::string& sceneConfigFilePath, sf::RenderWindow& window );
 	~SceneManager();
 
 public:

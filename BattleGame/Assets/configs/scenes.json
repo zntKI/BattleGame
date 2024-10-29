@@ -364,6 +364,155 @@
                         ]
                     }
                 ]
+            },
+            {
+                "type": "SpriteObject",
+                "identifier": "optionsPanel",
+                "filePath": "Assets/Sprites/UI/text_area_flipped.png",
+                "position": {
+                    "x": 0,
+                    "y": 720
+                },
+                "scale": {
+                    "x": 4,
+                    "y": 5
+                },
+                "originFactor": {
+                    "x": 0,
+                    "y": 1
+                },
+                "children": [
+                    {
+                        "type": "GameObject",
+                        "identifier": "optionContainer",
+                        "position": {
+                            "x": 288,
+                            "y": -120
+                        },
+                        "children": [
+                            {
+                                "type": "Button",
+                                "identifier": "btnAttack",
+                                "spriteSheetConfig": {
+                                    "filePath": "Assets/Sprites/UI/btn2.png",
+                                    "spriteSheetRows": 1,
+                                    "spriteSheetCols": 3
+                                },
+                                "position": {
+                                    "x": -100,
+                                    "y": 0
+                                },
+                                "scale": {
+                                    "x": 2.5,
+                                    "y": 2.5
+                                },
+                                "originFactor": {
+                                    "x": 0.5,
+                                    "y": 0.5
+                                },
+                                "text": {
+                                    "identifier": "buttonAttackText",
+                                    "text": "Attack",
+                                    "position": {
+                                        "x": 0,
+                                        "y": 0
+                                    },
+                                    "originFactor": {
+                                        "x": 0.5,
+                                        "y": 0.5
+                                    }
+                                },
+                                "children": []
+                            },
+                            {
+                                "type": "Button",
+                                "identifier": "btnRecover",
+                                "spriteSheetConfig": {
+                                    "filePath": "Assets/Sprites/UI/btn2.png",
+                                    "spriteSheetRows": 1,
+                                    "spriteSheetCols": 3
+                                },
+                                "position": {
+                                    "x": 100,
+                                    "y": 0
+                                },
+                                "scale": {
+                                    "x": 2.5,
+                                    "y": 2.5
+                                },
+                                "originFactor": {
+                                    "x": 0.5,
+                                    "y": 0.5
+                                },
+                                "text": {
+                                    "identifier": "buttonRecoverText",
+                                    "text": "Recover",
+                                    "position": {
+                                        "x": 0,
+                                        "y": 0
+                                    },
+                                    "originFactor": {
+                                        "x": 0.5,
+                                        "y": 0.5
+                                    }
+                                },
+                                "children": []
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "type": "SpriteObject",
+                "identifier": "textArea",
+                "filePath": "Assets/Sprites/UI/text_area.png",
+                "position": {
+                    "x": 1280,
+                    "y": 720
+                },
+                "scale": {
+                    "x": 5,
+                    "y": 5
+                },
+                "originFactor": {
+                    "x": 1,
+                    "y": 1
+                },
+                "children": []
+            },
+            {
+                "type": "Button",
+                "identifier": "btnQuitGame",
+                "spriteSheetConfig": {
+                    "filePath": "Assets/Sprites/UI/btn.png",
+                    "spriteSheetRows": 1,
+                    "spriteSheetCols": 3
+                },
+                "position": {
+                    "x": 1280,
+                    "y": 0
+                },
+                "scale": {
+                    "x": 2,
+                    "y": 2
+                },
+                "originFactor": {
+                    "x": 1,
+                    "y": 0
+                },
+                "text": {
+                    "identifier": "btnQuitGameText",
+                    "text": "Quit",
+                    "position": {
+                        "x": -60,
+                        "y": 48
+                    },
+                    "originFactor": {
+                        "x": 0.5,
+                        "y": 0.5
+                    }
+                },
+                "children": []
             }
         ]
     }

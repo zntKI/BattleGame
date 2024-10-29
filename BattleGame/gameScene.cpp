@@ -7,12 +7,31 @@
 #include "utils.hpp"
 
 GameScene::GameScene( const std::string& identifier )
-	: Scene( identifier ), player( nullptr ), opponent( nullptr )
+	: Scene( identifier ), player( nullptr ), opponent( nullptr ),
+	btnAttack( nullptr ), btnRecover( nullptr ), btnQuitGame( nullptr )
 {
 }
 
 GameScene::~GameScene()
 {
+}
+
+void GameScene::setupScene( const std::string& sceneConfigFilePath, SceneManager* sceneManager, sf::RenderWindow& window )
+{
+	Scene::setupScene( sceneConfigFilePath, sceneManager, window );
+
+	// TODO: Implement character interactions:
+	/*this->btnAttack->setButtonAction( []() {
+
+
+
+		} );*/
+
+	this->btnQuitGame->setButtonAction( [ &window ]() {
+
+		window.close();
+
+		} );
 }
 
 void GameScene::setupObject( const GameObject* parent, const nlohmann::json& objectData )
@@ -25,16 +44,32 @@ void GameScene::setupObject( const GameObject* parent, const nlohmann::json& obj
 		objToCreate = this->setupSpriteObject( parent, objectData );
 	}
 	else if ( gameObjectType == "Character" ) {
-		
+
 		objToCreate = this->setupCharacter( parent, objectData );
 
 		if ( objToCreate->getIdentifier() == "player" ) {
-			player = dynamic_cast< Character* >(objToCreate);
+			player = dynamic_cast< Character* >( objToCreate );
 		}
 		else {
 			opponent = dynamic_cast< Character* >( objToCreate );
 		}
 
+	}
+	else if ( gameObjectType == "GameObject" ) {
+		objToCreate = this->setupGameObject( parent, objectData );
+	}
+	else if ( gameObjectType == "Button" ) {
+		objToCreate = this->setupButton( parent, objectData );
+
+		if ( objToCreate->getIdentifier() == "btnAttack" ) {
+			this->btnAttack = dynamic_cast< Button* >( objToCreate );
+		}
+		else if ( objToCreate->getIdentifier() == "btnRecover" ) {
+			this->btnRecover = dynamic_cast< Button* >( objToCreate );
+		}
+		else if ( objToCreate->getIdentifier() == "btnQuitGame" ) {
+			this->btnQuitGame = dynamic_cast< Button* >( objToCreate );
+		}
 	}
 	else {
 		Utils::logError( "Invalid type of object from file - check in json file!" );

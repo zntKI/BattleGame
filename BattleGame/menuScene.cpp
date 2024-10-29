@@ -1,6 +1,7 @@
 #include <nlohmann/json.hpp>
 
 #include "menuScene.hpp"
+#include "sceneManager.hpp"
 
 MenuScene::MenuScene( const std::string& identifier )
 	: Scene( identifier ),
@@ -12,6 +13,24 @@ MenuScene::MenuScene( const std::string& identifier )
 
 MenuScene::~MenuScene()
 {
+}
+
+void MenuScene::setupScene( const std::string& sceneConfigFilePath,
+	SceneManager* sceneManager, sf::RenderWindow& window )
+{
+	Scene::setupScene( sceneConfigFilePath, sceneManager, window );
+
+	this->btnPlay->setButtonAction( [ sceneManager ]() {
+
+		sceneManager->stackScene( "gameScene" );
+
+		} );
+
+	this->btnQuit->setButtonAction( [ &window ]() {
+
+		window.close();
+
+		} );
 }
 
 void MenuScene::setupObject( const GameObject* parent, const nlohmann::json& objectData )

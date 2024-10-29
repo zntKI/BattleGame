@@ -23,6 +23,9 @@ public:
 
 	~MenuScene();
 
+	void setupScene( const std::string& sceneConfigFilePath,
+		SceneManager* sceneManager, sf::RenderWindow& window ) override;
+
 private:
 	void setupObject( const GameObject* parent, const nlohmann::json& gameObjectData ) override;
 

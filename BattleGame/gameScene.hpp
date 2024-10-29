@@ -12,10 +12,17 @@ private:
 	Character* player;
 	Character* opponent;
 
+	Button* btnAttack;
+	Button* btnRecover;
+	Button* btnQuitGame;
+
 public:
 	GameScene( const std::string& identifier );
 
 	~GameScene();
+
+	void setupScene( const std::string& sceneConfigFilePath,
+		SceneManager* sceneManager, sf::RenderWindow& window ) override;
 
 private:
 	void setupObject( const GameObject* parent, const nlohmann::json& objectData ) override;
