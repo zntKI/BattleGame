@@ -10,6 +10,9 @@
     <Filter Include="Main">
       <UniqueIdentifier>{c0ff4f90-4dc5-447f-8eee-778469937183}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Entities">
+      <UniqueIdentifier>{6cd8045f-c8aa-4b3e-bb3f-efc56b995a28}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="FPSCounter.cpp">
@@ -42,6 +45,12 @@
     <ClCompile Include="animationSpriteObject.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
+    <ClCompile Include="gameScene.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="character.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FPSCounter.hpp">
@@ -70,6 +79,12 @@
     </ClInclude>
     <ClInclude Include="animationSpriteObject.hpp">
       <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="gameScene.hpp">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="character.hpp">
+      <Filter>Entities</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

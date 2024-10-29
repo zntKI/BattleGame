@@ -34,8 +34,10 @@ public:
 	GameObject* getParent() const;
 	void setParent( GameObject* parent );
 
+	void addChild( GameObject* child );
 	void addChild( GameObject& child );
 	void removeChild( const std::string childIdentifier );
+	void attachToParent( GameObject* parent );
 	void attachToParent( GameObject& parent );
 	void detachFromParent();
 

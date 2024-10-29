@@ -11,8 +11,10 @@ private:
 	std::map<std::string, Scene*> scenes;
 	std::stack<Scene*> scenesStack;
 
+	const std::string sceneConfigFilePath;
+
 public:
-	SceneManager();
+	SceneManager( const std::string& sceneConfigFilePath );
 	~SceneManager();
 
 public:
@@ -23,4 +25,5 @@ public:
 	void addScene( Scene& scene );
 	void stackScene( std::string sceneName );
 	void popScene();
+	void clearScenes();
 };

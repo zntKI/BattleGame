@@ -1,6 +1,5 @@
-[
-    {
-        "identifier": "sceneMenu",
+{
+    "menuScene": {
         "gameObjects": [
             {
                 "type": "Button",
@@ -69,5 +68,211 @@
                 }
             }
         ]
+    },
+    "gameScene": {
+        "gameObjects": [
+            {
+                "type": "SpriteObject",
+                "identifier": "bg",
+                "filePath": [
+                    "Assets/Sprites/Bgs/bg_dry.png",
+                    "Assets/Sprites/Bgs/bg_castle.png",
+                    "Assets/Sprites/Bgs/bg_sky.png",
+                    "Assets/Sprites/Bgs/bg_terrace.png"
+                ],
+                "position": {
+                    "x": 0,
+                    "y": 0
+                },
+                "scale": {
+                    "x": 0.333,
+                    "y": 0.333
+                },
+                "originFactor": {
+                    "x": 0,
+                    "y": 0
+                }
+            },
+            {
+                "type": "Character",
+                "identifier": "player",
+                "name": [
+                    "Trevor",
+                    "Michael",
+                    "Steve",
+                    "Kratos"
+                ],
+                "health": {
+                    "min": 20,
+                    "max": 30
+                },
+                "attackAmount": {
+                    "min": 5,
+                    "max": 7
+                },
+                "defenseAmount": {
+                    "min": 3,
+                    "max": 5
+                },
+                "agility": {
+                    "min": 1,
+                    "max": 2
+                },
+                "characterSprite": {
+                    "spriteSheetConfig": [
+                        {
+                            "filePath": "Assets/Sprites/Characters/FireWizard/fireWizard.png",
+                            "spriteSheetRows": 4,
+                            "spriteSheetCols": 7
+                        },
+                        {
+                            "filePath": "Assets/Sprites/Characters/LightningMage/lightningMage.png",
+                            "spriteSheetRows": 4,
+                            "spriteSheetCols": 7
+                        },
+                        {
+                            "filePath": "Assets/Sprites/Characters/WandererMagican/wandererMagician.png",
+                            "spriteSheetRows": 4,
+                            "spriteSheetCols": 7
+                        }
+                    ],
+                    "position": {
+                        "x": 320,
+                        "y": 360
+                    },
+                    "scale": {
+                        "x": 3,
+                        "y": 3
+                    },
+                    "originFactor": {
+                        "x": 0.45,
+                        "y": 0.75
+                    }
+                },
+                "healthBar": {
+                    "identifier": "healthBarPlayer",
+                    "filePath": "Assets/Sprites/UI/health_bar.png",
+                    "position": {
+                        "x": 0,
+                        "y": 0
+                    },
+                    "scale": {
+                        "x": 1,
+                        "y": 1
+                    },
+                    "originFactor": {
+                        "x": 0.5,
+                        "y": 0.5
+                    }
+                },
+                "healthBarFill": {
+                    "identifier": "healthBarFillPlayer",
+                    "filePath": "Assets/Sprites/UI/health_bar_fill.png",
+                    "position": {
+                        "x": 0,
+                        "y": 0,
+                        "faceMultiplier": 1
+                    },
+                    "scale": {
+                        "x": 1,
+                        "y": 1
+                    },
+                    "originFactor": {
+                        "x": 0,
+                        "y": 0.5
+                    }
+                }
+            },
+            {
+                "type": "Character",
+                "identifier": "opponent",
+                "name": [
+                    "Trevor",
+                    "Michael",
+                    "Steve",
+                    "Kratos"
+                ],
+                "health": {
+                    "min": 20,
+                    "max": 30
+                },
+                "attackAmount": {
+                    "min": 5,
+                    "max": 7
+                },
+                "defenseAmount": {
+                    "min": 3,
+                    "max": 5
+                },
+                "agility": {
+                    "min": 1,
+                    "max": 2
+                },
+                "characterSprite": {
+                    "spriteSheetConfig": [
+                        {
+                            "filePath": "Assets/Sprites/Characters/FireWizard/fireWizard_flipped.png",
+                            "spriteSheetRows": 4,
+                            "spriteSheetCols": 7
+                        },
+                        {
+                            "filePath": "Assets/Sprites/Characters/LightningMage/lightningMage_flipped.png",
+                            "spriteSheetRows": 4,
+                            "spriteSheetCols": 7
+                        },
+                        {
+                            "filePath": "Assets/Sprites/Characters/WandererMagican/wandererMagician_flipped.png",
+                            "spriteSheetRows": 4,
+                            "spriteSheetCols": 7
+                        }
+                    ],
+                    "position": {
+                        "x": 960,
+                        "y": 360
+                    },
+                    "scale": {
+                        "x": 3,
+                        "y": 3
+                    },
+                    "originFactor": {
+                        "x": 0.55,
+                        "y": 0.75
+                    }
+                },
+                "healthBar": {
+                    "identifier": "healthBarPlayer",
+                    "filePath": "Assets/Sprites/UI/health_bar.png",
+                    "position": {
+                        "x": 0,
+                        "y": 0
+                    },
+                    "scale": {
+                        "x": 1,
+                        "y": 1
+                    },
+                    "originFactor": {
+                        "x": 0.5,
+                        "y": 0.5
+                    }
+                },
+                "healthBarFill": {
+                    "identifier": "healthBarFillPlayer",
+                    "filePath": "Assets/Sprites/UI/health_bar_fill.png",
+                    "position": {
+                        "x": 0,
+                        "y": 0,
+                        "faceMultiplier": -1
+                    },
+                    "scale": {
+                        "x": 1,
+                        "y": 1
+                    },
+                    "originFactor": {
+                        "x": 1,
+                        "y": 0.5
+                    }
+                }
+            }
+        ]
     }
-]
+}

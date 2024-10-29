@@ -23,7 +23,7 @@ public:
 	/// <param name="scale"> -> if you want default value, pass (1.f, 1.f)</param>
 	SpriteObject( const std::string& identifier, const std::string& spriteFile,
 		const sf::Vector2f position, const sf::Vector2f scale, const sf::Vector2f originFactor );
-	
+
 protected:
 	/// <summary>
 	/// ctor for init of animation sprite objs - WITHOUT the functionality of setting the origin of the obj.<para/>

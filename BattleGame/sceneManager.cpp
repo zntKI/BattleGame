@@ -1,6 +1,7 @@
 #include "sceneManager.hpp"
 
-SceneManager::SceneManager()
+SceneManager::SceneManager( const std::string& sceneConfigFilePath )
+	: sceneConfigFilePath( sceneConfigFilePath )
 {
 }
 
@@ -39,10 +40,20 @@ void SceneManager::addScene( Scene& scene )
 
 void SceneManager::stackScene( std::string sceneName )
 {
-	this->scenesStack.push( scenes[ sceneName ] );
+	Scene* scene = scenes[ sceneName ];
+	this->scenesStack.push( scene );
+	scene->setupScene( sceneConfigFilePath );
 }
 
 void SceneManager::popScene()
 {
 	this->scenesStack.pop();
+}
+
+void SceneManager::clearScenes()
+{
+	while ( !this->scenesStack.empty() ) {
+		this->popScene();
+	}
+	scenes.clear();
 }

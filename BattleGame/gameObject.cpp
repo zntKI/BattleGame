@@ -68,23 +68,28 @@ void GameObject::move( const sf::Vector2f& position )
 	}
 }
 
-void GameObject::addChild( GameObject& child )
+void GameObject::addChild( GameObject* child )
 {
 	// Check if child already has an active parent
-	if ( child.getParent() != nullptr ) {
-		child.detachFromParent();
+	if ( child->getParent() != nullptr ) {
+		child->detachFromParent();
 	}
 
-	if ( this->children.find( child.getIdentifier() ) == this->children.end() ) {
-		this->children.emplace( child.getIdentifier(), &child );
-		child.setParent( this );
+	if ( this->children.find( child->getIdentifier() ) == this->children.end() ) {
+		this->children.emplace( child->getIdentifier(), child );
+		child->setParent( this );
 
 		// Sets local position of object after including it in the hierarchy
-		child.setPosition( child.getGlobalPosition() - child.getParent()->getGlobalPosition() );
+		child->setPosition( child->getGlobalPosition() - child->getParent()->getGlobalPosition() );
 	}
 	else {
 		Utils::logError( "Trying to make a game object child of another when it already is!" );
 	}
+}
+
+void GameObject::addChild( GameObject& child )
+{
+	this->addChild( &child );
 }
 
 void GameObject::removeChild( const std::string childIdentifier )
@@ -107,9 +112,14 @@ void GameObject::removeChild( const std::string childIdentifier )
 	}
 }
 
+void GameObject::attachToParent( GameObject* parent )
+{
+	parent->addChild( this );
+}
+
 void GameObject::attachToParent( GameObject& parent )
 {
-	parent.addChild( *this );
+	this->attachToParent( &parent );
 }
 
 void GameObject::detachFromParent()
