@@ -27,6 +27,9 @@
     <ClCompile Include="gameScene.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="menuScene.cpp" />
+    <ClCompile Include="opponent.cpp" />
+    <ClCompile Include="player.cpp" />
+    <ClCompile Include="projectile.cpp" />
     <ClCompile Include="scene.cpp" />
     <ClCompile Include="sceneManager.cpp" />
     <ClCompile Include="spriteObject.cpp" />
@@ -41,6 +44,9 @@
     <ClInclude Include="gameObject.hpp" />
     <ClInclude Include="gameScene.hpp" />
     <ClInclude Include="menuScene.hpp" />
+    <ClInclude Include="opponent.hpp" />
+    <ClInclude Include="player.hpp" />
+    <ClInclude Include="projectile.hpp" />
     <ClInclude Include="scene.hpp" />
     <ClInclude Include="sceneManager.hpp" />
     <ClInclude Include="spriteObject.hpp" />

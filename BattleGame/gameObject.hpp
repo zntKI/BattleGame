@@ -28,7 +28,7 @@ protected:
 	virtual void setPosition( sf::Vector2f position );
 
 public:
-	void finishInit();
+	virtual void finishInit();
 
 	std::string getIdentifier() const;
 	sf::Vector2f getLocalPosition() const;

@@ -3,9 +3,11 @@
 #include "utils.hpp"
 
 AnimationSpriteObject::AnimationSpriteObject( const std::string& identifier, const GameObject* parent,
-	const std::string& spriteFile, const int spriteSheetRows, const int spriteSheetCols,
+	const std::string& spriteFile, const int spriteSheetRows, const int spriteSheetCols, const int totalFrames,
 	const sf::Vector2f position, const sf::Vector2f scale, const sf::Vector2f originFactor )
-	: SpriteObject( identifier, parent, spriteFile, position, scale )
+	: SpriteObject( identifier, parent, spriteFile, position, scale ),
+	totalFrames( totalFrames ),
+	startFrame( 0 ), currentFrame( 0 ), numOfFrames( 1 ), frameSwitchTimeSec( .3f ), startFrameTextureRectCoor( sf::Vector2i( 0, 0 ) )
 {
 	sf::Vector2u textureSize = this->texture.getSize();
 
@@ -27,7 +29,7 @@ AnimationSpriteObject::AnimationSpriteObject( const std::string& identifier, con
 }
 
 AnimationSpriteObject::AnimationSpriteObject( const AnimationSpriteObject& other )
-	: SpriteObject( other )
+	: SpriteObject( other ), totalFrames( other.totalFrames ), startFrame( 0 ), currentFrame( 0 ), numOfFrames( 1 ), frameSwitchTimeSec( .3f ), startFrameTextureRectCoor( sf::Vector2i( 0, 0 ) )
 {
 }
 
@@ -37,32 +39,92 @@ AnimationSpriteObject::~AnimationSpriteObject()
 
 void AnimationSpriteObject::update()
 {
-	// TODO: Implement setting animation cycles later!!!
-	/*this->elapsed = this->clock.getElapsedTime();
+	this->elapsed = this->clock.getElapsedTime();
 
 	if ( this->elapsed.asSeconds() >= this->frameSwitchTimeSec ) {
-		setTextureRect();
+		this->nextFrame();
 		this->clock.restart();
-	}*/
+	}
 
 	SpriteObject::update();
 }
 
+void AnimationSpriteObject::nextFrame()
+{
+	this->currentFrame++;
+	if ( this->currentFrame >= this->startFrame + this->numOfFrames ) {
+		this->currentFrame = this->startFrame;
+	}
+
+	setTextureRect();
+}
+
 void AnimationSpriteObject::setTextureRect()
 {
-	sf::Vector2u textureSize = this->texture.getSize();
+	if ( currentFrame == startFrame ) {
+		this->textureRect.left = startFrameTextureRectCoor.x;
+		this->textureRect.top = startFrameTextureRectCoor.y;
+	}
+	else {
 
-	this->textureRect.left += this->textureRect.width;
-	if ( this->textureRect.left >= textureSize.x ) {
+		sf::Vector2u textureSize = this->texture.getSize();
 
-		this->textureRect.left = 0;
-		this->textureRect.top += this->textureRect.height;
+		this->textureRect.left += this->textureRect.width;
+		if ( this->textureRect.left >= textureSize.x ) {
 
-		if ( this->textureRect.top >= textureSize.y ) {
-
-			this->textureRect.top = 0;
+			this->textureRect.left = 0;
+			this->textureRect.top += this->textureRect.height;
 		}
+
 	}
 
 	this->sprite.setTextureRect( this->textureRect );
+}
+
+void AnimationSpriteObject::setCycle( int startFrame, int numOfFrames, float frameSwitchTimeSec )
+{
+	if ( startFrame < 0 || startFrame > this->totalFrames - 1 ) {
+		Utils::logError( "Invalid start frame index!" );
+		return;
+	}
+	if ( frameSwitchTimeSec <= 0.f ) {
+		Utils::logError( "Invalid frameSwitchTimeSec!" );
+		return;
+	}
+	if ( numOfFrames == -1 || numOfFrames > totalFrames - startFrame ) {
+		numOfFrames = totalFrames - startFrame;
+	}
+
+	this->startFrame = startFrame;
+	this->currentFrame = startFrame;
+	this->numOfFrames = numOfFrames;
+	this->frameSwitchTimeSec = frameSwitchTimeSec;
+
+	if ( startFrame == 0 ) {
+		this->startFrameTextureRectCoor.x = this->startFrameTextureRectCoor.y = 0;
+	}
+	else {
+
+		this->startFrameTextureRectCoor.x = this->startFrameTextureRectCoor.y = 0;
+
+		sf::Vector2u textureSize = this->texture.getSize();
+
+		int frameCounter = 0;
+		while ( frameCounter < startFrame ) {
+
+			this->startFrameTextureRectCoor.x += this->textureRect.width;
+			if ( this->startFrameTextureRectCoor.x >= textureSize.x ) {
+
+				this->startFrameTextureRectCoor.x = 0;
+				this->startFrameTextureRectCoor.y += this->textureRect.height;
+			}
+
+			frameCounter++;
+
+		}
+
+	}
+
+	setTextureRect();
+	this->clock.restart();
 }

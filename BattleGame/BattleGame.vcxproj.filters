@@ -54,6 +54,15 @@
     <ClCompile Include="menuScene.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
+    <ClCompile Include="player.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="opponent.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="projectile.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="gameObject.hpp">
@@ -91,6 +100,15 @@
     </ClInclude>
     <ClInclude Include="menuScene.hpp">
       <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="player.hpp">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="opponent.hpp">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="projectile.hpp">
+      <Filter>Entities</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

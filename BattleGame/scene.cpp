@@ -83,6 +83,7 @@ Button* Scene::setupButton( const GameObject* parent, const nlohmann::json& butt
 		buttonData[ "spriteSheetConfig" ][ "filePath" ],
 		buttonData[ "spriteSheetConfig" ][ "spriteSheetRows" ],
 		buttonData[ "spriteSheetConfig" ][ "spriteSheetCols" ],
+		buttonData[ "spriteSheetConfig" ][ "totalFrames" ],
 		sf::Vector2f( buttonData[ "position" ][ "x" ],
 			buttonData[ "position" ][ "y" ] ),
 		sf::Vector2f( buttonData[ "scale" ][ "x" ],
@@ -95,23 +96,7 @@ Button* Scene::setupButton( const GameObject* parent, const nlohmann::json& butt
 	Button* btn = dynamic_cast< Button* >( this->gameObjects.back() );
 	btn->finishInit();
 
-
-	nlohmann::json textData = buttonData[ "text" ];
-	this->gameObjects.emplace_back( new TextObject(
-
-		textData[ "identifier" ],
-		btn,
-		textData[ "text" ],
-		sf::Vector2f( textData[ "position" ][ "x" ],
-			textData[ "position" ][ "y" ] ),
-		sf::Vector2f( textData[ "originFactor" ][ "x" ],
-			textData[ "originFactor" ][ "y" ] )
-
-	) );
-
-	TextObject* text = dynamic_cast< TextObject* >( this->gameObjects.back() );
-	text->finishInit();
-
+	TextObject* text = dynamic_cast< TextObject* >( this->setupTextObject( btn, buttonData[ "text" ] ) );
 	btn->setText( text );
 
 	return btn;
@@ -134,6 +119,30 @@ TextObject* Scene::setupTextObject( const GameObject* parent, const nlohmann::js
 	text->finishInit();
 
 	return text;
+}
+
+FPSCounter* Scene::setupFPSCounter( const GameObject* parent, const nlohmann::json& fpsCounterData )
+{
+	this->gameObjects.emplace_back( new FPSCounter(
+
+		fpsCounterData[ "identifier" ],
+		parent,
+		fpsCounterData[ "text" ],
+		sf::Vector2f( fpsCounterData[ "position" ][ "x" ],
+			fpsCounterData[ "position" ][ "y" ] ),
+		sf::Vector2f( fpsCounterData[ "originFactor" ][ "x" ],
+			fpsCounterData[ "originFactor" ][ "y" ] )
+
+	) );
+	FPSCounter* fpsCounter = dynamic_cast< FPSCounter* >( this->gameObjects.back() );
+	fpsCounter->finishInit();
+
+	return fpsCounter;
+}
+
+void Scene::addGameObject( GameObject* gameObject )
+{
+	gameObjects.push_back( gameObject );
 }
 
 void Scene::addGameObject( GameObject& gameObject )
