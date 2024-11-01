@@ -4,7 +4,8 @@
 
 AnimationSpriteObject::AnimationSpriteObject( const std::string& identifier, const GameObject* parent,
 	const std::string& spriteFile, const int spriteSheetRows, const int spriteSheetCols, const int totalFrames,
-	const sf::Vector2f position, const sf::Vector2f scale, const sf::Vector2f originFactor )
+	const sf::Vector2f position, const sf::Vector2f scale, const sf::Vector2f originFactor,
+	sf::Vector2f colliderSizeFactor )
 	: SpriteObject( identifier, parent, spriteFile, position, scale ),
 	totalFrames( totalFrames ),
 	startFrame( 0 ), currentFrame( 0 ), numOfFrames( 1 ), frameSwitchTimeSec( .3f ), startFrameTextureRectCoor( sf::Vector2i( 0, 0 ) )
@@ -21,10 +22,7 @@ AnimationSpriteObject::AnimationSpriteObject( const std::string& identifier, con
 
 		this->sprite.setTextureRect( this->textureRect );
 
-		setupOrigin( originFactor ); // Should be before setting scale
-
-		this->setScale( scale ); // Called first to correctly set the 'currentOriginCoor'
-		this->sprite.setScale( this->scale ); // Called second to finalize sprite scaling
+		this->finishSetup( originFactor, colliderSizeFactor, scale );
 	}
 }
 

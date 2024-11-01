@@ -4,8 +4,9 @@
 Button::Button( const std::string& identifier, const GameObject* parent,
 	const std::string& spriteFile,
 	const int spriteSheetRows, const int spriteSheetCols, const int totalFrames,
-	const sf::Vector2f position, const sf::Vector2f scale, const sf::Vector2f originFactor )
-	: AnimationSpriteObject( identifier, parent, spriteFile, spriteSheetRows, spriteSheetCols, totalFrames, position, scale, originFactor ),
+	const sf::Vector2f position, const sf::Vector2f scale, const sf::Vector2f originFactor,
+	sf::Vector2f colliderSizeFactor )
+	: AnimationSpriteObject( identifier, parent, spriteFile, spriteSheetRows, spriteSheetCols, totalFrames, position, scale, originFactor, colliderSizeFactor ),
 	text( nullptr )
 {
 }
@@ -31,21 +32,22 @@ void Button::update()
 
 void Button::handleEvent( const sf::Event& event, sf::RenderWindow& window )
 {
+	bool isMouseWithin = this->isCollidingWithPoint( sf::Mouse::getPosition( window ) );
+
 	if ( event.type == sf::Event::MouseMoved ) {
 
-		bool mouseWithin = isMouseWithin( window );
-		if ( this->textureRect.left == 0 && mouseWithin ) {
+		if ( this->textureRect.left == 0 && isMouseWithin ) {
 			this->textureRect.left += this->textureRect.width; // Switch to hover sprite
 		}
 		else if ( this->textureRect.left == 0 + this->textureRect.width
-			&& !mouseWithin ) {
+			&& !isMouseWithin ) {
 			this->textureRect.left = 0; // Switch back to normal sprite
 		}
 
 	}
 	else if ( event.type == sf::Event::MouseButtonPressed &&
 		event.mouseButton.button == sf::Mouse::Button::Left &&
-		isMouseWithin( window ) ) {
+		isMouseWithin ) {
 
 		this->textureRect.left += this->textureRect.width; // Switch to pressed sprite
 
@@ -53,13 +55,12 @@ void Button::handleEvent( const sf::Event& event, sf::RenderWindow& window )
 	else if ( event.type == sf::Event::MouseButtonReleased &&
 		event.mouseButton.button == sf::Mouse::Button::Left ) {
 
-		bool mouseWithin = isMouseWithin( window );
 		if ( this->textureRect.left == 0 + 2 * this->textureRect.width &&
-			!mouseWithin ) {
+			!isMouseWithin ) {
 			this->textureRect.left = 0; // Switch back to normal sprite
 		}
 		else if ( this->textureRect.left == 0 + 2 * this->textureRect.width &&
-			mouseWithin ) {
+			isMouseWithin ) {
 			this->textureRect.left = 0; // Switch back to normal sprite
 			this->onClick();
 		}
@@ -67,18 +68,6 @@ void Button::handleEvent( const sf::Event& event, sf::RenderWindow& window )
 	}
 
 	this->sprite.setTextureRect( this->textureRect );
-}
-
-bool Button::isMouseWithin( sf::RenderWindow& window ) const
-{
-	sf::Vector2i mousePos = sf::Mouse::getPosition( window );
-
-	auto spriteBounds = this->sprite.getGlobalBounds();
-	sf::Vector2f size( spriteBounds.width, spriteBounds.height );
-	sf::Vector2f position = this->sprite.getPosition();
-
-	return ( mousePos.x >= position.x - currentOriginCoor.x && mousePos.x <= ( position.x + size.x ) - currentOriginCoor.x ) &&
-		( mousePos.y >= position.y - currentOriginCoor.y && mousePos.y <= ( position.y + size.y ) - currentOriginCoor.y );
 }
 
 void Button::onClick()

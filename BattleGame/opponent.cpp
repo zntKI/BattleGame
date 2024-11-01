@@ -16,13 +16,14 @@ Opponent::Opponent(
 	// Animation sprite specific:
 	const std::string& identifier, const GameObject* parent,
 	const std::string& spriteFile, const int spriteSheetRows, const int spriteSheetCols, const int totalFrames,
-	const sf::Vector2f position, const sf::Vector2f scale, const sf::Vector2f originFactor )
+	const sf::Vector2f position, const sf::Vector2f scale, const sf::Vector2f originFactor,
+	sf::Vector2f colliderSizeFactor )
 	: Character( scene, name, health, attackAmount, defenseAmount, agility,
 		idleAnimStartFrame, idleAnimNumFrames, idleAnimFrameSwitchTimeSec, attackAnimStartFrame, attackAnimNumFrames, attackAnimFrameSwitchTimeSec,
 		hurtAnimStartFrame, hurtAnimNumFrames, hurtAnimFrameSwitchTimeSec, dieAnimStartFrame, dieAnimNumFrames, dieAnimFrameSwitchTimeSec,
 		projectileLaunchFrame,
 		projectileData,
-		identifier, parent, spriteFile, spriteSheetRows, spriteSheetCols, totalFrames, position, scale, originFactor ),
+		identifier, parent, spriteFile, spriteSheetRows, spriteSheetCols, totalFrames, position, scale, originFactor, colliderSizeFactor ),
 	charTurn( scene->getCharTurnState() )
 {
 }
@@ -35,10 +36,12 @@ void Opponent::update()
 		switch ( rndAction ) {
 		case 0: /*Attack*/
 
-			this->setAnimState( CharacterAnimState::Attack );
+			this->attack();
 
 			break;
 		case 1: /*Recover*/
+
+			this->recover();
 
 			break;
 		case 2: /*Do nothing*/
@@ -50,7 +53,6 @@ void Opponent::update()
 		}
 
 	}
-	this->scene.setCharacterTurn( CharacterTurn::None );
 
 	AnimationSpriteObject::update();
 }

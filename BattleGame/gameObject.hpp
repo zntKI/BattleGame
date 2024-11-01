@@ -4,6 +4,10 @@
 
 class GameObject
 {
+private:
+	bool shouldDestroy;
+	bool shouldLateDestroy;
+
 protected:
 	const std::string identifier;
 
@@ -53,4 +57,10 @@ public:
 	/// </summary>
 	/// <param name="position"> -> the desired displacement</param>
 	virtual void move( const sf::Vector2f& position );
+
+	void lateDestroy();
+	bool isLateDestroy() const;
+
+	void destroy();
+	bool isDestroy() const;
 };

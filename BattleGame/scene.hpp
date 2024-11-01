@@ -38,6 +38,10 @@ public:
 	std::string getIdentifier() const;
 
 protected:
+	virtual void handleLateDestroy();
+	virtual void destroyObj( const int objIndex );
+	virtual void deleteObj( const GameObject* const obj );
+
 	/// <summary>
 	/// pure virtual method to be overriden in child classes with its corresponding behaviour
 	/// </summary>

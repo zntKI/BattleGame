@@ -25,6 +25,10 @@
                             "x": 0.5,
                             "y": 0.5
                         },
+                        "colliderSizeFactor": {
+                            "x": 1,
+                            "y": 1
+                        },
                         "children": []
                     },
                     {
@@ -72,6 +76,10 @@
                             "x": 0.5,
                             "y": 0.5
                         },
+                        "colliderSizeFactor": {
+                            "x": 1,
+                            "y": 1
+                        },
                         "text": {
                             "identifier": "btnPlayText",
                             "text": "Play",
@@ -107,6 +115,10 @@
                             "x": 0.5,
                             "y": 0.5
                         },
+                        "colliderSizeFactor": {
+                            "x": 1,
+                            "y": 1
+                        },
                         "text": {
                             "identifier": "btnEraseText",
                             "text": "Erase",
@@ -141,6 +153,10 @@
                         "originFactor": {
                             "x": 0.5,
                             "y": 0.5
+                        },
+                        "colliderSizeFactor": {
+                            "x": 1,
+                            "y": 1
                         },
                         "text": {
                             "identifier": "btnQuitText",
@@ -178,6 +194,10 @@
                     "x": 0,
                     "y": 0
                 },
+                "colliderSizeFactor": {
+                    "x": 1,
+                    "y": 1
+                },
                 "children": []
             },
             {
@@ -211,27 +231,31 @@
                         "spriteSheetRows": 4,
                         "spriteSheetCols": 7,
                         "totalFrames": 24,
+                        "colliderSizeFactor": {
+                            "x": 0.12,
+                            "y": 0.5
+                        },
                         "animData": {
                             "idleAnimData": {
                                 "startFrame": 0,
                                 "numFrames": 7,
-                                "frameSwitchTimeSec": 0.8
+                                "frameSwitchTimeSec": 0.3
                             },
                             "attackAnimData": {
                                 "startFrame": 7,
                                 "numFrames": 8,
                                 "projectileLaunchFrame": 14,
-                                "frameSwitchTimeSec": 0.8
+                                "frameSwitchTimeSec": 0.3
                             },
                             "hurtAnimData": {
                                 "startFrame": 15,
                                 "numFrames": 3,
-                                "frameSwitchTimeSec": 0.8
+                                "frameSwitchTimeSec": 0.3
                             },
                             "dieAnimData": {
                                 "startFrame": 18,
                                 "numFrames": 6,
-                                "frameSwitchTimeSec": 0.8
+                                "frameSwitchTimeSec": 0.3
                             }
                         },
                         "projectile": {
@@ -250,6 +274,14 @@
                             "originFactor": {
                                 "x": 0.75,
                                 "y": 0.5
+                            },
+                            "colliderSizeFactor": {
+                                "x": 1,
+                                "y": 1
+                            },
+                            "moveVelocity": {
+                                "x": 3,
+                                "y": 0
                             }
                         }
                     },
@@ -258,27 +290,31 @@
                         "spriteSheetRows": 4,
                         "spriteSheetCols": 7,
                         "totalFrames": 22,
+                        "colliderSizeFactor": {
+                            "x": 0.12,
+                            "y": 0.5
+                        },
                         "animData": {
                             "idleAnimData": {
                                 "startFrame": 0,
                                 "numFrames": 7,
-                                "frameSwitchTimeSec": 0.8
+                                "frameSwitchTimeSec": 0.3
                             },
                             "attackAnimData": {
                                 "startFrame": 7,
                                 "numFrames": 7,
                                 "projectileLaunchFrame": 9,
-                                "frameSwitchTimeSec": 0.8
+                                "frameSwitchTimeSec": 0.3
                             },
                             "hurtAnimData": {
                                 "startFrame": 14,
                                 "numFrames": 3,
-                                "frameSwitchTimeSec": 0.8
+                                "frameSwitchTimeSec": 0.3
                             },
                             "dieAnimData": {
                                 "startFrame": 17,
                                 "numFrames": 5,
-                                "frameSwitchTimeSec": 0.8
+                                "frameSwitchTimeSec": 0.3
                             }
                         },
                         "projectile": {
@@ -297,6 +333,14 @@
                             "originFactor": {
                                 "x": 0.5,
                                 "y": 0.5
+                            },
+                            "colliderSizeFactor": {
+                                "x": 1,
+                                "y": 1
+                            },
+                            "moveVelocity": {
+                                "x": 3,
+                                "y": 0
                             }
                         }
                     },
@@ -305,27 +349,31 @@
                         "spriteSheetRows": 4,
                         "spriteSheetCols": 7,
                         "totalFrames": 22,
+                        "colliderSizeFactor": {
+                            "x": 0.12,
+                            "y": 0.5
+                        },
                         "animData": {
                             "idleAnimData": {
                                 "startFrame": 0,
                                 "numFrames": 8,
-                                "frameSwitchTimeSec": 0.8
+                                "frameSwitchTimeSec": 0.3
                             },
                             "attackAnimData": {
                                 "startFrame": 8,
                                 "numFrames": 6,
                                 "projectileLaunchFrame": 12,
-                                "frameSwitchTimeSec": 0.8
+                                "frameSwitchTimeSec": 0.3
                             },
                             "hurtAnimData": {
                                 "startFrame": 14,
                                 "numFrames": 4,
-                                "frameSwitchTimeSec": 0.8
+                                "frameSwitchTimeSec": 0.3
                             },
                             "dieAnimData": {
                                 "startFrame": 18,
                                 "numFrames": 4,
-                                "frameSwitchTimeSec": 0.8
+                                "frameSwitchTimeSec": 0.3
                             }
                         },
                         "projectile": {
@@ -333,6 +381,10 @@
                             "spriteSheetRows": 1,
                             "spriteSheetCols": 9,
                             "totalFrames": 9,
+                            "colliderSize": {
+                                "x": 16,
+                                "y": 64
+                            },
                             "position": {
                                 "x": 96,
                                 "y": -50
@@ -344,6 +396,14 @@
                             "originFactor": {
                                 "x": 0.75,
                                 "y": 0.5
+                            },
+                            "colliderSizeFactor": {
+                                "x": 1,
+                                "y": 1
+                            },
+                            "moveVelocity": {
+                                "x": 3,
+                                "y": 0
                             }
                         }
                     }
@@ -375,6 +435,10 @@
                     "originFactor": {
                         "x": 0.5,
                         "y": 0.5
+                    },
+                    "colliderSizeFactor": {
+                        "x": 1,
+                        "y": 1
                     }
                 },
                 "healthBarFill": {
@@ -392,6 +456,10 @@
                     "originFactor": {
                         "x": 0,
                         "y": 0.5
+                    },
+                    "colliderSizeFactor": {
+                        "x": 1,
+                        "y": 1
                     }
                 },
                 "children": []
@@ -427,27 +495,31 @@
                         "spriteSheetRows": 4,
                         "spriteSheetCols": 7,
                         "totalFrames": 24,
+                        "colliderSizeFactor": {
+                            "x": 0.12,
+                            "y": 0.5
+                        },
                         "animData": {
                             "idleAnimData": {
                                 "startFrame": 0,
                                 "numFrames": 7,
-                                "frameSwitchTimeSec": 0.9
+                                "frameSwitchTimeSec": 0.3
                             },
                             "attackAnimData": {
                                 "startFrame": 7,
                                 "numFrames": 8,
                                 "projectileLaunchFrame": 14,
-                                "frameSwitchTimeSec": 0.9
+                                "frameSwitchTimeSec": 0.3
                             },
                             "hurtAnimData": {
                                 "startFrame": 15,
                                 "numFrames": 3,
-                                "frameSwitchTimeSec": 0.9
+                                "frameSwitchTimeSec": 0.3
                             },
                             "dieAnimData": {
                                 "startFrame": 18,
                                 "numFrames": 6,
-                                "frameSwitchTimeSec": 0.9
+                                "frameSwitchTimeSec": 0.3
                             }
                         },
                         "projectile": {
@@ -466,6 +538,14 @@
                             "originFactor": {
                                 "x": 0.25,
                                 "y": 0.5
+                            },
+                            "colliderSizeFactor": {
+                                "x": 1,
+                                "y": 1
+                            },
+                            "moveVelocity": {
+                                "x": -3,
+                                "y": 0
                             }
                         }
                     },
@@ -474,27 +554,31 @@
                         "spriteSheetRows": 4,
                         "spriteSheetCols": 7,
                         "totalFrames": 22,
+                        "colliderSizeFactor": {
+                            "x": 0.12,
+                            "y": 0.5
+                        },
                         "animData": {
                             "idleAnimData": {
                                 "startFrame": 0,
                                 "numFrames": 7,
-                                "frameSwitchTimeSec": 0.9
+                                "frameSwitchTimeSec": 0.3
                             },
                             "attackAnimData": {
                                 "startFrame": 7,
                                 "numFrames": 7,
                                 "projectileLaunchFrame": 9,
-                                "frameSwitchTimeSec": 0.9
+                                "frameSwitchTimeSec": 0.3
                             },
                             "hurtAnimData": {
                                 "startFrame": 14,
                                 "numFrames": 3,
-                                "frameSwitchTimeSec": 0.9
+                                "frameSwitchTimeSec": 0.3
                             },
                             "dieAnimData": {
                                 "startFrame": 17,
                                 "numFrames": 5,
-                                "frameSwitchTimeSec": 0.9
+                                "frameSwitchTimeSec": 0.3
                             }
                         },
                         "projectile": {
@@ -513,6 +597,14 @@
                             "originFactor": {
                                 "x": 0.5,
                                 "y": 0.5
+                            },
+                            "colliderSizeFactor": {
+                                "x": 1,
+                                "y": 1
+                            },
+                            "moveVelocity": {
+                                "x": -3,
+                                "y": 0
                             }
                         }
                     },
@@ -521,27 +613,31 @@
                         "spriteSheetRows": 4,
                         "spriteSheetCols": 7,
                         "totalFrames": 22,
+                        "colliderSizeFactor": {
+                            "x": 0.12,
+                            "y": 0.5
+                        },
                         "animData": {
                             "idleAnimData": {
                                 "startFrame": 0,
                                 "numFrames": 8,
-                                "frameSwitchTimeSec": 0.9
+                                "frameSwitchTimeSec": 0.3
                             },
                             "attackAnimData": {
                                 "startFrame": 8,
                                 "numFrames": 6,
                                 "projectileLaunchFrame": 12,
-                                "frameSwitchTimeSec": 0.9
+                                "frameSwitchTimeSec": 0.3
                             },
                             "hurtAnimData": {
                                 "startFrame": 14,
                                 "numFrames": 4,
-                                "frameSwitchTimeSec": 0.9
+                                "frameSwitchTimeSec": 0.3
                             },
                             "dieAnimData": {
                                 "startFrame": 18,
                                 "numFrames": 4,
-                                "frameSwitchTimeSec": 0.9
+                                "frameSwitchTimeSec": 0.3
                             }
                         },
                         "projectile": {
@@ -560,6 +656,14 @@
                             "originFactor": {
                                 "x": 0.25,
                                 "y": 0.5
+                            },
+                            "colliderSizeFactor": {
+                                "x": 1,
+                                "y": 1
+                            },
+                            "moveVelocity": {
+                                "x": -3,
+                                "y": 0
                             }
                         }
                     }
@@ -591,6 +695,10 @@
                     "originFactor": {
                         "x": 0.5,
                         "y": 0.5
+                    },
+                    "colliderSizeFactor": {
+                        "x": 1,
+                        "y": 1
                     }
                 },
                 "healthBarFill": {
@@ -608,6 +716,10 @@
                     "originFactor": {
                         "x": 1,
                         "y": 0.5
+                    },
+                    "colliderSizeFactor": {
+                        "x": 1,
+                        "y": 1
                     }
                 },
                 "children": []
@@ -626,6 +738,10 @@
                 },
                 "originFactor": {
                     "x": 0,
+                    "y": 1
+                },
+                "colliderSizeFactor": {
+                    "x": 1,
                     "y": 1
                 },
                 "children": [
@@ -657,6 +773,10 @@
                                 "originFactor": {
                                     "x": 0.5,
                                     "y": 0.5
+                                },
+                                "colliderSizeFactor": {
+                                    "x": 1,
+                                    "y": 1
                                 },
                                 "text": {
                                     "identifier": "buttonAttackText",
@@ -693,6 +813,10 @@
                                     "x": 0.5,
                                     "y": 0.5
                                 },
+                                "colliderSizeFactor": {
+                                    "x": 1,
+                                    "y": 1
+                                },
                                 "text": {
                                     "identifier": "buttonRecoverText",
                                     "text": "Recover",
@@ -724,6 +848,10 @@
                     "y": 5
                 },
                 "originFactor": {
+                    "x": 1,
+                    "y": 1
+                },
+                "colliderSizeFactor": {
                     "x": 1,
                     "y": 1
                 },
@@ -764,6 +892,10 @@
                 "originFactor": {
                     "x": 1,
                     "y": 0
+                },
+                "colliderSizeFactor": {
+                    "x": 1,
+                    "y": 1
                 },
                 "text": {
                     "identifier": "btnQuitGameText",

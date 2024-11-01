@@ -22,11 +22,25 @@ void GameScene::setupScene( const std::string& sceneConfigFilePath, SceneManager
 	Scene::setupScene( sceneConfigFilePath, sceneManager, window );
 
 	// TODO: Implement character interactions:
-	/*this->btnAttack->setButtonAction( []() {
+	this->btnAttack->setButtonAction( [ this ]() {
 
+		if ( this->getCharTurnState() == CharacterTurn::PlayerTurn ) {
 
+			this->playerAttack();
 
-		} );*/
+		}
+
+		} );
+
+	this->btnRecover->setButtonAction( [ this ]() {
+
+		if ( this->getCharTurnState() == CharacterTurn::PlayerTurn ) {
+
+			this->playerRecover();
+
+		}
+
+		} );
 
 	this->btnQuitGame->setButtonAction( [ &window ]() {
 
@@ -113,9 +127,9 @@ Player* GameScene::setupPlayer( const GameObject* parent, const nlohmann::json& 
 		this->getRndValueForCharSetup( "attackAmount", charactersData ),
 		this->getRndValueForCharSetup( "defenseAmount", charactersData ),
 		this->getRndValueForCharSetup( "agility", charactersData ),
-		animData["idleAnimData"]["startFrame"],
-		animData["idleAnimData"]["numFrames"],
-		animData["idleAnimData"]["frameSwitchTimeSec"],
+		animData[ "idleAnimData" ][ "startFrame" ],
+		animData[ "idleAnimData" ][ "numFrames" ],
+		animData[ "idleAnimData" ][ "frameSwitchTimeSec" ],
 		animData[ "attackAnimData" ][ "startFrame" ],
 		animData[ "attackAnimData" ][ "numFrames" ],
 		animData[ "attackAnimData" ][ "frameSwitchTimeSec" ],
@@ -139,7 +153,9 @@ Player* GameScene::setupPlayer( const GameObject* parent, const nlohmann::json& 
 		sf::Vector2f( charactersData[ "scale" ][ "x" ],
 			charactersData[ "scale" ][ "y" ] ),
 		sf::Vector2f( charactersData[ "originFactor" ][ "x" ],
-			charactersData[ "originFactor" ][ "y" ] )
+			charactersData[ "originFactor" ][ "y" ] ),
+		sf::Vector2f( chosenSpriteSheetData[ "colliderSizeFactor" ][ "x" ],
+			chosenSpriteSheetData[ "colliderSizeFactor" ][ "y" ] )
 
 	) );
 
@@ -202,7 +218,9 @@ Opponent* GameScene::setupOpponent( const GameObject* parent, const nlohmann::js
 		sf::Vector2f( charactersData[ "scale" ][ "x" ],
 			charactersData[ "scale" ][ "y" ] ),
 		sf::Vector2f( charactersData[ "originFactor" ][ "x" ],
-			charactersData[ "originFactor" ][ "y" ] )
+			charactersData[ "originFactor" ][ "y" ] ),
+		sf::Vector2f( chosenSpriteSheetData[ "colliderSizeFactor" ][ "x" ],
+			chosenSpriteSheetData[ "colliderSizeFactor" ][ "y" ] )
 
 	) );
 
@@ -233,12 +251,34 @@ void GameScene::update()
 	Scene::update();
 }
 
+void GameScene::playerAttack()
+{
+	this->player->attack();
+}
+
+void GameScene::playerRecover()
+{
+	this->player->recover();
+}
+
 void GameScene::setCharacterTurn( CharacterTurn charTurn )
 {
 	this->charTurnState = charTurn;
 }
 
+void GameScene::swapCharacterTurn( bool isCharToSwapTo, const GameObject* const character )
+{
+	this->setCharacterTurn( isCharToSwapTo ?
+		( character == this->player ? CharacterTurn::PlayerTurn : CharacterTurn::OpponentTurn ) :
+		( character == this->player ? CharacterTurn::OpponentTurn : CharacterTurn::PlayerTurn ) );
+}
+
 const CharacterTurn& GameScene::getCharTurnState() const
 {
 	return this->charTurnState;
+}
+
+Character& GameScene::getOtherCharacter( const GameObject* const character ) const
+{
+	return character == this->player ? dynamic_cast< Character& >( *( this->opponent ) ) : dynamic_cast< Character& >( *( this->player ) );
 }

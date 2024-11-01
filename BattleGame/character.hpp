@@ -46,6 +46,7 @@ class Character : public AnimationSpriteObject
 protected:
 	const std::string name;
 	int health;
+	int currentHealth;
 
 	int attackAmount;
 	int defenseAmount;
@@ -60,10 +61,11 @@ protected:
 	GameScene& scene;
 
 	const int projectileLaunchFrame;
-	nlohmann::json projectileData; // Data stored for later initialization
+	nlohmann::json projectileData; // data stored for later initialization
 
 	SpriteObject* healthBar;
 	SpriteObject* healthBarFill;
+	float fractionForOneHealthPoint; // the percentage one health point takes from the whole health bar fill
 
 public:
 	Character(
@@ -79,7 +81,8 @@ public:
 		// Animation sprite specific:
 		const std::string& identifier, const GameObject* parent,
 		const std::string& spriteFile, const int spriteSheetRows, const int spriteSheetCols, const int totalFrames,
-		const sf::Vector2f position, const sf::Vector2f scale, const sf::Vector2f originFactor );
+		const sf::Vector2f position, const sf::Vector2f scale, const sf::Vector2f originFactor,
+		sf::Vector2f colliderSizeFactor );
 
 	int getAgility() const;
 
@@ -87,6 +90,11 @@ public:
 	/// sets anim state and also sets the animation cycle with the corresponding data
 	/// </summary>
 	void setAnimState( CharacterAnimState animState );
+
+	void takeDamage( int damageAmount );
+
+	void attack();
+	void recover();
 
 	void setHealthBar( SpriteObject* healthBar );
 	void setHealthBarFill( SpriteObject* healthBarFill );
@@ -102,4 +110,6 @@ protected:
 	/// creates projectile and adds it to scenes collection
 	/// </summary>
 	void createProjectile();
+
+	void setHealthBarFillScale( bool shouldReduce, int numOfHealthPoints );
 };

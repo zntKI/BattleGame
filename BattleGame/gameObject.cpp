@@ -5,7 +5,8 @@
 
 GameObject::GameObject( const std::string& identifier, const GameObject* parent,
 	const sf::Vector2f position )
-	: identifier( identifier ), parent( const_cast< GameObject* >( parent ) )
+	: identifier( identifier ), parent( const_cast< GameObject* >( parent ) ),
+	shouldLateDestroy( false ), shouldDestroy( false )
 {
 	if ( parent == nullptr ) {
 		this->globalPosition = position;
@@ -158,4 +159,38 @@ void GameObject::detachFromParent()
 void GameObject::setPosition( sf::Vector2f position )
 {
 	this->localPosition = position;
+}
+
+void GameObject::lateDestroy()
+{
+	this->shouldLateDestroy = true;
+
+	this->detachFromParent();
+	for ( auto element = this->children.begin(); element != this->children.end(); element++ ) {
+		
+		element->second->lateDestroy();
+
+	}
+}
+
+bool GameObject::isLateDestroy() const
+{
+	return this->shouldLateDestroy;
+}
+
+void GameObject::destroy()
+{
+	this->shouldDestroy = true;
+
+	this->detachFromParent();
+	for ( auto element = this->children.begin(); element != this->children.end(); element++ ) {
+
+		element->second->destroy();
+
+	}
+}
+
+bool GameObject::isDestroy() const
+{
+	return this->shouldDestroy;
 }

@@ -14,8 +14,7 @@ Scene::Scene( const std::string& identifier )
 Scene::~Scene()
 {
 	for ( auto obj : gameObjects ) {
-		delete obj;
-		Utils::logMessage( "Deleted!" );
+		deleteObj( obj );
 	}
 }
 
@@ -65,7 +64,9 @@ SpriteObject* Scene::setupSpriteObject( const GameObject* parent, const nlohmann
 		sf::Vector2f( spriteObjectData[ "scale" ][ "x" ],
 			spriteObjectData[ "scale" ][ "y" ] ),
 		sf::Vector2f( spriteObjectData[ "originFactor" ][ "x" ],
-			spriteObjectData[ "originFactor" ][ "y" ] )
+			spriteObjectData[ "originFactor" ][ "y" ] ),
+		sf::Vector2f( spriteObjectData[ "colliderSizeFactor" ][ "x" ],
+			spriteObjectData[ "colliderSizeFactor" ][ "y" ] )
 
 	) );
 	SpriteObject* sprite = dynamic_cast< SpriteObject* >( this->gameObjects.back() );
@@ -89,7 +90,9 @@ Button* Scene::setupButton( const GameObject* parent, const nlohmann::json& butt
 		sf::Vector2f( buttonData[ "scale" ][ "x" ],
 			buttonData[ "scale" ][ "y" ] ),
 		sf::Vector2f( buttonData[ "originFactor" ][ "x" ],
-			buttonData[ "originFactor" ][ "y" ] )
+			buttonData[ "originFactor" ][ "y" ] ),
+		sf::Vector2f( buttonData[ "colliderSizeFactor" ][ "x" ],
+			buttonData[ "colliderSizeFactor" ][ "y" ] )
 
 	) );
 
@@ -160,8 +163,39 @@ void Scene::handleEvent( const sf::Event& event, sf::RenderWindow& window )
 void Scene::update()
 {
 	for ( unsigned int i = 0; i < gameObjects.size(); i++ ) {
+		
 		gameObjects[ i ]->update();
+		if ( gameObjects[ i ]->isDestroy() ) {
+
+			destroyObj( i ); // instant Destroy
+
+		}
+
 	}
+	this->handleLateDestroy();
+}
+
+void Scene::handleLateDestroy()
+{
+	for ( unsigned int i = 0; i < gameObjects.size(); i++ ) {
+		if ( gameObjects[ i ]->isLateDestroy() ) {
+
+			destroyObj( i ); // late Destroy
+
+		}
+	}
+}
+
+void Scene::destroyObj( const int objIndex )
+{
+	deleteObj( gameObjects[ objIndex ] );
+	gameObjects.erase( gameObjects.begin() + ( objIndex ) );
+}
+
+void Scene::deleteObj( const GameObject* const obj )
+{
+	delete obj;
+	Utils::logMessage( "Deleted!" );
 }
 
 void Scene::render( sf::RenderWindow& window )

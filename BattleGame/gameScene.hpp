@@ -35,6 +35,11 @@ public:
 	~GameScene();
 
 	const CharacterTurn& getCharTurnState() const;
+	/// <summary>
+	/// gets one of the characters - player or opponent, and returns the other <para/>
+	/// used for projectile init
+	/// </summary>
+	Character& getOtherCharacter( const GameObject* const character ) const;
 
 	/// <summary>
 	/// override to finish setting up GameScene specific stuff
@@ -44,7 +49,16 @@ public:
 
 	void update() override;
 
+	void playerAttack();
+	void playerRecover();
+
 	void setCharacterTurn( CharacterTurn charTurn );
+	/// <summary>
+	/// swaps state between the two characters
+	/// </summary>
+	/// <param name="isCharToSwapTo"> -> true - swap to the state corresponding to the 'character' parameter; false - the opposite</param>
+	/// <param name="character"> -> the given character</param>
+	void swapCharacterTurn( bool isCharToSwapTo, const GameObject* const character );
 
 private:
 	/// <summary>
