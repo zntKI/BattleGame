@@ -3,6 +3,10 @@
 #include "gameScene.hpp"
 #include "projectile.hpp"
 
+#include <iostream>
+#include <sstream>
+#include <string>
+
 Character::Character(
 	// Character specific:
 	GameScene* scene,
@@ -28,6 +32,11 @@ Character::Character(
 	healthBar( nullptr ), healthBarFill( nullptr )
 {
 	this->setAnimState( CharacterAnimState::Idle );
+}
+
+const std::string& Character::getName() const
+{
+	return this->name;
 }
 
 int Character::getAgility() const
@@ -57,6 +66,9 @@ void Character::nextFrame()
 		else if ( this->animState == CharacterAnimState::Die ) {
 
 			this->currentFrame--;
+
+			this->scene.finishBattle( this );
+
 			return;
 
 		}
@@ -73,6 +85,7 @@ void Character::nextFrame()
 
 	}
 }
+
 
 void Character::createProjectile()
 {
@@ -144,14 +157,10 @@ void Character::takeDamage( int damageAmount )
 	}
 	else { // Hurt
 
-		if ( healthAfterDamage != this->currentHealth ) { // Only play animation if actually damaged
-			this->setAnimState( CharacterAnimState::Hurt );
-		}
-		else {
+		this->setAnimState( CharacterAnimState::Hurt );
+		if ( healthAfterDamage == this->currentHealth ) {
 
 			defenseAmount -= rand() % defenseAmount;
-
-			this->scene.swapCharacterTurn( true, this );
 
 		}
 
@@ -161,14 +170,22 @@ void Character::takeDamage( int damageAmount )
 
 	this->setHealthBarFillScale( true, damageAmount );
 
-	// send to scene to log
+
+	// Send to scene to log
+	std::ostringstream oss;
+	oss << this->name
+		<< ( dynamic_cast< Opponent* >( this ) != nullptr ? "(Enemy) " : "(Player) " )
+		<< "for " << damageAmount;
+	this->scene.appendToLastTextLog( oss.str() );
 }
 
 void Character::attack()
 {
-
 	this->setAnimState( CharacterAnimState::Attack );
 	this->scene.setCharacterTurn( CharacterTurn::None );
+
+	// Send to scene to log
+	this->scene.appendToLastTextLog( "Attacked and damaged " );
 }
 
 void Character::recover()
@@ -188,6 +205,13 @@ void Character::recover()
 	}
 
 	this->setHealthBarFillScale( false, healAmount );
+
+
+	// Send to scene to log
+	std::ostringstream oss;
+	oss << "Recovered by " << healAmount;
+	this->scene.appendToLastTextLog( oss.str() );
+
 
 	this->scene.swapCharacterTurn( false, this );
 }

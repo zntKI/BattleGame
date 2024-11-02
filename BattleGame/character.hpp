@@ -84,6 +84,7 @@ public:
 		const sf::Vector2f position, const sf::Vector2f scale, const sf::Vector2f originFactor,
 		sf::Vector2f colliderSizeFactor );
 
+	const std::string& getName() const;
 	int getAgility() const;
 
 	/// <summary>

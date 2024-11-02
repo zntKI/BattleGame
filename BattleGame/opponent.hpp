@@ -34,4 +34,6 @@ public:
 	/// override to deal with AI mechanics
 	/// </summary>
 	void update() override;
+
+	void doNothing();
 };

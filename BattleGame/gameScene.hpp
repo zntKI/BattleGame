@@ -27,12 +27,20 @@ private:
 	CharacterTurn charTurnState;
 
 	TextObject* currentFightText;
+	int numLinesVisible;
 	std::vector<std::string> fightLog;
+	int battleCount;
 
 public:
 	GameScene( const std::string& identifier );
 
 	~GameScene();
+
+	/// <summary>
+	/// override to finish setting up GameScene specific stuff
+	/// </summary>
+	void setupScene( const std::string& sceneConfigFilePath,
+		SceneManager* sceneManager, sf::RenderWindow& window ) override;
 
 	const CharacterTurn& getCharTurnState() const;
 	/// <summary>
@@ -41,16 +49,17 @@ public:
 	/// </summary>
 	Character& getOtherCharacter( const GameObject* const character ) const;
 
-	/// <summary>
-	/// override to finish setting up GameScene specific stuff
-	/// </summary>
-	void setupScene( const std::string& sceneConfigFilePath,
-		SceneManager* sceneManager, sf::RenderWindow& window ) override;
-
 	void update() override;
+
+	void updateFightText( const std::string& textToAdd );
+	void updateFightText( CharacterTurn currentCharTurn );
+
+	void appendToLastTextLog( const std::string& textToAdd );
 
 	void playerAttack();
 	void playerRecover();
+
+	void finishBattle( const GameObject* const deadChar );
 
 	void setCharacterTurn( CharacterTurn charTurn );
 	/// <summary>

@@ -859,7 +859,7 @@
                     {
                         "type": "TextObject",
                         "identifier": "currentFightText",
-                        "text": "Game started...",
+                        "text": "",
                         "position": {
                             "x": -630,
                             "y": -160

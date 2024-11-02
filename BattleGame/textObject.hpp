@@ -32,4 +32,7 @@ public:
 
 	void update() override;
 	void render( sf::RenderWindow& window ) override;
+
+	void setText( const std::string& textStr );
+	void setCharacterSize( unsigned int characterSize );
 };

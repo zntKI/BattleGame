@@ -8,7 +8,7 @@ TextObject::TextObject( const std::string& identifier, const GameObject* parent,
 {
 	this->text.setFont( this->font );
 	this->text.setFillColor( this->textColor );
-	this->text.setString( this->textStr );
+	this->setText( this->textStr );
 	this->text.setCharacterSize( this->characterSize );
 
 
@@ -67,4 +67,15 @@ void TextObject::update()
 void TextObject::render( sf::RenderWindow& window )
 {
 	window.draw( this->text );
+}
+
+void TextObject::setText( const std::string& textStr )
+{
+	this->text.setString( textStr );
+}
+
+void TextObject::setCharacterSize( unsigned int characterSize )
+{
+	this->characterSize = characterSize;
+	this->text.setCharacterSize( this->characterSize );
 }

@@ -46,6 +46,8 @@ void Opponent::update()
 			break;
 		case 2: /*Do nothing*/
 
+			this->doNothing();
+
 			break;
 		default:
 			Utils::logError( "Incorrectly generated rnd number in Opponent's update()!" );
@@ -55,4 +57,10 @@ void Opponent::update()
 	}
 
 	AnimationSpriteObject::update();
+}
+
+void Opponent::doNothing()
+{
+	this->scene.appendToLastTextLog( "Did nothing" );
+	this->scene.swapCharacterTurn( false, this );
 }
