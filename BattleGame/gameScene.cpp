@@ -1,17 +1,20 @@
 #include "gameScene.hpp"
+#include "sceneManager.hpp"
 
 #include <fstream>
 #include <nlohmann/json.hpp>
 #include <iostream>
 #include <sstream>
 #include <string>
+#include <filesystem>
 
 #include "utils.hpp"
 
-GameScene::GameScene( const std::string& identifier )
-	: Scene( identifier ), player( nullptr ), opponent( nullptr ),
-	btnAttack( nullptr ), btnRecover( nullptr ), btnQuitGame( nullptr ),
-	currentFightText( nullptr ), numLinesVisible( 4 ), battleCount( 1 ),
+GameScene::GameScene( const std::string& identifier, SceneManager& sceneManager,
+	const std::string& sceneConfigFilePath, const std::string& highScoresFilePath )
+	: Scene( identifier, sceneManager, sceneConfigFilePath, highScoresFilePath ), player( nullptr ), opponent( nullptr ),
+	btnAttack( nullptr ), btnRecover( nullptr ), btnContinueGame( nullptr ), btnQuitGame( nullptr ),
+	currentFightText( nullptr ), battleCount( 0 ), numOfHighScores( 5 ),
 	charTurnState( CharacterTurn::None )
 {
 }
@@ -20,9 +23,9 @@ GameScene::~GameScene()
 {
 }
 
-void GameScene::setupScene( const std::string& sceneConfigFilePath, SceneManager* sceneManager, sf::RenderWindow& window )
+void GameScene::setupScene( sf::RenderWindow& window )
 {
-	Scene::setupScene( sceneConfigFilePath, sceneManager, window );
+	Scene::setupScene( window );
 
 
 	// Btn implementation:
@@ -46,33 +49,20 @@ void GameScene::setupScene( const std::string& sceneConfigFilePath, SceneManager
 
 		} );
 
-	this->btnQuitGame->setButtonAction( [ &window ]() {
+	this->btnContinueGame->setButtonAction( [ this ]() {
 
-		window.close();
+		this->startNewBattle();
 
 		} );
 
 
-	// Fight log setup
-	this->currentFightText->setCharacterSize( 20 );
-	for ( unsigned int i = 0; i < this->numLinesVisible; i++ ) {
-		fightLog.push_back( "" );
-	}
+	// Sets up battle
+	this->setupBattle();
+}
 
-	std::ostringstream oss;
-	oss << "Start of Battle " << battleCount << ": ";
-	oss << this->player->getName() << "(You) " << "vs " << this->opponent->getName() << "(Enemy)";
-	this->updateFightText( oss.str() );
-
-
-	// Determine fight order
-	int playerAgility = this->player->getAgility();
-	int opponentAgility = this->opponent->getAgility();
-	bool isPlayerFirst = playerAgility > opponentAgility ? true :
-		( playerAgility < opponentAgility ? false : rand() % 2 /*if equal, rand decide*/ );
-
-	charTurnState = isPlayerFirst ? CharacterTurn::PlayerTurn : CharacterTurn::OpponentTurn;
-	this->updateFightText( charTurnState );
+void GameScene::reInitScene()
+{
+	// Only if necessary - look at gameMenu.cpp
 }
 
 void GameScene::setupObject( const GameObject* parent, const nlohmann::json& objectData )
@@ -102,16 +92,20 @@ void GameScene::setupObject( const GameObject* parent, const nlohmann::json& obj
 		else if ( objToCreate->getIdentifier() == "btnRecover" ) {
 			this->btnRecover = dynamic_cast< Button* >( objToCreate );
 		}
+		else if ( objToCreate->getIdentifier() == "btnContinueGame" ) {
+			this->btnContinueGame = dynamic_cast< Button* >( objToCreate );
+		}
 		else if ( objToCreate->getIdentifier() == "btnQuitGame" ) {
 			this->btnQuitGame = dynamic_cast< Button* >( objToCreate );
 		}
 	}
 	else if ( gameObjectType == "TextObject" ) {
 		objToCreate = this->setupTextObject( parent, objectData );
+	}
+	else if ( gameObjectType == "FightText" ) {
+		objToCreate = this->setupFightText( parent, objectData );
 
-		if ( objToCreate->getIdentifier() == "currentFightText" ) {
-			this->currentFightText = dynamic_cast< TextObject* >( objToCreate );
-		}
+		this->currentFightText = dynamic_cast< FightText* >( objToCreate );
 	}
 	else if ( gameObjectType == "FPSCounter" ) {
 		objToCreate = this->setupFPSCounter( parent, objectData );
@@ -264,9 +258,24 @@ int GameScene::getRndValueForCharSetup( const std::string& propertyName, const n
 	return minValue + ( rand() % ( ( maxValue + 1 ) - minValue ) );
 }
 
-void GameScene::update()
+FightText* GameScene::setupFightText( const GameObject* parent, const nlohmann::json& textObjectData )
 {
-	Scene::update();
+	this->gameObjects.emplace_back( new FightText(
+
+		textObjectData[ "identifier" ],
+		parent,
+		textObjectData[ "text" ],
+		textObjectData[ "numLinesVisible" ],
+		sf::Vector2f( textObjectData[ "position" ][ "x" ],
+			textObjectData[ "position" ][ "y" ] ),
+		sf::Vector2f( textObjectData[ "originFactor" ][ "x" ],
+			textObjectData[ "originFactor" ][ "y" ] )
+
+	) );
+	FightText* text = dynamic_cast< FightText* >( this->gameObjects.back() );
+	text->finishInit();
+
+	return text;
 }
 
 void GameScene::playerAttack()
@@ -279,19 +288,173 @@ void GameScene::playerRecover()
 	this->player->recover();
 }
 
+void GameScene::startNewBattle()
+{
+	// Start new battle with new enemy
+	std::ifstream file( this->sceneConfigFilePath );
+	if ( !file.fail() ) {
+
+		nlohmann::json gameObjectsData = nlohmann::json::parse( file )[ this->identifier ][ "gameObjects" ];
+
+		for ( auto& gameObjectData : gameObjectsData ) {
+			if ( gameObjectData[ "type" ] == "Opponent" ) {
+				this->setupObject( nullptr, gameObjectData );
+			}
+		}
+
+		file.close();
+
+	}
+
+	// Sets up battle
+	this->setupBattle();
+}
+
+void GameScene::setupBattle()
+{
+	this->btnAttack->setActive( true );
+	this->btnRecover->setActive( true );
+
+	this->btnContinueGame->setActive( false );
+	this->btnQuitGame->setButtonAction( [ this ]() {
+
+		// TODO: Save session data into continue.cmgt file
+		this->sceneManager.popScene();
+
+		} );
+
+	this->battleCount++;
+
+	// Fight log setup
+	std::ostringstream oss;
+	oss << "Start of Battle " << battleCount << ": ";
+	oss << this->player->getName() << "(You) " << "vs " << this->opponent->getName() << "(Enemy)";
+	this->currentFightText->updateFightText( oss.str() );
+
+
+	// Determine fight order
+	int playerAgility = this->player->getAgility();
+	int opponentAgility = this->opponent->getAgility();
+	bool isPlayerFirst = playerAgility > opponentAgility ? true :
+		( playerAgility < opponentAgility ? false : rand() % 2 /*if equal, rand decide*/ );
+
+	charTurnState = isPlayerFirst ? CharacterTurn::PlayerTurn : CharacterTurn::OpponentTurn;
+	this->updateFightText( charTurnState );
+}
+
 void GameScene::finishBattle( const GameObject* const deadChar )
 {
+	std::ostringstream oss;
+	oss << "End of Battle " << battleCount << ": ";
+
 	if ( deadChar == opponent ) {
 
-		// Start new battle with new enemy
+		oss << "Winner - " << this->player->getName() << "(You)";
+		this->currentFightText->updateFightText( oss.str() );
+
+		this->btnContinueGame->setActive( true );
 
 	}
 	else {
 
-		// Update high scores
-		// Go back to main menu
+		oss << "Winner - " << this->opponent->getName() << "(Enemy)";
+		this->currentFightText->updateFightText( oss.str() );
+
+		this->btnQuitGame->setButtonAction( [ this ]() {
+
+			this->updateHighScores();
+		this->sceneManager.popScene();
+
+			} );
 
 	}
+
+	this->btnAttack->setActive( false );
+	this->btnRecover->setActive( false );
+}
+
+void GameScene::updateHighScores()
+{
+	// Update high scores - char name + the sum of dealt damage
+
+	// TODO: figure out how to deal with the exe path:
+	/*	std::filesystem::path exePath = std::filesystem::current_path();
+	std::filesystem::path filePath = exePath / "example.txt";*/
+
+	std::fstream highScoreFile( this->highScoresFilePath, std::ios::in | std::ios::app );
+	if ( !highScoreFile.fail() ) {
+
+		std::vector<HighScore> presentHighScores;
+
+		// Read all the highscores:
+		std::string line;
+		while ( std::getline( highScoreFile, line ) ) {
+
+			size_t index = line.find( ' ' );
+			if ( index == std::string::npos ) {
+				Utils::logError( "Invalid data: Highscore is not in the right format!" );
+				highScoreFile.close();
+				return;
+			}
+
+			presentHighScores.push_back( { line.substr( 0, index ), std::stoi( line.substr( index + 1 ) ) } );
+
+		}
+
+		HighScore highScoreToAdd = { player->getName(), player->getDamageDealt() };
+
+		if ( presentHighScores.empty() ) { // If there are not yet any highscores aka file just created
+
+			// Add the current highscore
+			highScoreFile.close();
+			highScoreFile.open( this->highScoresFilePath, std::fstream::out | std::fstream::app );
+
+			highScoreFile << highScoreToAdd.name << " " << std::to_string( highScoreToAdd.score ) << "\n";
+
+		}
+		else {
+
+			int indexToInsertAt = -1;
+
+			for ( int i = presentHighScores.size() - 1; i >= 0; i-- ) {
+
+				HighScore currHighScore = presentHighScores[ i ];
+
+				if ( highScoreToAdd.score < currHighScore.score ) {
+
+					indexToInsertAt = i + 1;
+					break;
+
+				}
+
+			}
+
+			if ( indexToInsertAt == -1 ) { // If it wasn't set, it means the the given highscore is the highest so far and should be inserted on top
+				indexToInsertAt = 0;
+			}
+
+			presentHighScores.insert( presentHighScores.begin() + indexToInsertAt, highScoreToAdd );
+
+			// Close and reopen to trunc all data so that it can be writen again later
+			highScoreFile.close();
+			highScoreFile.open( this->highScoresFilePath, std::fstream::out | std::fstream::trunc );
+
+			unsigned int amountOfHighscores = presentHighScores.size() < this->numOfHighScores ? presentHighScores.size() : this->numOfHighScores;
+			for ( unsigned int i = 0; i < amountOfHighscores; i++ ) {
+
+				highScoreFile << presentHighScores[ i ].name << " " << presentHighScores[ i ].score << "\n";
+
+			}
+
+		}
+
+		highScoreFile.close();
+
+	}
+}
+
+void GameScene::addSessionToContinue()
+{
 }
 
 void GameScene::setCharacterTurn( CharacterTurn charTurn )
@@ -309,27 +472,6 @@ void GameScene::swapCharacterTurn( bool isCharToSwapTo, const GameObject* const 
 	this->updateFightText( turnToChangeTo );
 }
 
-void GameScene::updateFightText( const std::string& textToAdd )
-{
-	this->fightLog.push_back( textToAdd );
-
-	std::string finalText;
-
-	// Goes through the given number of lines and appends them to the visible text log
-	for ( auto line = this->fightLog.end() - this->numLinesVisible; line < this->fightLog.end(); line++ ) {
-
-		finalText += *line;
-		if ( line < this->fightLog.end() - 1 ) {
-
-			finalText += "\n";
-
-		}
-
-	}
-
-	this->currentFightText->setText( finalText );
-}
-
 void GameScene::updateFightText( CharacterTurn currentCharTurn )
 {
 	std::ostringstream oss;
@@ -340,13 +482,12 @@ void GameScene::updateFightText( CharacterTurn currentCharTurn )
 			? "(You): "
 			: "(Enemy): " );
 
-	this->updateFightText( oss.str() );
+	this->currentFightText->updateFightText( oss.str() );
 }
 
 void GameScene::appendToLastTextLog( const std::string& textToAdd )
 {
-	std::string& lastTextLog = this->fightLog.back();
-	lastTextLog += textToAdd;
+	this->currentFightText->appendToLastTextLog( textToAdd );
 }
 
 const CharacterTurn& GameScene::getCharTurnState() const

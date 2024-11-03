@@ -13,11 +13,11 @@ int main()
 
 #pragma region SETUP_SCENE_GENERAL
 
-	SceneManager sceneManager( "Assets/configs/scenes.json", window );
+	SceneManager sceneManager( window );
 
-	MenuScene menuScene( "menuScene" );
+	MenuScene menuScene( "menuScene", sceneManager, "Assets/configs/scenes.json", "Assets/configs/high_scores.cmgt" );
 	sceneManager.addScene( menuScene );
-	GameScene gameScene( "gameScene" );
+	GameScene gameScene( "gameScene", sceneManager, "Assets/configs/scenes.json", "Assets/configs/high_scores.cmgt" );
 	sceneManager.addScene( gameScene );
 
 	sceneManager.stackScene( menuScene.getIdentifier() );

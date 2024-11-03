@@ -65,10 +65,7 @@ void Character::nextFrame()
 		}
 		else if ( this->animState == CharacterAnimState::Die ) {
 
-			this->currentFrame--;
-
-			this->scene.finishBattle( this );
-
+			this->destroy();
 			return;
 
 		}
@@ -132,6 +129,7 @@ void Character::setAnimState( CharacterAnimState animState )
 		break;
 	case CharacterAnimState::Die:
 		this->setCycle( dieAnimData.getStartFrame(), dieAnimData.getNumFrames(), dieAnimData.getFrameSwitchTimeSec() );
+		this->scene.finishBattle( this );
 		break;
 	default:
 		Utils::logError( "Incorrect CharacterAnimState enum value!" );
@@ -139,7 +137,7 @@ void Character::setAnimState( CharacterAnimState animState )
 	}
 }
 
-void Character::takeDamage( int damageAmount )
+int Character::takeDamage( int damageAmount )
 {
 	damageAmount -= this->defenseAmount;
 	if ( damageAmount < 0 ) {
@@ -150,7 +148,7 @@ void Character::takeDamage( int damageAmount )
 	if ( healthAfterDamage <= 0 ) { // Dead
 
 		damageAmount = this->currentHealth;
-		this->currentHealth = 0.f;
+		this->currentHealth = 0;
 
 		this->setAnimState( CharacterAnimState::Die );
 
@@ -175,8 +173,11 @@ void Character::takeDamage( int damageAmount )
 	std::ostringstream oss;
 	oss << this->name
 		<< ( dynamic_cast< Opponent* >( this ) != nullptr ? "(Enemy) " : "(Player) " )
-		<< "for " << damageAmount;
+		<< "by " << damageAmount;
 	this->scene.appendToLastTextLog( oss.str() );
+
+
+	return damageAmount;
 }
 
 void Character::attack()
@@ -185,7 +186,7 @@ void Character::attack()
 	this->scene.setCharacterTurn( CharacterTurn::None );
 
 	// Send to scene to log
-	this->scene.appendToLastTextLog( "Attacked and damaged " );
+	this->scene.appendToLastTextLog( "Damaged " );
 }
 
 void Character::recover()

@@ -5,6 +5,8 @@
 class GameObject
 {
 private:
+	bool active;
+
 	bool shouldDestroy;
 	bool shouldLateDestroy;
 
@@ -57,6 +59,9 @@ public:
 	/// </summary>
 	/// <param name="position"> -> the desired displacement</param>
 	virtual void move( const sf::Vector2f& position );
+
+	void setActive( bool isActive );
+	bool isActive();
 
 	void lateDestroy();
 	bool isLateDestroy() const;

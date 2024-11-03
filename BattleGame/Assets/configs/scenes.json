@@ -49,6 +49,44 @@
             },
             {
                 "type": "GameObject",
+                "identifier": "highScoreContainer",
+                "position": {
+                    "x": 200,
+                    "y": 180
+                },
+                "children": [
+                    {
+                        "type": "TextObject",
+                        "identifier": "highScoreTitleText",
+                        "text": "High scores:",
+                        "position": {
+                            "x": 0,
+                            "y": 0
+                        },
+                        "originFactor": {
+                            "x": 0.5,
+                            "y": 0.5
+                        },
+                        "children": []
+                    },
+                    {
+                        "type": "TextObject",
+                        "identifier": "highScoresText",
+                        "text": "High scores:",
+                        "position": {
+                            "x": 0,
+                            "y": 60
+                        },
+                        "originFactor": {
+                            "x": 0.5,
+                            "y": 0
+                        },
+                        "children": []
+                    }
+                ]
+            },
+            {
+                "type": "GameObject",
                 "identifier": "btnContainer",
                 "position": {
                     "x": 640,
@@ -210,12 +248,12 @@
                     "Kratos"
                 ],
                 "health": {
-                    "min": 20,
-                    "max": 30
+                    "min": 1,
+                    "max": 5
                 },
                 "attackAmount": {
-                    "min": 5,
-                    "max": 7
+                    "min": 15,
+                    "max": 20
                 },
                 "defenseAmount": {
                     "min": 3,
@@ -280,7 +318,7 @@
                                 "y": 1
                             },
                             "moveVelocity": {
-                                "x": 3,
+                                "x": 5,
                                 "y": 0
                             }
                         }
@@ -339,7 +377,7 @@
                                 "y": 1
                             },
                             "moveVelocity": {
-                                "x": 3,
+                                "x": 5,
                                 "y": 0
                             }
                         }
@@ -402,7 +440,7 @@
                                 "y": 1
                             },
                             "moveVelocity": {
-                                "x": 3,
+                                "x": 5,
                                 "y": 0
                             }
                         }
@@ -478,8 +516,8 @@
                     "max": 30
                 },
                 "attackAmount": {
-                    "min": 5,
-                    "max": 7
+                    "min": 15,
+                    "max": 20
                 },
                 "defenseAmount": {
                     "min": 3,
@@ -733,7 +771,7 @@
                     "y": 720
                 },
                 "scale": {
-                    "x": 4,
+                    "x": 3,
                     "y": 5
                 },
                 "originFactor": {
@@ -749,7 +787,7 @@
                         "type": "GameObject",
                         "identifier": "optionContainer",
                         "position": {
-                            "x": 288,
+                            "x": 216,
                             "y": -120
                         },
                         "children": [
@@ -763,7 +801,7 @@
                                     "totalFrames": 3
                                 },
                                 "position": {
-                                    "x": -100,
+                                    "x": -80,
                                     "y": 0
                                 },
                                 "scale": {
@@ -802,7 +840,7 @@
                                     "totalFrames": 3
                                 },
                                 "position": {
-                                    "x": 100,
+                                    "x": 80,
                                     "y": 0
                                 },
                                 "scale": {
@@ -844,7 +882,7 @@
                     "y": 720
                 },
                 "scale": {
-                    "x": 5,
+                    "x": 6,
                     "y": 5
                 },
                 "originFactor": {
@@ -857,11 +895,12 @@
                 },
                 "children": [
                     {
-                        "type": "TextObject",
+                        "type": "FightText",
                         "identifier": "currentFightText",
                         "text": "",
+                        "numLinesVisible": 4,
                         "position": {
-                            "x": -630,
+                            "x": -760,
                             "y": -160
                         },
                         "originFactor": {
@@ -869,47 +908,96 @@
                             "y": 0
                         },
                         "children": []
+                    },
+                    {
+                        "type": "GameObject",
+                        "identifier": "navOptionContainer",
+                        "position": {
+                            "x": -200,
+                            "y": -120
+                        },
+                        "children": [
+                            {
+                                "type": "Button",
+                                "identifier": "btnContinueGame",
+                                "spriteSheetConfig": {
+                                    "filePath": "Assets/Sprites/UI/btn.png",
+                                    "spriteSheetRows": 1,
+                                    "spriteSheetCols": 3,
+                                    "totalFrames": 3
+                                },
+                                "position": {
+                                    "x": -80,
+                                    "y": 0
+                                },
+                                "scale": {
+                                    "x": 2.5,
+                                    "y": 2
+                                },
+                                "originFactor": {
+                                    "x": 0.5,
+                                    "y": 0.5
+                                },
+                                "colliderSizeFactor": {
+                                    "x": 1,
+                                    "y": 1
+                                },
+                                "text": {
+                                    "identifier": "btnContinueGameText",
+                                    "text": "Continue",
+                                    "position": {
+                                        "x": 0,
+                                        "y": 0
+                                    },
+                                    "originFactor": {
+                                        "x": 0.5,
+                                        "y": 0.5
+                                    }
+                                },
+                                "children": []
+                            },
+                            {
+                                "type": "Button",
+                                "identifier": "btnQuitGame",
+                                "spriteSheetConfig": {
+                                    "filePath": "Assets/Sprites/UI/btn.png",
+                                    "spriteSheetRows": 1,
+                                    "spriteSheetCols": 3,
+                                    "totalFrames": 3
+                                },
+                                "position": {
+                                    "x": 60,
+                                    "y": 0
+                                },
+                                "scale": {
+                                    "x": 2,
+                                    "y": 2
+                                },
+                                "originFactor": {
+                                    "x": 0.5,
+                                    "y": 0.5
+                                },
+                                "colliderSizeFactor": {
+                                    "x": 1,
+                                    "y": 1
+                                },
+                                "text": {
+                                    "identifier": "btnQuitGameText",
+                                    "text": "Quit",
+                                    "position": {
+                                        "x": 0,
+                                        "y": 0
+                                    },
+                                    "originFactor": {
+                                        "x": 0.5,
+                                        "y": 0.5
+                                    }
+                                },
+                                "children": []
+                            }
+                        ]
                     }
                 ]
-            },
-            {
-                "type": "Button",
-                "identifier": "btnQuitGame",
-                "spriteSheetConfig": {
-                    "filePath": "Assets/Sprites/UI/btn.png",
-                    "spriteSheetRows": 1,
-                    "spriteSheetCols": 3,
-                    "totalFrames": 3
-                },
-                "position": {
-                    "x": 1280,
-                    "y": 0
-                },
-                "scale": {
-                    "x": 2,
-                    "y": 2
-                },
-                "originFactor": {
-                    "x": 1,
-                    "y": 0
-                },
-                "colliderSizeFactor": {
-                    "x": 1,
-                    "y": 1
-                },
-                "text": {
-                    "identifier": "btnQuitGameText",
-                    "text": "Quit",
-                    "position": {
-                        "x": -60,
-                        "y": 48
-                    },
-                    "originFactor": {
-                        "x": 0.5,
-                        "y": 0.5
-                    }
-                },
-                "children": []
             },
             {
                 "type": "FPSCounter",

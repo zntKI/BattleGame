@@ -36,4 +36,7 @@ public:
 	void update() override;
 
 	void doNothing();
+
+private:
+	void nextFrame() override;
 };

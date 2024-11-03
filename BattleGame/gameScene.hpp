@@ -6,6 +6,7 @@
 #include "spriteObject.hpp"
 #include "player.hpp"
 #include "opponent.hpp"
+#include "fightText.hpp"
 
 enum class CharacterTurn
 {
@@ -22,25 +23,27 @@ private:
 
 	Button* btnAttack;
 	Button* btnRecover;
+	Button* btnContinueGame;
 	Button* btnQuitGame;
 
 	CharacterTurn charTurnState;
 
-	TextObject* currentFightText;
-	int numLinesVisible;
-	std::vector<std::string> fightLog;
-	int battleCount;
+	FightText* currentFightText;
+	unsigned int battleCount;
+
+	unsigned int numOfHighScores;
 
 public:
-	GameScene( const std::string& identifier );
+	GameScene( const std::string& identifier, SceneManager& sceneManager,
+		const std::string& sceneConfigFilePath, const std::string& highScoresFilePath );
 
 	~GameScene();
 
 	/// <summary>
 	/// override to finish setting up GameScene specific stuff
 	/// </summary>
-	void setupScene( const std::string& sceneConfigFilePath,
-		SceneManager* sceneManager, sf::RenderWindow& window ) override;
+	void setupScene( sf::RenderWindow& window ) override;
+	void reInitScene() override;
 
 	const CharacterTurn& getCharTurnState() const;
 	/// <summary>
@@ -49,20 +52,21 @@ public:
 	/// </summary>
 	Character& getOtherCharacter( const GameObject* const character ) const;
 
-	void update() override;
-
-	void updateFightText( const std::string& textToAdd );
 	void updateFightText( CharacterTurn currentCharTurn );
-
 	void appendToLastTextLog( const std::string& textToAdd );
 
 	void playerAttack();
 	void playerRecover();
 
+	void startNewBattle();
+	void setupBattle();
 	void finishBattle( const GameObject* const deadChar );
 
+	void updateHighScores();
+	void addSessionToContinue();
+
 	void setCharacterTurn( CharacterTurn charTurn );
-	/// <summary>
+	/// <summary>f
 	/// swaps state between the two characters
 	/// </summary>
 	/// <param name="isCharToSwapTo"> -> true - swap to the state corresponding to the 'character' parameter; false - the opposite</param>
@@ -92,4 +96,11 @@ private:
 	/// <returns>rnd value between the min and max properties</returns>
 	int getRndValueForCharSetup( const std::string& propertyName, const nlohmann::json& charactersData );
 
+	virtual FightText* setupFightText( const GameObject* parent, const nlohmann::json& textObjectData );
+};
+
+struct HighScore
+{
+	std::string name;
+	int score;
 };

@@ -6,6 +6,11 @@ class GameScene;
 
 class Player : public Character
 {
+private:
+	int damageDealt; // Used for high score persistency
+
+	bool shouldStopAnimAfterDeath;
+
 public:
 	Player(
 		// Character specific:
@@ -22,4 +27,11 @@ public:
 		const std::string& spriteFile, const int spriteSheetRows, const int spriteSheetCols, const int totalFrames,
 		const sf::Vector2f position, const sf::Vector2f scale, const sf::Vector2f originFactor,
 		sf::Vector2f colliderSizeFactor );
+
+	int getDamageDealt() const;
+	void addDamageDealt( int damageDealt );
+
+private:
+	void update() override;
+	void nextFrame() override;
 };

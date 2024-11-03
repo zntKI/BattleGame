@@ -13,10 +13,8 @@ private:
 
 	sf::RenderWindow& window;
 
-	const std::string sceneConfigFilePath;
-
 public:
-	SceneManager( const std::string& sceneConfigFilePath, sf::RenderWindow& window );
+	SceneManager( sf::RenderWindow& window );
 	~SceneManager();
 
 public:

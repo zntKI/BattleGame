@@ -92,7 +92,8 @@ public:
 	/// </summary>
 	void setAnimState( CharacterAnimState animState );
 
-	void takeDamage( int damageAmount );
+	/// <returns>the final damage dealt</returns>
+	int takeDamage( int damageAmount );
 
 	void attack();
 	void recover();

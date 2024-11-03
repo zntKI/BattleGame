@@ -6,23 +6,22 @@
 #include "spriteObject.hpp"
 #include "button.hpp"
 
-Scene::Scene( const std::string& identifier )
-	: identifier( identifier )
+Scene::Scene( const std::string& identifier, SceneManager& sceneManager,
+	const std::string& sceneConfigFilePath, const std::string& highScoresFilePath )
+	: identifier( identifier ), sceneManager( sceneManager ),
+	sceneConfigFilePath( sceneConfigFilePath ), highScoresFilePath( highScoresFilePath )
 {
 }
 
 Scene::~Scene()
 {
-	for ( auto obj : gameObjects ) {
-		deleteObj( obj );
-	}
+	this->clear();
 }
 
-void Scene::setupScene( const std::string& sceneConfigFilePath,
-	SceneManager* sceneManager, sf::RenderWindow& window )
+void Scene::setupScene( sf::RenderWindow& window )
 {
 	// Read that from file and cast it to json
-	std::ifstream file( sceneConfigFilePath );
+	std::ifstream file( this->sceneConfigFilePath );
 	if ( !file.fail() ) {
 
 		nlohmann::json gameObjectsData = nlohmann::json::parse( file )[ this->identifier ][ "gameObjects" ];
@@ -34,6 +33,14 @@ void Scene::setupScene( const std::string& sceneConfigFilePath,
 		file.close();
 
 	}
+}
+
+void Scene::clear()
+{
+	for ( auto obj : gameObjects ) {
+		this->deleteObj( obj );
+	}
+	this->gameObjects.clear();
 }
 
 GameObject* Scene::setupGameObject( const GameObject* parent, const nlohmann::json& gameObjectData )
@@ -156,18 +163,27 @@ void Scene::addGameObject( GameObject& gameObject )
 void Scene::handleEvent( const sf::Event& event, sf::RenderWindow& window )
 {
 	for ( unsigned int i = 0; i < gameObjects.size(); i++ ) {
-		gameObjects[ i ]->handleEvent( event, window );
+
+		if ( gameObjects[ i ]->isActive() ) {
+
+			gameObjects[ i ]->handleEvent( event, window );
+
+		}
 	}
 }
 
 void Scene::update()
 {
 	for ( unsigned int i = 0; i < gameObjects.size(); i++ ) {
-		
-		gameObjects[ i ]->update();
-		if ( gameObjects[ i ]->isDestroy() ) {
 
-			destroyObj( i ); // instant Destroy
+		if ( gameObjects[ i ]->isActive() ) {
+
+			gameObjects[ i ]->update();
+			if ( gameObjects[ i ]->isDestroy() ) {
+
+				destroyObj( i ); // instant Destroy
+
+			}
 
 		}
 
@@ -201,7 +217,13 @@ void Scene::deleteObj( const GameObject* const obj )
 void Scene::render( sf::RenderWindow& window )
 {
 	for ( unsigned int i = 0; i < gameObjects.size(); i++ ) {
-		gameObjects[ i ]->render( window );
+
+		if ( gameObjects[ i ]->isActive() ) {
+
+			gameObjects[ i ]->render( window );
+
+		}
+
 	}
 }
 

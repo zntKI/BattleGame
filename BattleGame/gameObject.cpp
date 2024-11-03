@@ -6,6 +6,7 @@
 GameObject::GameObject( const std::string& identifier, const GameObject* parent,
 	const sf::Vector2f position )
 	: identifier( identifier ), parent( const_cast< GameObject* >( parent ) ),
+	active( true ),
 	shouldLateDestroy( false ), shouldDestroy( false )
 {
 	if ( parent == nullptr ) {
@@ -161,13 +162,29 @@ void GameObject::setPosition( sf::Vector2f position )
 	this->localPosition = position;
 }
 
+void GameObject::setActive( bool isActive )
+{
+	this->active = isActive;
+	for ( auto element = this->children.begin(); element != this->children.end(); element++ ) {
+
+		element->second->setActive( isActive );
+
+	}
+}
+
+bool GameObject::isActive()
+{
+	return this->active;
+}
+
 void GameObject::lateDestroy()
 {
 	this->shouldLateDestroy = true;
 
-	this->detachFromParent();
+	if ( parent != nullptr && !parent->isLateDestroy() ) // Detatches only the parent from its parent since only that connection should be broken - other parent and its children will be deleted from memory
+		this->detachFromParent();
 	for ( auto element = this->children.begin(); element != this->children.end(); element++ ) {
-		
+
 		element->second->lateDestroy();
 
 	}
@@ -182,7 +199,8 @@ void GameObject::destroy()
 {
 	this->shouldDestroy = true;
 
-	this->detachFromParent();
+	if ( parent != nullptr && !parent->isDestroy() ) // Detatches only the parent from its parent since only that connection should be broken - other parent and its children will be deleted from memory
+		this->detachFromParent();
 	for ( auto element = this->children.begin(); element != this->children.end(); element++ ) {
 
 		element->second->destroy();

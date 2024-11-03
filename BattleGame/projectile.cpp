@@ -19,9 +19,14 @@ void Projectile::update()
 	this->move( moveVelocity );
 	if ( this->target.isCollidingWithPoint( this->globalPosition ) ) {
 
+		int damageDealt = this->target.takeDamage( this->damageAmount ); // Before destroying projectile to use parent-child relation
+		Player* character = dynamic_cast< Player* > ( this->parent );
+		if ( character != nullptr ) { // The character is a Player
+			character->addDamageDealt( damageDealt );
+		}
+
 		this->destroy();
 
-		this->target.takeDamage( this->damageAmount );
 	}
 
 	AnimationSpriteObject::update();

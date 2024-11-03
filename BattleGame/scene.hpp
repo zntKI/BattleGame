@@ -16,8 +16,14 @@ protected:
 	const std::string identifier;
 	std::vector<GameObject*> gameObjects;
 
+	SceneManager& sceneManager;
+
+	const std::string sceneConfigFilePath;
+	const std::string highScoresFilePath;
+
 public:
-	Scene( const std::string& identifier );
+	Scene( const std::string& identifier, SceneManager& sceneManager,
+		const std::string& sceneConfigFilePath, const std::string& highScoresFilePath );
 	virtual ~Scene();
 
 public:
@@ -25,8 +31,9 @@ public:
 	/// reads config file and begins init of surface objs
 	/// to be overriden in child classes for more specific func
 	/// </summary>
-	virtual void setupScene( const std::string& sceneConfigFilePath,
-		SceneManager* sceneManager, sf::RenderWindow& window );
+	virtual void setupScene( sf::RenderWindow& window );
+	void clear();
+	virtual void reInitScene() = 0;
 
 	void addGameObject( GameObject* gameObject );
 	void addGameObject( GameObject& gameObject );

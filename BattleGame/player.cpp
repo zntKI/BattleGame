@@ -25,3 +25,62 @@ Player::Player(
 		identifier, parent, spriteFile, spriteSheetRows, spriteSheetCols, totalFrames, position, scale, originFactor, colliderSizeFactor )
 {
 }
+
+int Player::getDamageDealt() const
+{
+	return this->damageDealt;
+}
+
+void Player::addDamageDealt( int damageDealt )
+{
+	this->damageDealt += damageDealt;
+}
+
+void Player::update()
+{
+	if ( !this->shouldStopAnimAfterDeath ) {
+		AnimationSpriteObject::update();
+	}
+	else {
+		SpriteObject::update();
+	}
+}
+
+void Player::nextFrame()
+{
+	this->currentFrame++;
+	if ( this->currentFrame >= this->startFrame + this->numOfFrames ) {
+
+		if ( this->animState == CharacterAnimState::Attack ) {
+
+			this->setAnimState( CharacterAnimState::Idle );
+			return;
+
+		}
+		else if ( this->animState == CharacterAnimState::Hurt ) {
+
+			this->setAnimState( CharacterAnimState::Idle );
+			this->scene.swapCharacterTurn( true, this );
+
+			return;
+
+		}
+		else if ( this->animState == CharacterAnimState::Die ) {
+
+			this->shouldStopAnimAfterDeath = true;
+			return;
+
+		}
+
+		this->currentFrame = this->startFrame;
+	}
+
+	this->setTextureRect();
+
+	if ( this->animState == CharacterAnimState::Attack &&
+		this->currentFrame == this->projectileLaunchFrame ) { // Launch projectile
+
+		this->createProjectile();
+
+	}
+}

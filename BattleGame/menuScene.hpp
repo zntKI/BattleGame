@@ -8,25 +8,24 @@
 class MenuScene : public Scene
 {
 private:
-	// Title
-	GameObject* titleContainer;
-
-	// Buttons
-	GameObject* btnContainer;
 
 	Button* btnPlay;
 	Button* btnErase;
 	Button* btnQuit;
 
+	TextObject* highScoresText;
+
 public:
-	MenuScene( const std::string& identifier );
+	MenuScene( const std::string& identifier, SceneManager& sceneManager,
+		const std::string& sceneConfigFilePath, const std::string& highScoresFilePath );
 
 	~MenuScene();
 
-	void setupScene( const std::string& sceneConfigFilePath,
-		SceneManager* sceneManager, sf::RenderWindow& window ) override;
+	void setupScene( sf::RenderWindow& window ) override;
+	void reInitScene() override;
 
 private:
 	void setupObject( const GameObject* parent, const nlohmann::json& gameObjectData ) override;
 
+	void updateHighScoresText();
 };

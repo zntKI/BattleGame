@@ -1,13 +1,16 @@
 #include <nlohmann/json.hpp>
 
+#include <fstream>
+#include <sstream>
+
 #include "menuScene.hpp"
 #include "sceneManager.hpp"
 
-MenuScene::MenuScene( const std::string& identifier )
-	: Scene( identifier ),
-	titleContainer( nullptr ),
-	btnContainer( nullptr ),
-	btnPlay( nullptr ), btnErase( nullptr ), btnQuit( nullptr )
+MenuScene::MenuScene( const std::string& identifier, SceneManager& sceneManager,
+	const std::string& sceneConfigFilePath, const std::string& highScoresFilePath )
+	: Scene( identifier, sceneManager, sceneConfigFilePath, highScoresFilePath ),
+	btnPlay( nullptr ), btnErase( nullptr ), btnQuit( nullptr ),
+	highScoresText( nullptr )
 {
 }
 
@@ -15,14 +18,20 @@ MenuScene::~MenuScene()
 {
 }
 
-void MenuScene::setupScene( const std::string& sceneConfigFilePath,
-	SceneManager* sceneManager, sf::RenderWindow& window )
+void MenuScene::setupScene( sf::RenderWindow& window )
 {
-	Scene::setupScene( sceneConfigFilePath, sceneManager, window );
+	Scene::setupScene( window );
 
-	this->btnPlay->setButtonAction( [ sceneManager ]() {
+	this->btnPlay->setButtonAction( [ this ]() {
 
-		sceneManager->stackScene( "gameScene" );
+		this->sceneManager.stackScene( "gameScene" );
+
+		} );
+
+	this->btnErase->setButtonAction( [ this ]() {
+
+		std::ofstream highScoresFile( this->highScoresFilePath, std::ios::trunc );
+	highScoresFile.close();
 
 		} );
 
@@ -31,6 +40,27 @@ void MenuScene::setupScene( const std::string& sceneConfigFilePath,
 		window.close();
 
 		} );
+
+	this->updateHighScoresText();
+}
+
+void MenuScene::reInitScene()
+{
+	this->updateHighScoresText();
+}
+
+void MenuScene::updateHighScoresText()
+{
+	std::ifstream highScoresFile( this->highScoresFilePath );
+	if ( !highScoresFile.fail() ) {
+
+		std::stringstream buffer;
+		buffer << highScoresFile.rdbuf();  // Read the file content into the buffer
+		highScoresText->setText( buffer.str() );
+
+		highScoresFile.close();
+
+	}
 }
 
 void MenuScene::setupObject( const GameObject* parent, const nlohmann::json& objectData )
@@ -40,16 +70,7 @@ void MenuScene::setupObject( const GameObject* parent, const nlohmann::json& obj
 	GameObject* objToCreate = nullptr;
 
 	if ( gameObjectType == "GameObject" ) {
-
 		objToCreate = this->setupGameObject( parent, objectData );
-
-		if ( objToCreate->getIdentifier() == "titleContainer" ) {
-			this->titleContainer = objToCreate;
-		}
-		else if ( objToCreate->getIdentifier() == "btnContainer" ) {
-			this->btnContainer = objToCreate;
-		}
-
 	}
 	else if ( gameObjectType == "Button" ) {
 
@@ -71,6 +92,10 @@ void MenuScene::setupObject( const GameObject* parent, const nlohmann::json& obj
 	}
 	else if ( gameObjectType == "TextObject" ) {
 		objToCreate = this->setupTextObject( parent, objectData );
+
+		if ( objToCreate->getIdentifier() == "highScoresText" ) {
+			this->highScoresText = dynamic_cast< TextObject* >( objToCreate );
+		}
 	}
 	else {
 		Utils::logError( "Invalid type of object from file - check in json file!" );

@@ -64,3 +64,8 @@ void Opponent::doNothing()
 	this->scene.appendToLastTextLog( "Did nothing" );
 	this->scene.swapCharacterTurn( false, this );
 }
+
+void Opponent::nextFrame()
+{
+	Character::nextFrame();
+}
