@@ -63,7 +63,9 @@
     <ClCompile Include="projectile.cpp">
       <Filter>Entities</Filter>
     </ClCompile>
-    <ClCompile Include="fightText.cpp" />
+    <ClCompile Include="fightText.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="gameObject.hpp">
@@ -111,7 +113,9 @@
     <ClInclude Include="projectile.hpp">
       <Filter>Entities</Filter>
     </ClInclude>
-    <ClInclude Include="fightText.hpp" />
+    <ClInclude Include="fightText.hpp">
+      <Filter>Entities</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Font Include="Assets\Roboto-Regular.ttf" />

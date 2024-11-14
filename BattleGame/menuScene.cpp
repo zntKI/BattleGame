@@ -33,6 +33,8 @@ void MenuScene::setupScene( sf::RenderWindow& window )
 		std::ofstream highScoresFile( this->highScoresFilePath, std::ios::trunc );
 	highScoresFile.close();
 
+	this->updateHighScoresText();
+
 		} );
 
 	this->btnQuit->setButtonAction( [ &window ]() {

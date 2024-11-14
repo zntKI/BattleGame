@@ -29,30 +29,21 @@ void GameScene::setupScene( sf::RenderWindow& window )
 
 
 	// Btn implementation:
-	this->btnAttack->setButtonAction( [ this ]() {
-
-		if ( this->getCharTurnState() == CharacterTurn::PlayerTurn ) {
-
+	this->btnAttack->setButtonAction( [ this ]()
+		{
+			if ( this->getCharTurnState() == CharacterTurn::PlayerTurn )
 			this->playerAttack();
-
-		}
-
 		} );
 
-	this->btnRecover->setButtonAction( [ this ]() {
-
-		if ( this->getCharTurnState() == CharacterTurn::PlayerTurn ) {
-
+	this->btnRecover->setButtonAction( [ this ]()
+		{
+			if ( this->getCharTurnState() == CharacterTurn::PlayerTurn )
 			this->playerRecover();
-
-		}
-
 		} );
 
-	this->btnContinueGame->setButtonAction( [ this ]() {
-
-		this->startNewBattle();
-
+	this->btnContinueGame->setButtonAction( [ this ]()
+		{
+			this->startNewBattle();
 		} );
 
 
@@ -71,51 +62,65 @@ void GameScene::setupObject( const GameObject* parent, const nlohmann::json& obj
 
 	GameObject* objToCreate = nullptr;
 
-	if ( gameObjectType == "SpriteObject" ) {
+	if ( gameObjectType == "SpriteObject" )
+	{
 		objToCreate = this->setupSpriteObject( parent, objectData );
 	}
-	else if ( gameObjectType == "Player" ) {
+	else if ( gameObjectType == "Player" )
+	{
 		objToCreate = this->setupPlayer( parent, objectData );
 	}
-	else if ( gameObjectType == "Opponent" ) {
+	else if ( gameObjectType == "Opponent" )
+	{
 		objToCreate = this->setupOpponent( parent, objectData );
 	}
-	else if ( gameObjectType == "GameObject" ) {
+	else if ( gameObjectType == "GameObject" )
+	{
 		objToCreate = this->setupGameObject( parent, objectData );
 	}
-	else if ( gameObjectType == "Button" ) {
+	else if ( gameObjectType == "Button" )
+	{
 		objToCreate = this->setupButton( parent, objectData );
 
-		if ( objToCreate->getIdentifier() == "btnAttack" ) {
+		if ( objToCreate->getIdentifier() == "btnAttack" )
+		{
 			this->btnAttack = dynamic_cast< Button* >( objToCreate );
 		}
-		else if ( objToCreate->getIdentifier() == "btnRecover" ) {
+		else if ( objToCreate->getIdentifier() == "btnRecover" )
+		{
 			this->btnRecover = dynamic_cast< Button* >( objToCreate );
 		}
-		else if ( objToCreate->getIdentifier() == "btnContinueGame" ) {
+		else if ( objToCreate->getIdentifier() == "btnContinueGame" )
+		{
 			this->btnContinueGame = dynamic_cast< Button* >( objToCreate );
 		}
-		else if ( objToCreate->getIdentifier() == "btnQuitGame" ) {
+		else if ( objToCreate->getIdentifier() == "btnQuitGame" )
+		{
 			this->btnQuitGame = dynamic_cast< Button* >( objToCreate );
 		}
 	}
-	else if ( gameObjectType == "TextObject" ) {
+	else if ( gameObjectType == "TextObject" )
+	{
 		objToCreate = this->setupTextObject( parent, objectData );
 	}
-	else if ( gameObjectType == "FightText" ) {
+	else if ( gameObjectType == "FightText" )
+	{
 		objToCreate = this->setupFightText( parent, objectData );
 
 		this->currentFightText = dynamic_cast< FightText* >( objToCreate );
 	}
-	else if ( gameObjectType == "FPSCounter" ) {
+	else if ( gameObjectType == "FPSCounter" )
+	{
 		objToCreate = this->setupFPSCounter( parent, objectData );
 	}
-	else {
+	else
+	{
 		Utils::logError( "Invalid type of object from file - check in json file!" );
 		return;
 	}
 
-	for ( auto& childObjectData : objectData[ "children" ] ) {
+	for ( auto& childObjectData : objectData[ "children" ] )
+	{
 		this->setupObject( objToCreate, childObjectData );
 	}
 }
@@ -292,18 +297,19 @@ void GameScene::startNewBattle()
 {
 	// Start new battle with new enemy
 	std::ifstream file( this->sceneConfigFilePath );
-	if ( !file.fail() ) {
-
+	if ( !file.fail() )
+	{
 		nlohmann::json gameObjectsData = nlohmann::json::parse( file )[ this->identifier ][ "gameObjects" ];
 
-		for ( auto& gameObjectData : gameObjectsData ) {
-			if ( gameObjectData[ "type" ] == "Opponent" ) {
+		for ( auto& gameObjectData : gameObjectsData )
+		{
+			if ( gameObjectData[ "type" ] == "Opponent" )
+			{
 				this->setupObject( nullptr, gameObjectData );
 			}
 		}
 
 		file.close();
-
 	}
 
 	// Sets up battle
@@ -316,11 +322,10 @@ void GameScene::setupBattle()
 	this->btnRecover->setActive( true );
 
 	this->btnContinueGame->setActive( false );
-	this->btnQuitGame->setButtonAction( [ this ]() {
-
-		// TODO: Save session data into continue.cmgt file
-		this->sceneManager.popScene();
-
+	this->btnQuitGame->setButtonAction( [ this ]()
+		{
+			// TODO: Save session data into continue.cmgt file
+			this->sceneManager.popScene();
 		} );
 
 	this->battleCount++;
@@ -347,26 +352,23 @@ void GameScene::finishBattle( const GameObject* const deadChar )
 	std::ostringstream oss;
 	oss << "End of Battle " << battleCount << ": ";
 
-	if ( deadChar == opponent ) {
-
+	if ( deadChar == opponent )
+	{
 		oss << "Winner - " << this->player->getName() << "(You)";
 		this->currentFightText->updateFightText( oss.str() );
 
 		this->btnContinueGame->setActive( true );
-
 	}
-	else {
-
+	else
+	{
 		oss << "Winner - " << this->opponent->getName() << "(Enemy)";
 		this->currentFightText->updateFightText( oss.str() );
 
-		this->btnQuitGame->setButtonAction( [ this ]() {
-
-			this->updateHighScores();
+		this->btnQuitGame->setButtonAction( [ this ]()
+			{
+				this->updateHighScores();
 		this->sceneManager.popScene();
-
 			} );
-
 	}
 
 	this->btnAttack->setActive( false );
@@ -382,54 +384,52 @@ void GameScene::updateHighScores()
 	std::filesystem::path filePath = exePath / "example.txt";*/
 
 	std::fstream highScoreFile( this->highScoresFilePath, std::ios::in | std::ios::app );
-	if ( !highScoreFile.fail() ) {
-
+	if ( !highScoreFile.fail() )
+	{
 		std::vector<HighScore> presentHighScores;
 
 		// Read all the highscores:
 		std::string line;
-		while ( std::getline( highScoreFile, line ) ) {
-
+		while ( std::getline( highScoreFile, line ) )
+		{
 			size_t index = line.find( ' ' );
-			if ( index == std::string::npos ) {
+			if ( index == std::string::npos )
+			{
 				Utils::logError( "Invalid data: Highscore is not in the right format!" );
 				highScoreFile.close();
 				return;
 			}
 
 			presentHighScores.push_back( { line.substr( 0, index ), std::stoi( line.substr( index + 1 ) ) } );
-
 		}
 
 		HighScore highScoreToAdd = { player->getName(), player->getDamageDealt() };
 
-		if ( presentHighScores.empty() ) { // If there are not yet any highscores aka file just created
-
+		if ( presentHighScores.empty() ) // If there are not yet any highscores aka file just created
+		{
 			// Add the current highscore
 			highScoreFile.close();
 			highScoreFile.open( this->highScoresFilePath, std::fstream::out | std::fstream::app );
 
 			highScoreFile << highScoreToAdd.name << " " << std::to_string( highScoreToAdd.score ) << "\n";
-
 		}
-		else {
-
+		else
+		{
 			int indexToInsertAt = -1;
 
-			for ( int i = presentHighScores.size() - 1; i >= 0; i-- ) {
-
+			for ( int i = presentHighScores.size() - 1; i >= 0; i-- )
+			{
 				HighScore currHighScore = presentHighScores[ i ];
 
-				if ( highScoreToAdd.score < currHighScore.score ) {
-
+				if ( highScoreToAdd.score < currHighScore.score )
+				{
 					indexToInsertAt = i + 1;
 					break;
-
 				}
-
 			}
 
-			if ( indexToInsertAt == -1 ) { // If it wasn't set, it means the the given highscore is the highest so far and should be inserted on top
+			if ( indexToInsertAt == -1 ) // If it wasn't set, it means the the given highscore is the highest so far and should be inserted on top
+			{
 				indexToInsertAt = 0;
 			}
 
@@ -440,16 +440,13 @@ void GameScene::updateHighScores()
 			highScoreFile.open( this->highScoresFilePath, std::fstream::out | std::fstream::trunc );
 
 			unsigned int amountOfHighscores = presentHighScores.size() < this->numOfHighScores ? presentHighScores.size() : this->numOfHighScores;
-			for ( unsigned int i = 0; i < amountOfHighscores; i++ ) {
-
+			for ( unsigned int i = 0; i < amountOfHighscores; i++ )
+			{
 				highScoreFile << presentHighScores[ i ].name << " " << presentHighScores[ i ].score << "\n";
-
 			}
-
 		}
 
 		highScoreFile.close();
-
 	}
 }
 

@@ -7,6 +7,25 @@
 #include <sstream>
 #include <string>
 
+
+AnimCycleData::AnimCycleData( const int startFrame, const int numFrames, const float frameSwitchTimeSec )
+	: startFrame( startFrame ), numFrames( numFrames ), frameSwitchTimeSec( frameSwitchTimeSec )
+{
+}
+
+int AnimCycleData::getStartFrame() const
+{
+	return this->startFrame;
+}
+int AnimCycleData::getNumFrames() const
+{
+	return this->numFrames;
+}
+float AnimCycleData::getFrameSwitchTimeSec() const
+{
+	return this->frameSwitchTimeSec;
+}
+
 Character::Character(
 	// Character specific:
 	GameScene* scene,

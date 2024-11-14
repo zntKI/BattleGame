@@ -25,20 +25,11 @@ private:
 	float frameSwitchTimeSec;
 
 public:
-	AnimCycleData( const int startFrame, const int numFrames, const float frameSwitchTimeSec )
-		: startFrame( startFrame ), numFrames( numFrames ), frameSwitchTimeSec( frameSwitchTimeSec )
-	{
-	}
+	AnimCycleData( const int startFrame, const int numFrames, const float frameSwitchTimeSec );
 
-	int getStartFrame() const {
-		return this->startFrame;
-	}
-	int getNumFrames() const {
-		return this->numFrames;
-	}
-	float getFrameSwitchTimeSec() const {
-		return this->frameSwitchTimeSec;
-	}
+	int getStartFrame() const;
+	int getNumFrames() const;
+	float getFrameSwitchTimeSec() const;
 };
 
 class Character : public AnimationSpriteObject

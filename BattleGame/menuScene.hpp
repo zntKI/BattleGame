@@ -24,8 +24,8 @@ public:
 	void setupScene( sf::RenderWindow& window ) override;
 	void reInitScene() override;
 
+	void updateHighScoresText();
+
 private:
 	void setupObject( const GameObject* parent, const nlohmann::json& gameObjectData ) override;
-
-	void updateHighScoresText();
 };
