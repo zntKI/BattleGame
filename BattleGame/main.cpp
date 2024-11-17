@@ -4,11 +4,15 @@
 #include "menuScene.hpp"
 #include "gameScene.hpp"
 
-int main()
+int main(int argc, char* argv[])
 {
 	srand( time( 0 ) );
 
-	sf::RenderWindow window( sf::VideoMode( 1280, 720 ), "Battle Game" );
+	int width = argc > 1 ? std::stoi( argv[ 1 ] ) : 1280;
+	int height = argc > 2 ? std::stoi( argv[ 2 ] ) : 720;
+	Utils::setScreenDimensions( width, height );
+
+	sf::RenderWindow window( sf::VideoMode( width, height ), "Battle Game" );
 	window.setFramerateLimit( 60 );
 
 #pragma region SETUP_SCENE_GENERAL

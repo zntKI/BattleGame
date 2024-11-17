@@ -35,11 +35,15 @@ SpriteObject::~SpriteObject()
 }
 
 void SpriteObject::finishSetup( const sf::Vector2f originFactor, const sf::Vector2f colliderSizeFactor,
-	const sf::Vector2f scale )
+	sf::Vector2f scale )
 {
 	setupOrigin( originFactor ); // Should be before setting scale
 	setupColliderSize( colliderSizeFactor ); // Should be before setting scale
 	
+	if ( this->identifier == "bg" )
+	{
+		scale = sf::Vector2f( Utils::SCREEN_WIDTH / this->getSpriteSize().x, Utils::SCREEN_HEIGHT / this->getSpriteSize().y );
+	}
 	this->setScale( scale );
 }
 

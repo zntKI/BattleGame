@@ -5,8 +5,8 @@
                 "type": "GameObject",
                 "identifier": "titleContainer",
                 "position": {
-                    "x": 640,
-                    "y": 180
+                    "x": 0.5,
+                    "y": 0.25
                 },
                 "children": [
                     {
@@ -51,8 +51,8 @@
                 "type": "GameObject",
                 "identifier": "highScoreContainer",
                 "position": {
-                    "x": 200,
-                    "y": 180
+                    "x": 0.15,
+                    "y": 0.25
                 },
                 "children": [
                     {
@@ -89,8 +89,8 @@
                 "type": "GameObject",
                 "identifier": "btnContainer",
                 "position": {
-                    "x": 640,
-                    "y": 480
+                    "x": 0.5,
+                    "y": 0.66
                 },
                 "children": [
                     {
@@ -447,8 +447,8 @@
                     }
                 ],
                 "position": {
-                    "x": 320,
-                    "y": 360
+                    "x": 0.25,
+                    "y": 0.5
                 },
                 "scale": {
                     "x": 3,
@@ -707,8 +707,8 @@
                     }
                 ],
                 "position": {
-                    "x": 960,
-                    "y": 360
+                    "x": 0.75,
+                    "y": 0.5
                 },
                 "scale": {
                     "x": 3,
@@ -768,7 +768,7 @@
                 "filePath": "Assets/Sprites/UI/text_area_flipped.png",
                 "position": {
                     "x": 0,
-                    "y": 720
+                    "y": 1
                 },
                 "scale": {
                     "x": 3,
@@ -878,8 +878,8 @@
                 "identifier": "textArea",
                 "filePath": "Assets/Sprites/UI/text_area.png",
                 "position": {
-                    "x": 1280,
-                    "y": 720
+                    "x": 1,
+                    "y": 1
                 },
                 "scale": {
                     "x": 6,
@@ -1005,7 +1005,7 @@
                 "text": "FPS: ",
                 "position": {
                     "x": 0,
-                    "y": 10
+                    "y": 0.007
                 },
                 "originFactor": {
                     "x": 0,

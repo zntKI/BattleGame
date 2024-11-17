@@ -363,6 +363,10 @@ void GameScene::finishBattle( const GameObject* const deadChar )
 	{
 		oss << "Winner - " << this->opponent->getName() << "(Enemy)";
 		this->currentFightText->updateFightText( oss.str() );
+		
+		oss.str("");
+		oss << "Score: " << this->player->getDamageDealt();
+		this->currentFightText->updateFightText( oss.str() );
 
 		this->btnQuitGame->setButtonAction( [ this ]()
 			{
@@ -403,7 +407,7 @@ void GameScene::updateHighScores()
 			presentHighScores.push_back( { line.substr( 0, index ), std::stoi( line.substr( index + 1 ) ) } );
 		}
 
-		HighScore highScoreToAdd = { player->getName(), player->getDamageDealt() };
+		HighScore highScoreToAdd = { this->player->getName(), this->player->getDamageDealt() };
 
 		if ( presentHighScores.empty() ) // If there are not yet any highscores aka file just created
 		{

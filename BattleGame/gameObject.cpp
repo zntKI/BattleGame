@@ -4,12 +4,14 @@
 #include "utils.hpp"
 
 GameObject::GameObject( const std::string& identifier, const GameObject* parent,
-	const sf::Vector2f position )
+	sf::Vector2f position )
 	: identifier( identifier ), parent( const_cast< GameObject* >( parent ) ),
 	active( true ),
 	shouldLateDestroy( false ), shouldDestroy( false )
 {
 	if ( parent == nullptr ) {
+		position = sf::Vector2f( position.x * Utils::getScreenWidth(), position.y * Utils::getScreenHeight() );
+
 		this->globalPosition = position;
 		this->localPosition = position;
 	}

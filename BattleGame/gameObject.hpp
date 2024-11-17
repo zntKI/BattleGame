@@ -21,7 +21,7 @@ protected:
 
 public:
 	GameObject( const std::string& identifier, const GameObject* parent,
-		const sf::Vector2f position = sf::Vector2f( 0.f, 0.f ) );
+		sf::Vector2f position = sf::Vector2f( 0.f, 0.f ) );
 	GameObject( const GameObject& other );
 
 	virtual ~GameObject();

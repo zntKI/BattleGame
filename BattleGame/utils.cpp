@@ -2,6 +2,9 @@
 
 #include "utils.hpp"
 
+int Utils::SCREEN_WIDTH = 0;
+int Utils::SCREEN_HEIGHT = 0;
+
 std::ostream& operator<<( std::ostream& os, ConsoleTextColor color )
 {
 	if ( color == ConsoleTextColor::Red ) {
@@ -26,6 +29,31 @@ sf::Font& Utils::getDefaultFont()
 	}
 
 	return defaultFont;
+}
+
+void Utils::setScreenDimensions( int width, int height )
+{
+	static bool isSet = false;
+	if ( !isSet )
+	{
+		SCREEN_WIDTH = width;
+		SCREEN_HEIGHT = height;
+		isSet = true;
+	}
+	else
+	{
+		Utils::logError( "Screen dimensions have already been set!" );
+	}
+}
+
+int Utils::getScreenWidth()
+{
+	return Utils::SCREEN_WIDTH;
+}
+
+int Utils::getScreenHeight()
+{
+	return Utils::SCREEN_HEIGHT;
 }
 
 void Utils::logMessage( const std::string& message )

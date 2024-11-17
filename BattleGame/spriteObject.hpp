@@ -44,7 +44,7 @@ public:
 
 protected:
 	virtual void finishSetup( const sf::Vector2f originFactor, const sf::Vector2f colliderSizeFactor,
-		const sf::Vector2f scale );
+		sf::Vector2f scale );
 
 	/// <param name="originFactor"> -> from 0 to 1 factor which will be then multiplied to the bounds of the sprite</param>
 	virtual void setupOrigin( const sf::Vector2f originFactor );
