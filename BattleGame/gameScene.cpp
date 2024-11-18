@@ -14,7 +14,7 @@ GameScene::GameScene( const std::string& identifier, SceneManager& sceneManager,
 	const std::string& sceneConfigFilePath, const std::string& highScoresFilePath )
 	: Scene( identifier, sceneManager, sceneConfigFilePath, highScoresFilePath ), player( nullptr ), opponent( nullptr ),
 	btnAttack( nullptr ), btnRecover( nullptr ), btnContinueGame( nullptr ), btnQuitGame( nullptr ),
-	currentFightText( nullptr ), battleCount( 0 ), numOfHighScores( 5 ),
+	currentFightText( nullptr ), battleCount( 0 ), accumulativeDamage(0), numOfHighScores( 5 ),
 	charTurnState( CharacterTurn::None )
 {
 }
@@ -45,6 +45,10 @@ void GameScene::setupScene( sf::RenderWindow& window )
 		{
 			this->startNewBattle();
 		} );
+
+	// Reset vars:
+	battleCount = 0;
+	accumulativeDamage = 0;
 
 
 	// Sets up battle
@@ -324,7 +328,7 @@ void GameScene::setupBattle()
 	this->btnContinueGame->setActive( false );
 	this->btnQuitGame->setButtonAction( [ this ]()
 		{
-			// TODO: Save session data into continue.cmgt file
+			this->updateHighScores();
 			this->sceneManager.popScene();
 		} );
 
@@ -358,6 +362,8 @@ void GameScene::finishBattle( const GameObject* const deadChar )
 		this->currentFightText->updateFightText( oss.str() );
 
 		this->btnContinueGame->setActive( true );
+
+		accumulativeDamage = this->player->getDamageDealt(); // Increased only after end of fight so that if the player decides to quit mid-game, their score from the previous battle is persisted - without taking into account the result from the current one
 	}
 	else
 	{
@@ -367,12 +373,6 @@ void GameScene::finishBattle( const GameObject* const deadChar )
 		oss.str("");
 		oss << "Score: " << this->player->getDamageDealt();
 		this->currentFightText->updateFightText( oss.str() );
-
-		this->btnQuitGame->setButtonAction( [ this ]()
-			{
-				this->updateHighScores();
-		this->sceneManager.popScene();
-			} );
 	}
 
 	this->btnAttack->setActive( false );
@@ -407,7 +407,7 @@ void GameScene::updateHighScores()
 			presentHighScores.push_back( { line.substr( 0, index ), std::stoi( line.substr( index + 1 ) ) } );
 		}
 
-		HighScore highScoreToAdd = { this->player->getName(), this->player->getDamageDealt() };
+		HighScore highScoreToAdd = { this->player->getName(), this->accumulativeDamage };
 
 		if ( presentHighScores.empty() ) // If there are not yet any highscores aka file just created
 		{

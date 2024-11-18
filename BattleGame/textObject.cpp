@@ -12,8 +12,6 @@ TextObject::TextObject( const std::string& identifier, const GameObject* parent,
 	this->text.setCharacterSize( this->characterSize );
 
 
-	this->text.setPosition( this->globalPosition );
-
 	if ( originFactor.x >= 0.f && originFactor.x <= 1.f
 		&& originFactor.y >= 0.f && originFactor.y <= 1.f ) {
 		auto bounds = this->text.getGlobalBounds();

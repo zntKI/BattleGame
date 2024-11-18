@@ -34,7 +34,7 @@
                     {
                         "type": "TextObject",
                         "identifier": "gameTitleText",
-                        "text": "Game_Title",
+                        "text": "BattleGame",
                         "position": {
                             "x": 0,
                             "y": 0
@@ -72,7 +72,7 @@
                     {
                         "type": "TextObject",
                         "identifier": "highScoresText",
-                        "text": "High scores:",
+                        "text": "                ",
                         "position": {
                             "x": 0,
                             "y": 60
@@ -248,12 +248,12 @@
                     "Kratos"
                 ],
                 "health": {
-                    "min": 1,
-                    "max": 5
+                    "min": 20,
+                    "max": 30
                 },
                 "attackAmount": {
-                    "min": 15,
-                    "max": 20
+                    "min": 5,
+                    "max": 10
                 },
                 "defenseAmount": {
                     "min": 3,
@@ -516,8 +516,8 @@
                     "max": 30
                 },
                 "attackAmount": {
-                    "min": 15,
-                    "max": 20
+                    "min": 5,
+                    "max": 10
                 },
                 "defenseAmount": {
                     "min": 3,
@@ -582,7 +582,7 @@
                                 "y": 1
                             },
                             "moveVelocity": {
-                                "x": -3,
+                                "x": -5,
                                 "y": 0
                             }
                         }
@@ -641,7 +641,7 @@
                                 "y": 1
                             },
                             "moveVelocity": {
-                                "x": -3,
+                                "x": -5,
                                 "y": 0
                             }
                         }
@@ -700,7 +700,7 @@
                                 "y": 1
                             },
                             "moveVelocity": {
-                                "x": -3,
+                                "x": -5,
                                 "y": 0
                             }
                         }

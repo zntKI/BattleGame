@@ -30,6 +30,7 @@ private:
 
 	FightText* currentFightText;
 	unsigned int battleCount;
+	int accumulativeDamage;
 
 	unsigned int numOfHighScores;
 
