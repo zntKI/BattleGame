@@ -17,7 +17,7 @@ Some of the fundamental concepts being: Memory Management, CONST-ness and File I
 
 ### Scenes setup
 
-Done by utilizing a [JSON-parsing library for C++](https://github.com/nlohmann/json) and then mapping the raw data to C++ objects with the corresponding properties
+Done by utilizing a [JSON-parsing library for C++](https://github.com/nlohmann/json) and then mapping the raw data to C++ objects with the corresponding properties.
 
 ### Gameplay
 
