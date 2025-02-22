@@ -1,6 +1,6 @@
 # BattleGame
 
-My first game in C++, made by using SFML as a graphics library.<br><br>
+My first game in C++, made by using SFML.<br><br>
 It is a Pokémon/Final Fantasy-like 2D battle game with a roguelike element in which the player faces opponents until defeated.
 
 <p align="center">
